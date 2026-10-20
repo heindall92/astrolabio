@@ -33,7 +33,7 @@ def new_page(browser, width=1280, height=860, theme='light', state=None, lang=No
         init['astrolabio-estado'] = json.dumps(state)
     if lang:
         init['astrolabio-idioma'] = lang
-    page.add_init_script('(() => { const d = %s; if (!sessionStorage.getItem("__init")) { for (const k in d) localStorage.setItem(k, d[k]); sessionStorage.setItem("__init", "1"); } })()' % json.dumps(init))
+    page.add_init_script('(() => { try { const d = %s; if (!localStorage.getItem("__seed")) { for (const k in d) localStorage.setItem(k, d[k]); localStorage.setItem("__seed", "1"); } } catch (e) {} })()' % json.dumps(init))
     return page
 
 
