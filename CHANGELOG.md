@@ -2,6 +2,13 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.6.0] · 2026-10-21 · Cuatro rutas nuevas
+
+### Añadido
+- Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML: 26 preguntas propias por ruta, 3 historias modelo bilingües (todas «Brillantes») y 7 términos de glosario.
+- El asistente, la Forja, la Arena, la búsqueda, el glosario y la carta de oferta funcionan con las ocho rutas.
+- La insignia «Leyenda de las cuatro rutas» se consigue venciendo al jefe en cuatro rutas cualesquiera.
+
 ## [0.5.0] · 2026-10-21 · Inglés, chuleta y ecosistema
 
 ### Añadido
