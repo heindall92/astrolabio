@@ -38,6 +38,7 @@ export function emptyState() {
     ultimoDia: '',
     insignias: [],
     historialXp: {},
+    historialMedia: {},
     ajustes: { sensibles: [] },
   };
 }
@@ -105,6 +106,10 @@ export function sanitizeState(raw, { competencias } = {}) {
   if (raw.historialXp && typeof raw.historialXp === 'object' && !Array.isArray(raw.historialXp)) {
     const keys = Object.keys(raw.historialXp).filter(k => FECHA.test(k)).sort().slice(-LIMITES.diasHistorial);
     for (const k of keys) out.historialXp[k] = int(raw.historialXp[k], 0, 1_000_000);
+  }
+  if (raw.historialMedia && typeof raw.historialMedia === 'object' && !Array.isArray(raw.historialMedia)) {
+    const keys = Object.keys(raw.historialMedia).filter(k => FECHA.test(k)).sort().slice(-LIMITES.diasHistorial);
+    for (const k of keys) out.historialMedia[k] = int(raw.historialMedia[k], 0, 100);
   }
   if (raw.ajustes && typeof raw.ajustes === 'object' && Array.isArray(raw.ajustes.sensibles)) {
     out.ajustes.sensibles = raw.ajustes.sensibles.filter(s => typeof s === 'string').map(s => s.slice(0, LIMITES.sensible)).slice(0, LIMITES.sensibles);

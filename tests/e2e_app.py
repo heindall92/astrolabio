@@ -317,10 +317,10 @@ def t_arena(browser):
     check(pg.locator('#arena-rondas tbody tr').count() == 2, 'una ronda inicial y una repregunta')
     saved = pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).duelos")
     check(len(saved) == 1 and saved[0]['superado'] is True and saved[0]['recruiter'] == 'rita', 'duelo guardado')
-    # Duelo perdido contra el jefe, desde cero, con Alt N
+    # Duelo perdido contra el Panel de Banca, desde cero, con Alt N
     pg.keyboard.press('Alt+n')
     pg.wait_for_selector('#arena-form')
-    pg.check('input[name=recruiter][value=subeliston]', force=True)
+    pg.check('input[name=recruiter][value=banca]', force=True)
     pg.check('input[name=historia][value=""]')
     pg.click('#arena-start')
     pg.fill('#a-s', 'Estaba en el SOC.')
@@ -387,6 +387,75 @@ def t_arena_modos(browser):
     no_errors(pg, 'modos')
 
 
+
+def t_juego(browser):
+    pg = new_page(browser, state=state(xp=140, racha=5, ultimoDia='2020-01-01'))
+    goto(pg)
+    check(pg.inner_text('#stat-racha').strip() == '0', 'la racha caducada se muestra a 0')
+    goto(pg, 'forja/nueva')
+    pg.fill('#f-titulo', BUENA['titulo'])
+    for b in 'star':
+        pg.fill('#f-' + b, BUENA[b])
+    pg.fill('#f-l', BUENA['l'])
+    pg.click('#save-story')
+    pg.wait_for_selector('.celebra', state='attached')
+    st = pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado'))")
+    check(st['xp'] >= 140 + 10 + 25, 'XP por historia nueva y por estado')
+    check(st['racha'] == 1, 'racha empieza en 1')
+    check('primera-historia' in st['insignias'] and 'primera-estrella' in st['insignias'], 'insignias conseguidas')
+    check(len(st['historialMedia']) == 1, 'nota media guardada por día')
+    check('Preseleccionado' in pg.inner_text('#toasts'), 'aviso de rango nuevo')
+    goto(pg, 'progreso')
+    check('Preseleccionado' in pg.inner_text('#prog-rango'), 'rango en Progreso')
+    check(pg.locator('svg.chart').count() == 2, 'gráficos de XP y nota media')
+    pg.click('#tabla-xp >> xpath=.. >> summary')
+    check(pg.locator('#tabla-xp tbody tr').count() == 14, 'tabla equivalente de 14 días')
+    goto(pg, 'insignias')
+    check(pg.locator('.badge.got').count() >= 2, 'insignias en oro')
+    ganadas = pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).insignias")
+    secretas = len([i for i in ganadas if i in ('madrugador', 'hosteleria', 'remontada', 'por-los-pelos')])
+    check(pg.locator('.badge.secret').count() == 4 - secretas, 'secretas ocultas hasta conseguirlas')
+    check('Insignia secreta' in pg.inner_text('#badges'), 'las secretas no se revelan')
+    pg.click('#help-btn')
+    pg.click('#tab-metodo')
+    check(pg.locator('#ayuda-juego').count() == 1, 'reglas del juego en la ayuda')
+    check('+150' in pg.inner_text('#dlg-help'), 'XP de la ayuda desde las constantes')
+    pg.keyboard.press('Escape')
+    no_errors(pg, 'juego')
+
+
+def t_jefe(browser):
+    d = lambda r, ok=True, ruta='blue': {'fecha': '2026-10-20', 'recruiter': r, 'ruta': ruta, 'conviccion': 80, 'superado': ok, 'modo': 'escrito'}
+    pg = new_page(browser, state=state(historias=[BUENA], duelos=[d('rita')]))
+    goto(pg, 'arena')
+    check(pg.is_disabled('input[name=recruiter][value=subeliston]'), 'el jefe empieza bloqueado')
+    check(pg.locator('#jefe-lock').count() == 1, 'explica cómo desbloquearlo')
+    goto(pg, 'oferta/blue')
+    check(pg.locator('#oferta').count() == 0, 'sin carta antes de vencer al jefe')
+    pg.evaluate("""() => { const s = JSON.parse(localStorage.getItem('astrolabio-estado'));
+        s.duelos.push({fecha: '2026-10-20', recruiter: 'manager', ruta: 'blue', conviccion: 75, superado: true, modo: 'escrito'});
+        localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
+    pg.reload()
+    goto(pg, 'arena')
+    check(not pg.is_disabled('input[name=recruiter][value=subeliston]'), 'el jefe se desbloquea')
+    pg.evaluate("""() => { const s = JSON.parse(localStorage.getItem('astrolabio-estado'));
+        s.duelos.push({fecha: '2026-10-21', recruiter: 'subeliston', ruta: 'blue', conviccion: 77, superado: true, modo: 'escrito'});
+        localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
+    pg.reload()
+    goto(pg, 'oferta/blue')
+    txt = pg.inner_text('#oferta')
+    check('no es una oferta real' in txt.lower() and 'Ana' in txt and '77' in txt, 'carta de oferta marcada como juego')
+    check(pg.locator('#oferta-print').count() == 1, 'botón de PDF')
+    pg.emulate_media(media='print')
+    check(not pg.is_visible('.topbar') and pg.is_visible('#oferta') and not pg.is_visible('#oferta-print'), 'impresión solo de la carta')
+    pg.emulate_media(media='screen')
+    goto(pg, 'oferta/red')
+    check(pg.locator('#oferta').count() == 0, 'la carta es por ruta')
+    goto(pg, 'progreso')
+    check(pg.locator('#ofertas a').count() == 1, 'enlace a la carta desde Progreso')
+    no_errors(pg, 'jefe')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -402,6 +471,8 @@ TESTS = [
     ('historias modelo, banco de preguntas y búsqueda', t_contenido),
     ('arena: duelo ganado y duelo perdido', t_arena),
     ('arena: contrarreloj, voz alta, sorpresa y atajos', t_arena_modos),
+    ('juego: XP, racha, rango, insignias, Progreso y ayuda', t_juego),
+    ('jefe final por ruta y carta de oferta imprimible', t_jefe),
 ]
 
 if __name__ == '__main__':

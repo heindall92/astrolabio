@@ -6,7 +6,7 @@ import re
 import subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXTRA_ROWS = ['constelacion', 'arena']  # secciones con capturas ya terminadas
+EXTRA_ROWS = ['constelacion', 'arena', 'progreso', 'insignias']  # secciones con capturas ya terminadas
 TPL = (ROOT / 'docs' / 'README.template.md').read_text(encoding='utf-8')
 
 
@@ -57,6 +57,7 @@ HIST = [
     ('0.1.0', 'Cimientos: perfil, Forja, motor STAR, shell completo y ayuda'),
     ('0.2.0', 'Constelación de competencias, banco de 104 preguntas, historias modelo y búsqueda'),
     ('0.3.0', 'Arena: cinco recruiters, convicción, repreguntas, informe y modos escrito, voz alta, contrarreloj y sorpresa'),
+    ('0.4.0', 'Juego completo: XP, meta diaria, rachas, seis rangos, 34 insignias (4 secretas), jefe final por ruta y carta de oferta'),
 ]
 FILAS = []
 for name, label in [('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('insignias', 'Insignias')]:

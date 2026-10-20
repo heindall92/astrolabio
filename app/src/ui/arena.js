@@ -31,14 +31,17 @@ function renderLobby(view) {
   viewHead(view, { eyebrow: t('nav.arena'), title: t('arena.titulo'), lede: t('arena.lede') });
   const form = h('form', { class: 'stack', id: 'arena-form', 'aria-label': t('arena.preparar') });
 
+  const jefeOk = bossUnlocked(UI.state.duelos, UI.state.perfil.rol);
+  if (!jefeOk && arenaRecruiter(ARENA.recruiter).jefe) ARENA.recruiter = 'rita';
   form.append(h('fieldset', null, h('legend', { text: t('arena.elige.recruiter') }),
-    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') },
-      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, onchange: () => { ARENA.recruiter = r.id; } }),
+    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') + (r.jefe && !jefeOk ? ' locked' : '') },
+      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, disabled: r.jefe && !jefeOk, 'aria-describedby': r.jefe && !jefeOk ? 'jefe-lock' : null, onchange: () => { ARENA.recruiter = r.id; } }),
       h('span', { class: 'rec-av', 'aria-hidden': 'true' }, icon(r.icono)),
       h('span', { class: 'stack tight' },
         h('b', { text: L(r.nombre) }),
         h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) }),
-        h('span', { class: 'small muted', text: L(r.estilo) }))))))));
+        h('span', { class: 'small muted', text: L(r.estilo) }),
+        r.jefe && !jefeOk ? h('span', { class: 'small', id: 'jefe-lock' }, icon('lock', 'ic sm'), ' ', t('arena.jefeBloqueado', { n: JEFE_DESBLOQUEO })) : null)))))));
 
   form.append(h('fieldset', null, h('legend', { text: t('arena.elige.modo') }),
     h('div', { class: 'checks' }, DUELO.modos.map(m => h('label', { class: 'check' },
@@ -254,7 +257,8 @@ function renderReport(view, rec, q) {
       renderEditor.prefill = { titulo: '', s: ARENA.story.s, t: ARENA.story.t, a: ARENA.story.a, r: ARENA.story.r, l: ARENA.story.l, competencias: (q.comp || []).slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id };
       ARENA.duel = null; go('forja/nueva');
     } }, icon('hammer'), t('arena.guardarComo')) : null,
-    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null));
+    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null,
+    won && rec.jefe ? h('a', { class: 'btn gold', href: '#oferta/' + UI.state.perfil.rol, id: 'arena-oferta' }, icon('file-text'), t('arena.verOferta')) : null));
 }
 
 document.addEventListener('keydown', e => {

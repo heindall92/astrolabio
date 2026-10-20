@@ -2,6 +2,17 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.4.0] · 2026-10-21 · Juego completo
+
+### Añadido
+- XP por historia, por estado alcanzado, por duelo y por insignia; meta diaria de 60 XP y racha de días.
+- Seis rangos (Candidato → Estrella) con celebración de partículas al subir; con movimiento reducido, un fundido.
+- 34 insignias, 4 de ellas secretas, con vista propia.
+- Jefe final por ruta: el Subelistón se desbloquea tras superar a dos recruiters distintos; al vencerlo, carta de oferta ficticia marcada como juego e imprimible en PDF.
+- Vista Progreso: rango, meta de hoy, racha, XP por día y evolución de la nota media, con tablas equivalentes.
+- La ayuda «Método» genera las reglas del juego desde las constantes del motor.
+- Motor `engine/progress.js` probado (XP, rachas, rangos, jefe e insignias).
+
 ## [0.3.0] · 2026-10-21 · Arena
 
 ### Añadido

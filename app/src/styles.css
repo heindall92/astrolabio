@@ -412,3 +412,44 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .conv-bar i { transition: none; } }
 .rec-card .chip { align-self: flex-start; }
 .duel-top { margin-bottom: 0; }
+
+/* ============ Juego ============ */
+.btn.gold { background: var(--star); color: var(--star-ink); border-color: transparent; }
+.rec-card.locked { opacity: .62; cursor: not-allowed; }
+.rec-card.locked input { cursor: not-allowed; }
+.celebra { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; pointer-events: none; animation: cel-fade 1.6s var(--ease-out) forwards; }
+.celebra-t { font: 700 clamp(1.6rem, 5vw, 2.6rem) var(--f-display, var(--f)); color: var(--star-ink); background: var(--star); padding: 12px 24px; border-radius: 999px; box-shadow: var(--shadow-2, 0 10px 30px rgb(0 0 0 / .2)); animation: cel-pop .5s var(--ease-out); }
+.spark { position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; background: var(--star); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: cel-spark .9s var(--ease-out) var(--d) both; }
+@keyframes cel-spark { from { transform: translate(-50%, -50%) scale(.4); opacity: 1; } to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1); opacity: 0; } }
+@keyframes cel-pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes cel-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .celebra-t { animation: none; } .spark { display: none; } }
+.chart { width: 100%; height: auto; display: block; }
+.chart .b { fill: var(--accent); }
+.chart .b.gold { fill: var(--star); }
+.chart .goal-line { stroke: var(--ink-2); stroke-dasharray: 4 4; stroke-width: 1.5; }
+.chart .ln { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; }
+.chart .pt { fill: var(--s1); stroke: var(--accent); stroke-width: 2; }
+.chart .ax { font: 500 11px var(--f-mono); fill: var(--ink-2); }
+.chart rect ~ .ax { text-anchor: middle; }
+.ranks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.ranks li { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--s1); }
+.ranks li .ic { color: var(--ink-3); }
+.ranks li.done .ic { color: var(--star-ink); fill: var(--star); }
+.ranks li[aria-current] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.badges { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.badge { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--s1); }
+.badge .b-ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--s2); color: var(--ink-2); }
+.badge.got .b-ic { background: var(--star); color: var(--star-ink); }
+.badge.secret { border-style: dashed; }
+.letter { position: relative; max-width: 720px; margin: 16px auto 0; padding: 40px 44px; border-radius: 18px; background: var(--s1); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; line-height: 1.6; }
+.letter .stamp { position: absolute; top: 24px; right: 24px; margin: 0; padding: 6px 12px; border: 2px solid var(--crit); color: var(--crit); border-radius: 8px; font: 700 .8rem var(--f-mono); text-transform: uppercase; letter-spacing: .06em; transform: rotate(4deg); }
+.letter-mark { width: 40px; height: 40px; }
+.letter .firma { margin-top: 12px; }
+@media (max-width: 600px) { .letter { padding: 56px 20px 24px; } .letter .stamp { top: 14px; right: 14px; } }
+@media print {
+  .view > :not(.letter) { display: none !important; }
+  .letter { border: 0; box-shadow: none; margin: 0; max-width: none; background: #fff; color: #000; }
+  .letter .stamp { color: #b3141a; border-color: #b3141a; }
+  .toasts, .celebra { display: none !important; }
+}
