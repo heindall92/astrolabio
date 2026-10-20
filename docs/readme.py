@@ -15,8 +15,13 @@ def node(js):
 
 
 def count_node_tests():
-    out = subprocess.run(['node', '--test', 'tests/'], cwd=ROOT, capture_output=True, text=True).stdout
-    return int(re.search(r'^# pass (\d+)', out, re.M).group(1))
+    # Ficheros explícitos: `node --test tests/` falla en Node 22 o superior y el README decía «0 pruebas».
+    files = sorted(str(f.relative_to(ROOT)) for f in (ROOT / 'tests').glob('*.test.js'))
+    out = subprocess.run(['node', '--test', *files], cwd=ROOT, capture_output=True, text=True).stdout
+    n = int(re.search(r'^# pass (\d+)', out, re.M).group(1))
+    if not n or re.search(r'^# fail [1-9]', out, re.M):
+        raise SystemExit('Las pruebas de Node no pasan: no se regenera el README con cifras falsas.')
+    return n
 
 
 def count_py(file):
@@ -61,6 +66,7 @@ HIST = [
     ('0.5.0', 'Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»'),
     ('0.6.0', 'Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML'),
     ('0.7.0', 'Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera'),
+    ('0.7.1', 'Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes'),
 ]
 FILAS = []
 for name, label in [('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('insignias', 'Insignias')]:

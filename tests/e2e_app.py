@@ -4,7 +4,7 @@ import json
 import sys
 import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from helpers import (PERFIL, SPANISH, check, goto, new_page, no_errors, run, settle, story)  # noqa: E402
+from helpers import (fresh, PERFIL, SPANISH, check, goto, new_page, no_errors, run, settle, story)  # noqa: E402
 
 BUENA = story('h_buena', 'La alerta de las 3:00',
               'Trabajaba de analista junior en un SOC de un banco mediano durante una guardia nocturna, con un único compañero y más de 200 alertas abiertas en la cola.',
@@ -82,9 +82,10 @@ def t_story_crud(browser):
     check('IP real' in tips, 'aviso de IP')
     check('Borrador' in pg.inner_text('.panel'), 'con dato sensible queda en borrador')
     pg.click('#save-story')
+    pg.wait_for_function('() => document.body.dataset.route === "forja"')
     pg.wait_for_selector('#story-list')
     # Recargar: persiste.
-    pg.reload()
+    fresh(pg, 'forja')
     pg.wait_for_selector('#story-list')
     check('Borrador' in pg.inner_text('#story-list'), 'persistencia tras recargar')
     # Borrar con confirmación (primero cancelar).
@@ -435,14 +436,12 @@ def t_jefe(browser):
     pg.evaluate("""() => { const s = JSON.parse(localStorage.getItem('astrolabio-estado'));
         s.duelos.push({fecha: '2026-10-20', recruiter: 'manager', ruta: 'blue', conviccion: 75, superado: true, modo: 'escrito'});
         localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
-    pg.reload()
-    goto(pg, 'arena')
+    fresh(pg, 'arena')
     check(not pg.is_disabled('input[name=recruiter][value=subeliston]'), 'el jefe se desbloquea')
     pg.evaluate("""() => { const s = JSON.parse(localStorage.getItem('astrolabio-estado'));
         s.duelos.push({fecha: '2026-10-21', recruiter: 'subeliston', ruta: 'blue', conviccion: 77, superado: true, modo: 'escrito'});
         localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
-    pg.reload()
-    goto(pg, 'oferta/blue')
+    fresh(pg, 'oferta/blue')
     txt = pg.inner_text('#oferta')
     check('no es una oferta real' in txt.lower() and 'Ana' in txt and '77' in txt, 'carta de oferta marcada como juego')
     check(pg.locator('#oferta-print').count() == 1, 'botón de PDF')
@@ -534,6 +533,32 @@ def t_rutas_nuevas(browser):
     check(pg.locator('label.choice:has(input[name=rol])').count() == 13, 'el asistente ofrece las trece rutas')
     pg.click('label.choice:has(input[value=ia])')
     no_errors(pg, 'asistente')
+def t_mobile_estrecho(browser):
+    """Con cifras grandes (racha 128, 12 340 XP) nada se sale ni se aplasta en móviles de 320, 360 y 390 px."""
+    st = state(historias=[BUENA], xp=12340, racha=128)
+    for w in (320, 360, 390):
+        pg = new_page(browser, width=w, height=760, state=st)
+        for route in ['', 'forja', 'forja/' + BUENA['id'], 'constelacion', 'arena', 'perfil', 'progreso', 'insignias']:
+            goto(pg, route)
+            r = pg.evaluate("""(() => { const tb = document.getElementById('topbar').getBoundingClientRect();
+              const fuera = [...document.querySelectorAll('#topbar > *')].filter(e => e.offsetParent)
+                .filter(e => { const x = e.getBoundingClientRect(); return x.right > tb.right + .5 || x.left < tb.left - .5; }).map(e => e.id || e.className);
+              const s = document.getElementById('search-btn').getBoundingClientRect();
+              return { sw: document.documentElement.scrollWidth, fuera, buscar: [Math.round(s.width), Math.round(s.height)] }; })()""")
+            check(r['sw'] <= w, f'{w}px #{route or "inicio"}: desbordamiento horizontal ({r["sw"]})')
+            check(not r['fuera'], f'{w}px #{route or "inicio"}: controles fuera de la barra {r["fuera"]}')
+            check(r['buscar'] == [38, 38], f'{w}px: el botón de búsqueda está deformado {r["buscar"]}')
+        check(pg.locator('#lang-seg').is_hidden(), 'en móvil el idioma va en «Más», no en la barra')
+        pg.context.close()
+    pg = new_page(browser, width=390, height=760, state=st)
+    goto(pg)
+    pg.click('#more-btn')
+    pg.wait_for_selector('#dlg-more[open]')
+    pg.click('[data-lang-m="en"]')
+    check(pg.evaluate('document.documentElement.lang') == 'en', 'idioma desde «Más»')
+    check(pg.get_attribute('[data-lang-m="en"]', 'aria-pressed') == 'true' and pg.evaluate('document.activeElement.dataset.langM') == 'en', 'el botón pulsado queda marcado y con el foco')
+    check(pg.locator('#dlg-more[open]').count() == 1, 'el menú sigue abierto tras cambiar de idioma')
+    no_errors(pg, 'mobile estrecho')
 
 
 TESTS = [
@@ -544,6 +569,7 @@ TESTS = [
     ('datos corruptos y saneado', t_corrupt),
     ('shell: tema, acento, idioma, ayuda, Ctrl K, atajos', t_shell),
     ('móvil: barra inferior y Más con acentos', t_mobile),
+    ('móvil estrecho: 320–390 px con cifras grandes, idioma en Más', t_mobile_estrecho),
     ('exportar, importar y borrar todo', t_export_import),
     ('inglés sin restos en español', t_english),
     ('movimiento reducido', t_reduced),
@@ -556,6 +582,7 @@ TESTS = [
     ('entrevista en inglés, chuleta y ecosistema', t_ingles_chuleta),
     ('chuleta vacía', t_chuleta_vacia),
     ('rutas v1.x y v2.x con contenido propio', t_rutas_nuevas),
+    ('móvil estrecho: 320–390 px con cifras grandes, idioma en Más', t_mobile_estrecho),
 ]
 
 if __name__ == '__main__':
