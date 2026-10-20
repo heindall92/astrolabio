@@ -2,6 +2,13 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.7.0] · 2026-10-21 · Cinco rutas más
+
+### Añadido
+- Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera: 26 preguntas propias por ruta, 3 historias modelo bilingües (todas «Brillantes») y 7 términos de glosario.
+- La ruta Cambio de carrera usa historias de hostelería, administración y farmacia para mostrar cómo se transfiere la experiencia a IT.
+- El asistente ofrece trece rutas.
+
 ## [0.6.0] · 2026-10-21 · Cuatro rutas nuevas
 
 ### Añadido

@@ -431,7 +431,8 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - [x] v1.1: rutas Sistemas/Cloud, Desarrollo, AppSec e IA. *Adelantadas en la 0.6.0 para reservar la 1.0 al lanzamiento.*
 - v1.2: IA opcional con la clave propia de la persona, desactivada por defecto y avisando de que el texto sale del dispositivo.
 - v1.3: modo «coach» para profesores y mentores (exportar un paquete de preguntas para una clase).
-- v2.x: Soporte IT, PM, UX, preventa y Cambio de carrera, más versiones para LATAM (vocabulario y tipos de empresa por país).
+- [x] v2.x (rutas): Soporte IT, PM, UX, preventa y Cambio de carrera. *Adelantadas en la 0.7.0.*
+- [ ] v2.x: versiones para LATAM (vocabulario y tipos de empresa por país).
 
 ---
 

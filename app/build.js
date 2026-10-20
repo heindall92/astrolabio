@@ -15,7 +15,7 @@ const JS = [
   'src/i18n/es.js', 'src/i18n/en.js',
   'src/content/lexico/es.js', 'src/content/lexico/en.js',
   'src/content/competencias.js', 'src/content/recruiters.js', 'src/content/comunes.js',
-  'src/content/roles/red.js', 'src/content/roles/blue.js', 'src/content/roles/grc.js', 'src/content/roles/data.js', 'src/content/roles/cloud.js', 'src/content/roles/dev.js', 'src/content/roles/appsec.js', 'src/content/roles/ia.js',
+  'src/content/roles/red.js', 'src/content/roles/blue.js', 'src/content/roles/grc.js', 'src/content/roles/data.js', 'src/content/roles/cloud.js', 'src/content/roles/dev.js', 'src/content/roles/appsec.js', 'src/content/roles/ia.js', 'src/content/roles/soporte.js', 'src/content/roles/pm.js', 'src/content/roles/ux.js', 'src/content/roles/preventa.js', 'src/content/roles/cambio.js',
   'src/content/roles/index.js', 'src/content/insignias.js',
   'src/engine/constants.js', 'src/engine/analyzer.js', 'src/engine/score.js', 'src/engine/sanitize.js',
   'src/engine/arena.js', 'src/engine/progress.js',

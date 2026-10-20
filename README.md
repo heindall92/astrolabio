@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.6.0" src="https://img.shields.io/badge/versi%C3%B3n-0.6.0-1a4fe0?style=flat"/>
+  <img alt="Versión 0.7.0" src="https://img.shields.io/badge/versi%C3%B3n-0.7.0-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -27,7 +27,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.6.0 en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
+> **Estado:** versión 0.7.0 en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
 
 ## Índice
 
@@ -155,7 +155,7 @@ flowchart LR
     CONT[content: competencias, recruiters, preguntas, léxico] --> ENG
     ENG[engine: analyzer, score, sanitize…<br/>puro y sin DOM] --> UI[ui: shell, perfil, forja, ayuda…]
   end
-  V[vendor: Geist, Sora, 101 iconos Lucide, logo] --> B
+  V[vendor: Geist, Sora, 106 iconos Lucide, logo] --> B
   src --> B[app/build.js]
   B --> D[dist/index.html<br/>CSP por hashes]
   B --> A[dist/artifact/astrolabio.html]
@@ -166,7 +166,7 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 128 pruebas |
+| Motor, contenido e i18n (`node --test`) | 138 pruebas |
 | Extremo a extremo (Playwright) | 19 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
@@ -183,6 +183,7 @@ flowchart LR
 
 ## Historial de versiones
 
+- **0.7.0** · Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera
 - **0.6.0** · Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML
 - **0.5.0** · Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»
 - **0.4.0** · Juego completo: XP, meta diaria, rachas, seis rangos, 34 insignias (4 secretas), jefe final por ruta y carta de oferta

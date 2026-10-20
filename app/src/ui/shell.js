@@ -90,7 +90,7 @@ function renderChrome(current) {
 }
 
 function roleIcon(rol) {
-  return { red: 'swords', blue: 'shield-half', grc: 'scale', data: 'chart-column', cloud: 'cloud', dev: 'code-xml', appsec: 'shield-check', ia: 'brain-circuit' }[rol] || 'user-round';
+  return { red: 'swords', blue: 'shield-half', grc: 'scale', data: 'chart-column', cloud: 'cloud', dev: 'code-xml', appsec: 'shield-check', ia: 'brain-circuit', soporte: 'headset', pm: 'kanban', ux: 'pen-tool', preventa: 'presentation', cambio: 'route' }[rol] || 'user-round';
 }
 
 // ---------- Textos estáticos del shell ----------
