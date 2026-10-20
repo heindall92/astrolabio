@@ -32,11 +32,55 @@ VIEWS.forja = (view, arg) => {
   if (!hs.length) {
     view.append(h('div', { class: 'empty' }, icon('star', 'ic lg'), h('h2', { text: t('forja.vacioTitulo') }), h('p', { class: 'muted', text: t('forja.vacio') }),
       h('div', { class: 'row' }, h('a', { class: 'btn primary', href: '#forja/nueva' }, icon('plus'), t('forja.nueva')))));
-    return;
+  } else {
+    const sorted = hs.slice().sort((a, b) => (b.editada || '').localeCompare(a.editada || ''));
+    view.append(stagger(h('div', { class: 'story-list', id: 'story-list' }, sorted.map(storyCard))));
   }
-  const sorted = hs.slice().sort((a, b) => (b.editada || '').localeCompare(a.editada || ''));
-  view.append(stagger(h('div', { class: 'story-list', id: 'story-list' }, sorted.map(storyCard))));
+  renderModels(view);
+  renderQuestionBank(view);
 };
+
+function renderModels(view) {
+  const rol = UI.state.perfil.rol;
+  const ms = ROLE_CONTENT[rol].modelos;
+  view.append(h('div', { class: 'vhead' }, h('div', null, h('h2', { id: 'modelos-h', text: t('forja.modelosTitulo', { rol: t('rol.' + rol) }) }), h('p', { class: 'lede small', text: t('forja.modelosLede') }))));
+  view.append(stagger(h('div', { class: 'story-list', id: 'modelos' }, ms.map(m => {
+    const v = L(m);
+    const sc = scoreOf(v);
+    return h('div', { class: 'card stack' },
+      h('div', { class: 'row spread' }, h('span', { class: 'chip ensayo' }, icon('book-open', 'ic sm'), t('forja.modelo')), h('span', { class: 'score' }, String(sc.total), h('small', { text: '/100' }))),
+      h('h3', { text: v.titulo }),
+      h('p', { class: 'small muted', text: v.a.slice(0, 140) + '…' }),
+      h('div', null, h('button', { class: 'btn sm', type: 'button', onclick: () => { renderEditor.prefill = { ...v, tipo: 'ensayo', competencias: [...m.competencias] }; go('forja/nueva'); } }, icon('pencil', 'ic sm'), t('forja.usarModelo'))));
+  }))));
+}
+
+let bankFilter = '';
+function renderQuestionBank(view) {
+  const rol = UI.state.perfil.rol;
+  const all = [...ROLE_CONTENT[rol].preguntas, ...COMUNES];
+  const box = h('div', { class: 'card stack', id: 'banco' });
+  const sel = h('select', { id: 'banco-filtro', onchange: e => { bankFilter = e.target.value; draw(); } },
+    h('option', { value: '', text: t('forja.bancoTodas') }), COMPETENCIAS.map(c => { const o = h('option', { value: c.id, text: compName(c.id) }); if (c.id === bankFilter) o.selected = true; return o; }));
+  const list = h('ul', { class: 'qlist' });
+  const count = h('p', { class: 'small muted', 'aria-live': 'polite' });
+  function draw() {
+    const qs = all.filter(q => !bankFilter || q.comp.includes(bankFilter));
+    count.textContent = t('forja.bancoN', { n: qs.length });
+    list.replaceChildren(...qs.map(q => h('li', null,
+      h('div', { class: 'stack' }, h('p', { text: L(q) }), h('p', { class: 'tiny muted' }, q.trampa ? h('span', { class: 'chip', text: t('forja.trampa') }) : null, ' ', q.comp.map(compName).join(' · ')),
+        q.guia ? h('details', null, h('summary', { text: t('forja.guia') }), h('p', { class: 'small', text: L(q.guia) })) : null),
+      q.guia ? null : h('button', { class: 'btn sm', type: 'button', 'aria-label': t('forja.responderAria', { q: L(q) }), onclick: () => { renderEditor.prefill = { competencias: q.comp.slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id }; go('forja/nueva'); } }, icon('plus', 'ic sm'), t('forja.responder')))));
+  }
+  box.append(h('div', { class: 'row spread' }, h('h2', { text: t('forja.bancoTitulo') }), h('div', { class: 'field' }, h('label', { for: 'banco-filtro', class: 'sr-only', text: t('forja.bancoFiltro') }), sel)), count, list);
+  draw();
+  view.append(box);
+}
+
+function questionById(id) {
+  if (!id) return null;
+  return [...allQuestions(), ...COMUNES].find(q => q.id === id) || null;
+}
 
 function renderEditor(view, id) {
   const existing = UI.state.historias.find(x => x.id === id);
@@ -51,6 +95,9 @@ function renderEditor(view, id) {
   if (!existing && prefill) Object.assign(draft, prefill);
 
   viewHead(view, { eyebrow: t('nav.forja'), title: existing ? t('forja.editar') : t('forja.nueva'), lede: t('forja.editorLede') });
+  const pq = questionById(draft._pregunta);
+  delete draft._pregunta;
+  if (pq) view.append(h('div', { class: 'callout', id: 'pregunta-guia' }, icon('message-square-quote'), h('p', null, h('b', { text: t('forja.preguntaGuia') + ' ' }), L(pq))));
   const form = h('form', { class: 'stack', id: 'story-form', 'aria-label': t('forja.formulario') });
   const panel = h('aside', { class: 'card panel stack', 'aria-labelledby': 'score-h' });
   const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'score-live' });

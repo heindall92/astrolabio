@@ -29,3 +29,24 @@ export const COMPETENCIAS = [
 ];
 
 export const COMPETENCIA_IDS = COMPETENCIAS.map(c => c.id);
+
+// Correspondencia orientativa con los 16 Leadership Principles de Amazon: solo los nombres públicos.
+// Las descripciones son de redacción propia y no reproducen los textos oficiales.
+export const PRINCIPIOS = [
+  { nombre: 'Customer Obsession', comp: ['cliente'], des: { es: 'Empezar por la persona a la que sirves.', en: 'Start from the person you serve.' } },
+  { nombre: 'Ownership', comp: ['iniciativa', 'resultados'], des: { es: 'Responder por el resultado más allá de tu tarea.', en: 'Answer for the outcome beyond your own task.' } },
+  { nombre: 'Invent and Simplify', comp: ['problemas', 'iniciativa'], des: { es: 'Buscar la solución más sencilla que funcione.', en: 'Look for the simplest solution that works.' } },
+  { nombre: 'Are Right, A Lot', comp: ['analisis'], des: { es: 'Decidir bien a menudo, contrastando con otras opiniones.', en: 'Decide well often, checking against other views.' } },
+  { nombre: 'Learn and Be Curious', comp: ['aprendizaje'], des: { es: 'Aprender siempre y explorar lo que no conoces.', en: 'Keep learning and explore what you do not know.' } },
+  { nombre: 'Hire and Develop the Best', comp: ['liderazgo', 'equipo'], des: { es: 'Ayudar a que otras personas crezcan.', en: 'Help other people grow.' } },
+  { nombre: 'Insist on the Highest Standards', comp: ['analisis', 'resultados'], des: { es: 'No conformarse con un trabajo a medias.', en: 'Do not settle for half-done work.' } },
+  { nombre: 'Think Big', comp: ['liderazgo', 'iniciativa'], des: { es: 'Proponer metas ambiciosas y explicarlas.', en: 'Propose ambitious goals and explain them.' } },
+  { nombre: 'Bias for Action', comp: ['presion', 'iniciativa'], des: { es: 'Actuar con rapidez cuando el riesgo es asumible.', en: 'Act quickly when the risk is acceptable.' } },
+  { nombre: 'Frugality', comp: ['problemas', 'resultados'], des: { es: 'Conseguir más con menos recursos.', en: 'Achieve more with fewer resources.' } },
+  { nombre: 'Earn Trust', comp: ['etica', 'comunicacion'], des: { es: 'Escuchar, ser honesto y reconocer errores.', en: 'Listen, be honest and admit mistakes.' } },
+  { nombre: 'Dive Deep', comp: ['analisis'], des: { es: 'Bajar a los detalles y comprobar los datos.', en: 'Go into the details and check the data.' } },
+  { nombre: 'Have Backbone; Disagree and Commit', comp: ['conflictos', 'etica'], des: { es: 'Discrepar con respeto y apoyar la decisión final.', en: 'Disagree respectfully, then back the final decision.' } },
+  { nombre: 'Deliver Results', comp: ['resultados', 'presion'], des: { es: 'Cumplir lo importante a pesar de los obstáculos.', en: 'Deliver what matters despite obstacles.' } },
+  { nombre: 'Strive to be Earth’s Best Employer', comp: ['equipo', 'liderazgo'], des: { es: 'Cuidar el entorno de trabajo de quienes te rodean.', en: 'Care for the work environment of those around you.' } },
+  { nombre: 'Success and Scale Bring Broad Responsibility', comp: ['etica'], des: { es: 'Pensar en el efecto de tu trabajo más allá de la empresa.', en: 'Think about the effect of your work beyond the company.' } },
+];

@@ -242,6 +242,59 @@ def t_reduced(browser):
     no_errors(pg, 'reduced')
 
 
+def t_constelacion(browser):
+    pg = new_page(browser, state=state(historias=[BUENA, dict(BUENA, id='h_dos', titulo='Otra', competencias=['presion'])]))
+    goto(pg, 'constelacion')
+    check(pg.locator('.sky .star').count() == 3, 'tres estrellas (dos en presión y una en análisis)')
+    check(pg.locator('.sky .zone.empty').count() == 10, 'diez constelaciones vacías')
+    check('Te faltan' in pg.get_attribute('.sky', 'aria-label'), 'aria-label resumen')
+    check(pg.locator('table tbody tr').count() == 12, 'lista equivalente con 12 competencias')
+    pg.focus('.sky .star[tabindex="0"]')
+    first = pg.evaluate('document.activeElement.dataset.id')
+    pg.keyboard.press('ArrowRight')
+    second = pg.evaluate('document.activeElement.dataset.id')
+    check(first and second and pg.locator('#star-tip').is_visible(), 'flechas entre estrellas y ficha visible')
+    pg.keyboard.press('Enter')
+    pg.wait_for_selector('#f-titulo')
+    check('#forja/' in pg.url, 'Enter abre la historia')
+    goto(pg, 'constelacion')
+    pg.click('#contenido .card button:has-text("Escribir una historia") >> nth=0')
+    pg.wait_for_selector('#f-titulo')
+    check(pg.locator('#story-form input[type=checkbox]:checked').count() == 1, 'nueva historia con la competencia que falta')
+    box = pg.evaluate("[...document.querySelectorAll('.sky .star .hit')].map(r => r.getBoundingClientRect().width)")
+    no_errors(pg, 'constelacion')
+
+
+def t_contenido(browser):
+    pg = new_page(browser, state=state())
+    goto(pg, 'forja')
+    check(pg.locator('#modelos .card').count() == 3, 'tres historias modelo de la ruta')
+    n = int(pg.inner_text('#banco p.small').split()[0])
+    check(n >= 25, f'banco con al menos 25 preguntas ({n})')
+    pg.select_option('#banco-filtro', 'presion')
+    m = int(pg.inner_text('#banco p.small').split()[0])
+    check(0 < m < n, 'filtro por competencia')
+    pg.click('#modelos .card button >> nth=0')
+    pg.wait_for_selector('#f-titulo')
+    check(pg.locator('#ensayo-note').is_visible(), 'el modelo se practica como ensayo')
+    check(int(pg.inner_text('#score-total')) >= 85, 'el modelo puntúa alto')
+    goto(pg, 'forja')
+    pg.click('#banco li button >> nth=0')
+    pg.wait_for_selector('#pregunta-guia')
+    # Búsqueda sin tildes sobre preguntas y glosario
+    pg.keyboard.press('Control+k')
+    pg.fill('#search-input', 'guardia nocturna')
+    pg.fill('#search-input', 'falso positivo')
+    txt = pg.inner_text('#search-results').lower()
+    check('pregunta' in txt and 'glosario' in txt, 'preguntas y glosario en la búsqueda')
+    pg.fill('#search-input', 'estacionalidad')
+    check(pg.locator('#search-results [role=option]').count() >= 1, 'glosario de otra ruta')
+    pg.fill('#search-input', 'CONVICCION')
+    check(pg.locator('#search-results [role=option]').count() >= 1, 'insensible a mayúsculas y tildes')
+    pg.keyboard.press('Escape')
+    no_errors(pg, 'contenido')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -253,6 +306,8 @@ TESTS = [
     ('exportar, importar y borrar todo', t_export_import),
     ('inglés sin restos en español', t_english),
     ('movimiento reducido', t_reduced),
+    ('constelación accesible con teclado y lista equivalente', t_constelacion),
+    ('historias modelo, banco de preguntas y búsqueda', t_contenido),
 ]
 
 if __name__ == '__main__':

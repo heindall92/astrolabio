@@ -398,10 +398,10 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - **Hecho cuando:** ≥ 40 pruebas de motor; e2e completo (crear, editar y borrar historia, puntuación, recargar, datos corruptos, móvil, CSP, cero red); axe con 0 infracciones; capturas reales en el README.
 
 ### v0.2.0 · Constelación y banco de preguntas
-- [ ] Constelación SVG accesible, con lista equivalente y animación de estrella nueva.
-- [ ] 12 competencias con la correspondencia de principios públicos.
-- [ ] Rutas Red, Blue, GRC y Data con **al menos 25 preguntas por ruta** (redacción propia) y **3 historias modelo** por ruta.
-- [ ] Búsqueda `Ctrl K` sobre historias, preguntas y glosario, insensible a acentos.
+- [x] Constelación SVG accesible, con lista equivalente y animación de estrella nueva.
+- [x] 12 competencias con la correspondencia de principios públicos.
+- [x] Rutas Red, Blue, GRC y Data con **al menos 25 preguntas por ruta** (redacción propia) y **3 historias modelo** por ruta.
+- [x] Búsqueda `Ctrl K` sobre historias, preguntas y glosario, insensible a acentos.
 - **Hecho cuando:** pruebas de contenido (sin duplicados y cada pregunta con competencia) en verde, y la paridad ES/EN al 100 %.
 
 ### v0.3.0 · Arena
