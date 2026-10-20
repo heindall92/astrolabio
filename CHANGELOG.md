@@ -2,6 +2,16 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.2.0] · 2026-10-20 · Constelación y banco de preguntas
+
+### Añadido
+- Constelación SVG de 12 competencias (4×3 en escritorio, 2×6 en móvil), navegable con teclado, con tabla equivalente y animación de estrella nueva.
+- Correspondencia de cada competencia con los 16 principios de liderazgo públicos.
+- Rutas Red, Blue, GRC y Data: 26 preguntas propias por ruta, 3 historias modelo bilingües y glosario.
+- Banco de preguntas en la Forja y preguntas comunes, incluidas las «trampa» con guía.
+- Búsqueda `Ctrl K` sobre historias, preguntas y glosario, insensible a mayúsculas y tildes.
+- Pruebas de contenido: sin duplicados, cada pregunta con competencia y paridad ES/EN.
+
 ## [0.1.0] · 2026-10-20 · Cimientos: perfil y Forja
 
 ### Añadido

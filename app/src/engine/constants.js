@@ -1,7 +1,6 @@
 // Constantes del analizador STAR, de la puntuación y del juego.
 // La ayuda «Método STAR» se genera a partir de este archivo: no escribas cifras a mano en otro sitio.
 
-export const VERSION = '0.1.0';
 
 /** Reparto ideal de palabras por bloque (porcentaje mínimo y máximo). */
 export const REPARTO = {
