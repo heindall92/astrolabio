@@ -2,6 +2,17 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.3.0] · 2026-10-21 · Arena
+
+### Añadido
+- Arena con cinco recruiters de creación propia, cada uno con lo que más valora, su umbral y su número de repreguntas.
+- Barra de convicción (empieza en 50, meta 70, derrota inmediata en 15) y repreguntas sobre el criterio más flojo según el recruiter.
+- Modos escrito, en voz alta con autoevaluación, contrarreloj de 90 s (con botón para parar el reloj) y sorpresa.
+- Recomendación de la historia que mejor encaja con cada pregunta e informe del duelo con rondas y qué mejorar.
+- Atajos: `Ctrl Enter` responde, `Alt R` elige pregunta al azar y `Alt N` empieza otro duelo.
+- Motor `engine/arena.js` probado y comprobación en el build de nombres repetidos entre módulos.
+- e2e de un duelo ganado y otro perdido, y axe en cada paso del duelo.
+
 ## [0.2.0] · 2026-10-20 · Constelación y banco de preguntas
 
 ### Añadido

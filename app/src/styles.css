@@ -380,3 +380,35 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 .qlist li:first-child { border-top: 0; }
 .qlist details summary { cursor: pointer; color: var(--accent); font-size: .875rem; font-weight: 550; min-height: 24px; }
 #banco select { width: auto; min-width: 220px; }
+
+/* ---------- Arena ---------- */
+.stack.tight { gap: 4px; }
+.row.wrap { flex-wrap: wrap; }
+.callout.ok { border-color: color-mix(in oklab, var(--ok) 40%, var(--line)); }
+.callout.ok .ic { color: var(--ok); }
+.chip.ok { color: var(--on-accent); background: var(--accent); border-color: transparent; }
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.rec-card { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 16px; border: 1px solid var(--line-2); background: var(--s1); cursor: pointer; transition: transform .16s var(--ease-out), border-color .16s, background-color .16s; }
+.rec-card:active { transform: scale(.98); }
+.rec-card input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.rec-card:has(input:checked) { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 8%, var(--s1)); box-shadow: 0 0 0 1px var(--accent); }
+.rec-card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rec-av { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: color-mix(in oklab, var(--accent) 14%, var(--s2)); color: var(--accent); }
+.rec-av.boss, .rec-card.boss .rec-av { background: color-mix(in oklab, var(--star) 30%, var(--s2)); color: var(--star-ink); }
+.block-check { border-radius: 14px; min-height: 48px; padding: 8px 14px; width: 100%; justify-content: flex-start; }
+#arena-q { flex: 1 1 260px; min-width: 0; }
+.duel-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 760px) { .duel-top { grid-template-columns: 1fr; } }
+.rec-say { display: flex; gap: 14px; align-items: flex-start; }
+.rec-say p:first-child { font-size: 1.05rem; }
+.up { color: var(--ok); }
+.down { color: var(--crit); }
+.conv-bar { position: relative; height: 12px; }
+.conv-bar i { transition: width .5s var(--ease-out); }
+.conv-bar .goal { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); border-radius: 2px; }
+.timer { padding: 8px 12px; border-radius: 12px; background: var(--s2); }
+.timer .mono { font-size: 1.1rem; font-weight: 600; }
+#arena-hist li { align-items: center; }
+@media (prefers-reduced-motion: reduce) { .conv-bar i { transition: none; } }
+.rec-card .chip { align-self: flex-start; }
+.duel-top { margin-bottom: 0; }

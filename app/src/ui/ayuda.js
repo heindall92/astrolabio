@@ -65,6 +65,7 @@ const HELP_BUILD = {
   },
   recruiters: () => [
     h('p', { text: t('ayuda.recruiters.intro') }),
+    h('div', { class: 'callout', id: 'ayuda-duelo' }, icon('swords'), h('p', null, h('b', { text: t('ayuda.arena.titulo') + '. ' }), t('ayuda.arena.reglas', { ini: DUELO.conviccionInicial, max: DUELO.maxDelta, derrota: DUELO.derrotaInmediata, meta: DUELO.victoria, pen: DUELO.penalizacionTiempo }))),
     ...RECRUITERS.map(r => h('div', { class: 'card stack' }, h('div', { class: 'row' }, icon(r.icono), h('h3', { text: L(r.nombre) }), h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) })), h('p', { class: 'muted', text: L(r.estilo) }))),
   ],
   atajos: () => {

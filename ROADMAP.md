@@ -405,9 +405,9 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - **Hecho cuando:** pruebas de contenido (sin duplicados y cada pregunta con competencia) en verde, y la paridad ES/EN al 100 %.
 
 ### v0.3.0 · Arena
-- [ ] Cinco recruiters con su carácter, la barra de convicción, las repreguntas según lo que falte y el informe del duelo.
-- [ ] Modos escrito, en voz alta con autoevaluación, contrarreloj y sorpresa.
-- [ ] Recomendación de la historia que mejor encaja con cada pregunta.
+- [x] Cinco recruiters con su carácter, la barra de convicción, las repreguntas según lo que falte y el informe del duelo.
+- [x] Modos escrito, en voz alta con autoevaluación, contrarreloj y sorpresa.
+- [x] Recomendación de la historia que mejor encaja con cada pregunta.
 - **Hecho cuando:** e2e de un duelo completo ganado y otro perdido; atajos de teclado en la Arena; axe en cada paso del duelo.
 
 ### v0.4.0 · Juego completo

@@ -24,7 +24,7 @@ def demo_state():
     hs.append({'id': 'h_borrador', 'titulo': 'El turno del sábado en el bar', 'tipo': 'real', 's': 'Trabajaba los fines de semana en un bar del centro mientras estudiaba el grado.', 't': 'Había que sacar las mesas.',
                'a': 'Hicimos un reparto de mesas y estuve un poco organizando cosas con los compañeros.', 'r': 'Salió bien.', 'l': '', 'competencias': ['presion', 'equipo'], 'creada': '2026-10-19', 'editada': '2026-10-19'})
     return {'version': 1, 'perfil': {'nombre': 'Ana García', 'rol': 'blue', 'nivel': 'junior', 'empresa': 'banca', 'idioma': 'es'}, 'historias': hs,
-            'duelos': [], 'xp': 340, 'racha': 3, 'insignias': [], 'historialXp': {}, 'ajustes': {'sensibles': []}}
+            'duelos': [{'fecha': '2026-10-18', 'recruiter': 'rita', 'ruta': 'blue', 'conviccion': 80, 'superado': True, 'modo': 'escrito'}, {'fecha': '2026-10-19', 'recruiter': 'banca', 'ruta': 'blue', 'conviccion': 58, 'superado': False, 'modo': 'contrarreloj'}], 'xp': 340, 'racha': 3, 'insignias': [], 'historialXp': {}, 'ajustes': {'sensibles': []}}
 
 
 SECTIONS = [
@@ -34,7 +34,18 @@ SECTIONS = [
     ('perfil', 'perfil', None),
     ('ayuda', 'inicio', lambda pg: (pg.click('#help-btn'), pg.click('#tab-metodo'))),
 ]
-for extra in ['constelacion', 'arena', 'progreso', 'insignias']:
+def _duelo(pg):
+    pg.check('input[name=recruiter][value=manager]', force=True)
+    pg.click('#arena-start')
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-follow')
+    pg.evaluate('() => window.scrollTo(0, 0)')
+
+
+SECTIONS.append(('constelacion', 'constelacion', None))
+SECTIONS.append(('arena-sala', 'arena', None))
+SECTIONS.append(('arena', 'arena', _duelo))
+for extra in ['progreso', 'insignias']:
     SECTIONS.append((extra, extra, None))
 
 

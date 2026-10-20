@@ -8,7 +8,45 @@ from e2e_app import BUENA, state  # noqa: E402
 
 MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
 ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias']
-EXTRA_STEPS = []  # Las fases posteriores añaden pasos (p. ej., cada paso de la Arena).
+def _arena_lobby(pg):
+    goto(pg, 'arena')
+
+
+def _arena_duelo(pg):
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-answer')
+
+
+def _arena_repregunta(pg):
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-follow, #arena-veredicto')
+
+
+def _arena_informe(pg):
+    for _ in range(4):
+        if pg.locator('#arena-veredicto').count():
+            break
+        pg.fill('#arena-follow', 'La decisión más difícil fue aislar el equipo; lo hice porque el riesgo era alto.')
+        pg.click('#arena-send')
+        pg.wait_for_selector('#arena-follow, #arena-veredicto')
+
+
+def _arena_voz(pg):
+    pg.click('#arena-again')
+    pg.check('input[name=modo][value=voz]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('input[name=marca]')
+
+
+def _arena_reloj(pg):
+    pg.click('#arena-quit')
+    pg.check('input[name=modo][value=contrarreloj]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-timer')
+
+
+EXTRA_STEPS = [('arena', _arena_lobby), ('arena-duelo', _arena_duelo), ('arena-repregunta', _arena_repregunta),
+               ('arena-informe', _arena_informe), ('arena-voz', _arena_voz), ('arena-contrarreloj', _arena_reloj)]
 
 
 def sweep(theme, width):

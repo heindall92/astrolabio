@@ -384,6 +384,38 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 .qlist li:first-child { border-top: 0; }
 .qlist details summary { cursor: pointer; color: var(--accent); font-size: .875rem; font-weight: 550; min-height: 24px; }
 #banco select { width: auto; min-width: 220px; }
+
+/* ---------- Arena ---------- */
+.stack.tight { gap: 4px; }
+.row.wrap { flex-wrap: wrap; }
+.callout.ok { border-color: color-mix(in oklab, var(--ok) 40%, var(--line)); }
+.callout.ok .ic { color: var(--ok); }
+.chip.ok { color: var(--on-accent); background: var(--accent); border-color: transparent; }
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.rec-card { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 16px; border: 1px solid var(--line-2); background: var(--s1); cursor: pointer; transition: transform .16s var(--ease-out), border-color .16s, background-color .16s; }
+.rec-card:active { transform: scale(.98); }
+.rec-card input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.rec-card:has(input:checked) { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 8%, var(--s1)); box-shadow: 0 0 0 1px var(--accent); }
+.rec-card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rec-av { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: color-mix(in oklab, var(--accent) 14%, var(--s2)); color: var(--accent); }
+.rec-av.boss, .rec-card.boss .rec-av { background: color-mix(in oklab, var(--star) 30%, var(--s2)); color: var(--star-ink); }
+.block-check { border-radius: 14px; min-height: 48px; padding: 8px 14px; width: 100%; justify-content: flex-start; }
+#arena-q { flex: 1 1 260px; min-width: 0; }
+.duel-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 760px) { .duel-top { grid-template-columns: 1fr; } }
+.rec-say { display: flex; gap: 14px; align-items: flex-start; }
+.rec-say p:first-child { font-size: 1.05rem; }
+.up { color: var(--ok); }
+.down { color: var(--crit); }
+.conv-bar { position: relative; height: 12px; }
+.conv-bar i { transition: width .5s var(--ease-out); }
+.conv-bar .goal { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); border-radius: 2px; }
+.timer { padding: 8px 12px; border-radius: 12px; background: var(--s2); }
+.timer .mono { font-size: 1.1rem; font-weight: 600; }
+#arena-hist li { align-items: center; }
+@media (prefers-reduced-motion: reduce) { .conv-bar i { transition: none; } }
+.rec-card .chip { align-self: flex-start; }
+.duel-top { margin-bottom: 0; }
 </style>
 <a class="skip" href="#contenido" id="skip">Saltar al contenido</a>
 <div class="app" id="app">
@@ -433,8 +465,8 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 <input type="file" id="import-file" accept="application/json,.json" hidden>
 
 <script>(()=>{'use strict';
-const APP_VERSION="0.2.0";
-const ICONS={"arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
+const APP_VERSION="0.3.0";
+const ICONS={"arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
 const MARK_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" role=\"img\" aria-label=\"Astrolabio\"><defs><radialGradient id=\"am-g\" cx=\"50%\" cy=\"50%\" r=\"55%\"><stop offset=\"0\" stop-color=\"#FFF7E0\"/><stop offset=\".35\" stop-color=\"#FFDB7A\"/><stop offset=\"1\" stop-color=\"#FFC233\"/></radialGradient></defs><path fill=\"#0B1024\" d=\"M18 5h28c7.7 0 14 6.3 14 14v18c0 7.7-6.3 14-14 14H30.5c-3.4 3.9-8.4 6.6-14.2 7.3-1 .1-1.5-1.1-.8-1.7 2.3-1.9 3.6-3.7 4-5.6H18C10.3 51 4 44.7 4 37V19C4 11.3 10.3 5 18 5Z\"/><path fill=\"url(#am-g)\" d=\"M32 9.5c1.3 9.6 4.4 14.9 16.5 18.5C36.4 31.6 33.3 36.9 32 46.5 30.7 36.9 27.6 31.6 15.5 28 27.6 24.4 30.7 19.1 32 9.5Z\"/></svg>";
 // ---- src/i18n/es.js ----
 // Diccionario de la interfaz en español (idioma principal).
@@ -630,6 +662,89 @@ const ES = {
   "forja.responder": "Responder",
   "forja.responderAria": "Responder con una historia: {q}",
   "forja.preguntaGuia": "Pregunta:",
+  "arena.titulo": "Arena",
+  "arena.lede": "Elige recruiter, modo y pregunta. Te repreguntará por lo que le falte a tu historia hasta convencerse… o no.",
+  "arena.preparar": "Preparar el duelo",
+  "arena.elige.recruiter": "Recruiter",
+  "arena.elige.modo": "Modo",
+  "arena.elige.pregunta": "Pregunta",
+  "arena.elige.historia": "Historia con la que respondes",
+  "arena.modo.escrito": "Escrito",
+  "arena.modo.voz": "En voz alta",
+  "arena.modo.contrarreloj": "Contrarreloj",
+  "arena.modo.sorpresa": "Sorpresa",
+  "arena.modo.escrito.d": "respondes por escrito bloque a bloque; la Forja puntúa cada ronda.",
+  "arena.modo.voz.d": "lo cuentas en voz alta y después marcas con sinceridad lo que has cumplido.",
+  "arena.modo.contrarreloj.d": "como el escrito, pero con {s} segundos por ronda. Puedes parar el reloj cuando quieras.",
+  "arena.modo.sorpresa.d": "recruiter y pregunta al azar, con tu historia que mejor encaja.",
+  "arena.comunes": "Preguntas comunes",
+  "arena.aleatoria": "Pregunta al azar",
+  "arena.aleatoriaToast": "Pregunta elegida al azar",
+  "arena.recomendadaHint": "Ordenadas por las competencias que comparten con la pregunta y por su nota.",
+  "arena.sinHistorias": "Aún no tienes historias. Puedes responder desde cero y guardarla después.",
+  "arena.recomendada": "Recomendada",
+  "arena.encaje": "{n} competencias en común · nota {total}",
+  "arena.desdeCero": "Desde cero",
+  "arena.desdeCero.d": "Escribes la respuesta en el duelo.",
+  "arena.empezar": "Empezar el duelo",
+  "arena.ultimos": "Últimos duelos",
+  "arena.conviccionN": "convicción {n}",
+  "arena.ganado": "Superado",
+  "arena.perdido": "No superado",
+  "arena.conviccion": "Convicción del recruiter",
+  "arena.meta": "Para superarlo necesitas {n} o más al terminar.",
+  "arena.ronda": "Ronda {n} de {total}",
+  "arena.delta": "Convicción {n}",
+  "arena.repregunta": "Repregunta:",
+  "arena.pregunta": "Pregunta:",
+  "arena.respuesta": "Tu respuesta",
+  "arena.verHistoria": "Ver la historia que vas a contar",
+  "arena.voz.instr": "Cuéntala en voz alta, como en la entrevista. Después marca lo que de verdad has hecho.",
+  "arena.voz.check": "Autoevaluación",
+  "arena.voz.reparto": "Contexto breve y la mayor parte del tiempo en lo que hice",
+  "arena.voz.duracion": "Entre uno y dos minutos y medio",
+  "arena.voz.yo": "Hablé en primera persona («yo hice»)",
+  "arena.voz.cifra": "Di al menos una cifra del resultado",
+  "arena.voz.verbos": "Usé verbos de acción concretos",
+  "arena.voz.muletillas": "Casi sin muletillas",
+  "arena.voz.aprendizaje": "Cerré con lo que aprendí",
+  "arena.tuRespuesta": "Tu respuesta a la repregunta",
+  "arena.seAnade": "Se añade al bloque {bloque} de tu historia en este duelo.",
+  "arena.relojParado": "Reloj parado: sigues en modo escrito",
+  "arena.pararReloj": "Parar el reloj",
+  "arena.enviar": "Responder",
+  "arena.enviarHint": "Ctrl + Enter",
+  "arena.abandonar": "Abandonar",
+  "arena.quedan": "Quedan {s} segundos",
+  "arena.tiempo": "Se acabó el tiempo",
+  "arena.informe": "Informe",
+  "arena.ganadoTitulo": "Duelo superado",
+  "arena.perdidoTitulo": "Duelo no superado",
+  "arena.veredicto": "{rec} termina con una convicción de {n} (meta: {meta}).",
+  "arena.rondas": "Rondas",
+  "arena.col.ronda": "Ronda",
+  "arena.col.tema": "Tema",
+  "arena.col.nota": "Nota",
+  "arena.col.cambio": "Cambio",
+  "arena.inicial": "Pregunta inicial",
+  "arena.mejorar": "Qué mejorar para la próxima",
+  "arena.nadaQueMejorar": "Nada importante: tu historia aguantó todas las repreguntas.",
+  "arena.otro": "Otro duelo",
+  "arena.guardarComo": "Guardar como historia",
+  "arena.pulir": "Pulir la historia en la Forja",
+  "arena.rep.reparto": "Me falta contexto. ¿Dónde estabas, qué estaba en juego y qué te tocaba a ti?",
+  "arena.rep.duracion": "Cuéntame más de lo que hiciste, paso a paso.",
+  "arena.rep.yo": "Has dicho mucho «nosotros». ¿Qué hiciste tú exactamente?",
+  "arena.rep.cifra": "¿Cómo mediste el resultado? Dame una cifra.",
+  "arena.rep.verbos": "¿Qué acciones concretas tomaste? Dime los pasos.",
+  "arena.rep.muletillas": "Repítemelo más directo, sin rodeos: ¿qué hiciste?",
+  "arena.rep.aprendizaje": "¿Qué aprendiste? ¿Qué harías distinto la próxima vez?",
+  "arena.rep.profundiza": "Interesante. ¿Cuál fue la decisión más difícil y por qué la tomaste?",
+  "atajo.arena.enviar": "Arena: responder",
+  "atajo.arena.aleatoria": "Arena: pregunta al azar",
+  "atajo.arena.otro": "Arena: otro duelo al terminar",
+  "ayuda.arena.titulo": "Reglas del duelo",
+  "ayuda.arena.reglas": "Empiezas con {ini} de convicción. Cada respuesta suma o resta según lo que valora el recruiter (como mucho {max} puntos). Si baja a {derrota} o menos, el duelo acaba. Tras las repreguntas, superas el duelo con {meta} o más. En contrarreloj, agotar el tiempo resta {pen}.",
 };
 
 // ---- src/i18n/en.js ----
@@ -826,6 +941,89 @@ const EN = {
   "forja.responder": "Answer",
   "forja.responderAria": "Answer with a story: {q}",
   "forja.preguntaGuia": "Question:",
+  "arena.titulo": "Arena",
+  "arena.lede": "Pick a recruiter, a mode and a question. They will follow up on what your story is missing until they are convinced… or not.",
+  "arena.preparar": "Set up the duel",
+  "arena.elige.recruiter": "Recruiter",
+  "arena.elige.modo": "Mode",
+  "arena.elige.pregunta": "Question",
+  "arena.elige.historia": "Story you answer with",
+  "arena.modo.escrito": "Written",
+  "arena.modo.voz": "Aloud",
+  "arena.modo.contrarreloj": "Timed",
+  "arena.modo.sorpresa": "Surprise",
+  "arena.modo.escrito.d": "you write block by block; the Forge scores every round.",
+  "arena.modo.voz.d": "you tell it aloud and then honestly tick what you did.",
+  "arena.modo.contrarreloj.d": "like written, but with {s} seconds per round. You can stop the clock at any time.",
+  "arena.modo.sorpresa.d": "random recruiter and question, with your best-matching story.",
+  "arena.comunes": "Common questions",
+  "arena.aleatoria": "Random question",
+  "arena.aleatoriaToast": "Random question picked",
+  "arena.recomendadaHint": "Sorted by competencies shared with the question and by score.",
+  "arena.sinHistorias": "You have no stories yet. You can answer from scratch and save it afterwards.",
+  "arena.recomendada": "Recommended",
+  "arena.encaje": "{n} shared competencies · score {total}",
+  "arena.desdeCero": "From scratch",
+  "arena.desdeCero.d": "You write the answer during the duel.",
+  "arena.empezar": "Start the duel",
+  "arena.ultimos": "Recent duels",
+  "arena.conviccionN": "conviction {n}",
+  "arena.ganado": "Passed",
+  "arena.perdido": "Not passed",
+  "arena.conviccion": "Recruiter conviction",
+  "arena.meta": "You need {n} or more at the end to pass.",
+  "arena.ronda": "Round {n} of {total}",
+  "arena.delta": "Conviction {n}",
+  "arena.repregunta": "Follow-up:",
+  "arena.pregunta": "Question:",
+  "arena.respuesta": "Your answer",
+  "arena.verHistoria": "See the story you are going to tell",
+  "arena.voz.instr": "Tell it aloud, as in the interview. Then tick what you really did.",
+  "arena.voz.check": "Self-assessment",
+  "arena.voz.reparto": "Short context and most of the time on what I did",
+  "arena.voz.duracion": "Between one and two and a half minutes",
+  "arena.voz.yo": "I spoke in the first person (“I did”)",
+  "arena.voz.cifra": "I gave at least one number for the result",
+  "arena.voz.verbos": "I used concrete action verbs",
+  "arena.voz.muletillas": "Hardly any filler words",
+  "arena.voz.aprendizaje": "I closed with what I learned",
+  "arena.tuRespuesta": "Your answer to the follow-up",
+  "arena.seAnade": "It is added to the {bloque} block of your story in this duel.",
+  "arena.relojParado": "Clock stopped: you are now in written mode",
+  "arena.pararReloj": "Stop the clock",
+  "arena.enviar": "Answer",
+  "arena.enviarHint": "Ctrl + Enter",
+  "arena.abandonar": "Quit",
+  "arena.quedan": "{s} seconds left",
+  "arena.tiempo": "Time is up",
+  "arena.informe": "Report",
+  "arena.ganadoTitulo": "Duel passed",
+  "arena.perdidoTitulo": "Duel not passed",
+  "arena.veredicto": "{rec} ends with a conviction of {n} (target: {meta}).",
+  "arena.rondas": "Rounds",
+  "arena.col.ronda": "Round",
+  "arena.col.tema": "Topic",
+  "arena.col.nota": "Score",
+  "arena.col.cambio": "Change",
+  "arena.inicial": "Opening question",
+  "arena.mejorar": "What to improve next time",
+  "arena.nadaQueMejorar": "Nothing major: your story held up to every follow-up.",
+  "arena.otro": "Another duel",
+  "arena.guardarComo": "Save as a story",
+  "arena.pulir": "Polish the story in the Forge",
+  "arena.rep.reparto": "I am missing context. Where were you, what was at stake and what was your part?",
+  "arena.rep.duracion": "Tell me more about what you did, step by step.",
+  "arena.rep.yo": "You said “we” a lot. What did you do exactly?",
+  "arena.rep.cifra": "How did you measure the result? Give me a number.",
+  "arena.rep.verbos": "What concrete actions did you take? Walk me through the steps.",
+  "arena.rep.muletillas": "Say it again, more directly: what did you do?",
+  "arena.rep.aprendizaje": "What did you learn? What would you do differently next time?",
+  "arena.rep.profundiza": "Interesting. What was the hardest decision and why did you make it?",
+  "atajo.arena.enviar": "Arena: answer",
+  "atajo.arena.aleatoria": "Arena: random question",
+  "atajo.arena.otro": "Arena: another duel when finished",
+  "ayuda.arena.titulo": "Duel rules",
+  "ayuda.arena.reglas": "You start at {ini} conviction. Each answer adds or subtracts according to what the recruiter values (at most {max} points). If it drops to {derrota} or lower, the duel ends. After the follow-ups, you pass with {meta} or more. In timed mode, running out of time costs {pen}.",
 };
 
 // ---- src/content/lexico/es.js ----
@@ -1866,6 +2064,117 @@ function sanitizeState(raw, { competencias } = {}) {
   return out;
 }
 
+// ---- src/engine/arena.js ----
+// Motor de la Arena: convicción del recruiter, repreguntas según lo que falte y recomendación de historias.
+// Puro y sin DOM: todas las reglas del duelo están aquí y se prueban con node --test.
+
+/** Reglas del duelo (la ayuda las muestra desde aquí). */
+const DUELO = {
+  conviccionInicial: 50,
+  victoria: 70,
+  derrotaInmediata: 15,
+  factor: 0.6,
+  maxDelta: 30,
+  contrarreloj: 90,
+  penalizacionTiempo: 10,
+  modos: ['escrito', 'voz', 'contrarreloj', 'sorpresa'],
+};
+
+/** Bloque al que se añade la respuesta de cada repregunta. */
+const REPREGUNTA_BLOQUE = { reparto: 's', duracion: 'a', yo: 'a', cifra: 'r', verbos: 'a', muletillas: 'a', aprendizaje: 'l', profundiza: 'a' };
+
+function clampN(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+
+/** Nota ponderada 0–100 según lo que valora el recruiter. */
+function weightedScore(recruiter, score) {
+  let num = 0, den = 0;
+  for (const c of score.criterios) {
+    const w = PESOS[c.id] * ((recruiter.pesos && recruiter.pesos[c.id]) || 1);
+    num += (c.max ? c.puntos / c.max : 0) * w;
+    den += w;
+  }
+  let pct = den ? (num / den) * 100 : 0;
+  // Los datos sensibles cuestan confianza aunque el resto esté bien.
+  if (score.analisis && score.analisis.sensibles && score.analisis.sensibles.length) pct -= 15;
+  return Math.round(clampN(pct, 0, 100));
+}
+
+/** Cambio de convicción de una respuesta. */
+function convictionDelta(recruiter, score, { tiempoAgotado = false } = {}) {
+  const w = weightedScore(recruiter, score);
+  let d = Math.round((w - recruiter.umbral) * DUELO.factor * recruiter.ganancia);
+  d = clampN(d, -DUELO.maxDelta, DUELO.maxDelta);
+  if (tiempoAgotado) d -= DUELO.penalizacionTiempo;
+  return d;
+}
+
+/** Criterios flojos ordenados por lo que más le importa al recruiter. */
+function gaps(recruiter, score) {
+  return score.criterios
+    .filter(c => !c.ok)
+    .map(c => ({ id: c.id, falta: (1 - c.puntos / c.max) * PESOS[c.id] * ((recruiter.pesos && recruiter.pesos[c.id]) || 1) }))
+    .sort((a, b) => b.falta - a.falta)
+    .map(g => g.id);
+}
+
+/** Siguiente repregunta: el hueco más importante que aún no se ha preguntado, o «profundiza». */
+function nextFollowUp(recruiter, score, preguntadas = []) {
+  const g = gaps(recruiter, score).find(id => !preguntadas.includes(id));
+  return g || 'profundiza';
+}
+
+/** Une la respuesta a una repregunta con la historia en el bloque correspondiente. */
+function applyFollowUp(story, criterio, texto) {
+  const b = REPREGUNTA_BLOQUE[criterio] || 'a';
+  const extra = String(texto || '').trim();
+  if (!extra) return { ...story };
+  return { ...story, [b]: (String(story[b] || '').trim() + ' ' + extra).trim() };
+}
+
+/** Crea un duelo nuevo. */
+function newDuel(recruiter, pregunta, modo) {
+  return { recruiter: recruiter.id, pregunta: pregunta.id, modo, conviccion: DUELO.conviccionInicial, rondas: [], preguntadas: [], fin: null };
+}
+
+/** Registra una ronda y decide si el duelo sigue. Devuelve el duelo actualizado. */
+function playRound(duel, recruiter, score, { criterio = null, tiempoAgotado = false } = {}) {
+  const delta = convictionDelta(recruiter, score, { tiempoAgotado });
+  const conviccion = clampN(duel.conviccion + delta, 0, 100);
+  const rondas = [...duel.rondas, { criterio, delta, conviccion, total: score.total, tiempoAgotado }];
+  const preguntadas = criterio ? [...duel.preguntadas, criterio] : duel.preguntadas;
+  let fin = null;
+  if (conviccion <= DUELO.derrotaInmediata) fin = 'perdido';
+  else if (rondas.length > recruiter.repreguntas) fin = conviccion >= DUELO.victoria ? 'ganado' : 'perdido';
+  return { ...duel, conviccion, rondas, preguntadas, fin };
+}
+
+/** Puntuación de autoevaluación (modo en voz alta): marcas por criterio → misma forma que scoreStory. */
+function selfScore(marcas) {
+  const criterios = Object.keys(PESOS).map(id => ({ id, max: PESOS[id], puntos: marcas[id] ? PESOS[id] : 0, ok: !!marcas[id] }));
+  return { total: criterios.reduce((n, c) => n + c.puntos, 0), criterios, consejos: [], analisis: { sensibles: [] } };
+}
+
+/**
+ * Historias que mejor encajan con una pregunta: coincidencia de competencias primero, luego la nota.
+ * scoreFn(story) → { total }.
+ */
+function recommendStories(pregunta, historias, scoreFn, n = 3) {
+  const comps = pregunta.comp || [];
+  return historias
+    .map(h => {
+      const match = h.competencias.filter(c => comps.includes(c)).length;
+      const total = scoreFn(h).total;
+      return { historia: h, match, total, rank: match * 100 + total };
+    })
+    .sort((a, b) => b.rank - a.rank)
+    .slice(0, n);
+}
+
+/** Elige un elemento con un número aleatorio inyectable (para pruebas). */
+function pick(list, rnd = Math.random) {
+  return list[Math.floor(rnd() * list.length) % list.length];
+}
+
 // ---- src/ui/core.js ----
 // Núcleo de la interfaz: estado, almacenamiento, i18n, construcción segura del DOM y diálogos.
 // Regla: los datos del usuario solo entran al DOM con textContent (h() lo garantiza).
@@ -2872,6 +3181,273 @@ function suggestQuestion(compId) {
   return qs.find(q => q.comp[0] === compId) || qs.find(q => q.comp.includes(compId)) || null;
 }
 
+// ---- src/ui/arena.js ----
+// Arena: duelos contra recruiters que repreguntan según lo que le falta a tu historia.
+
+const ARENA_SHORTCUTS = [
+  ['Ctrl Enter', 'atajo.arena.enviar'],
+  ['Alt R', 'atajo.arena.aleatoria'],
+  ['Alt N', 'atajo.arena.otro'],
+];
+const MODO_IC = { escrito: 'pen-line', voz: 'mic', contrarreloj: 'timer', sorpresa: 'shuffle' };
+const ARENA = { recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
+
+function arenaQuestions() {
+  const rol = UI.state.perfil.rol;
+  return [...ROLE_CONTENT[rol].preguntas, ...COMUNES.filter(q => !q.guia)];
+}
+function arenaRecruiter(id) { return RECRUITERS.find(r => r.id === id) || RECRUITERS[0]; }
+function arenaQuestion(id) { return arenaQuestions().find(q => q.id === id) || allQuestions().find(q => q.id === id) || COMUNES.find(q => q.id === id && !q.guia) || null; }
+function stopTimer() { if (ARENA.timer) { clearInterval(ARENA.timer.id); ARENA.timer = null; } }
+
+VIEWS.arena = (view, arg) => {
+  stopTimer();
+  if (arg && arg.startsWith('pregunta/')) {
+    const q = arenaQuestion(arg.slice('pregunta/'.length));
+    if (q) { ARENA.pregunta = q.id; ARENA.duel = null; }
+  }
+  if (!ARENA.pregunta || !arenaQuestion(ARENA.pregunta)) ARENA.pregunta = arenaQuestions()[0].id;
+  if (ARENA.duel) { renderDuel(view); return; }
+  renderLobby(view);
+};
+
+function renderLobby(view) {
+  viewHead(view, { eyebrow: t('nav.arena'), title: t('arena.titulo'), lede: t('arena.lede') });
+  const form = h('form', { class: 'stack', id: 'arena-form', 'aria-label': t('arena.preparar') });
+
+  form.append(h('fieldset', null, h('legend', { text: t('arena.elige.recruiter') }),
+    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') },
+      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, onchange: () => { ARENA.recruiter = r.id; } }),
+      h('span', { class: 'rec-av', 'aria-hidden': 'true' }, icon(r.icono)),
+      h('span', { class: 'stack tight' },
+        h('b', { text: L(r.nombre) }),
+        h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) }),
+        h('span', { class: 'small muted', text: L(r.estilo) }))))))));
+
+  form.append(h('fieldset', null, h('legend', { text: t('arena.elige.modo') }),
+    h('div', { class: 'checks' }, DUELO.modos.map(m => h('label', { class: 'check' },
+      h('input', { type: 'radio', name: 'modo', value: m, checked: ARENA.modo === m, 'aria-describedby': 'modo-d-' + m, onchange: () => { ARENA.modo = m; } }),
+      icon(MODO_IC[m], 'ic sm'), t('arena.modo.' + m)))),
+    h('ul', { class: 'small muted stack tight' }, DUELO.modos.map(m => h('li', { id: 'modo-d-' + m }, h('b', { text: t('arena.modo.' + m) + ': ' }), t('arena.modo.' + m + '.d', { s: DUELO.contrarreloj }))))));
+
+  const qs = arenaQuestions();
+  const rol = UI.state.perfil.rol;
+  const sel = h('select', { id: 'arena-q', onchange: e => { ARENA.pregunta = e.target.value; ARENA.historia = ''; drawRec(); } },
+    h('optgroup', { label: t('rol.' + rol) }, qs.filter(q => q.rol).map(q => h('option', { value: q.id, selected: q.id === ARENA.pregunta || null, text: L(q) }))),
+    h('optgroup', { label: t('arena.comunes') }, qs.filter(q => !q.rol).map(q => h('option', { value: q.id, selected: q.id === ARENA.pregunta || null, text: L(q) }))));
+  const rnd = h('button', { class: 'btn', type: 'button', id: 'arena-random', onclick: randomQuestion }, icon('shuffle'), t('arena.aleatoria'));
+  form.append(h('div', { class: 'field' }, h('label', { for: 'arena-q', text: t('arena.elige.pregunta') }), h('div', { class: 'row wrap' }, sel, rnd)));
+
+  const recBox = h('fieldset', { id: 'arena-rec' });
+  form.append(recBox);
+  function randomQuestion() {
+    ARENA.pregunta = pick(qs).id;
+    sel.value = ARENA.pregunta;
+    ARENA.historia = '';
+    drawRec();
+    toast(t('arena.aleatoriaToast'), { ic: 'shuffle' });
+  }
+  renderLobby.random = randomQuestion;
+  function drawRec() {
+    const q = arenaQuestion(ARENA.pregunta);
+    const rec = recommendStories(q, UI.state.historias, scoreOf);
+    if (!ARENA.historia && rec.length) ARENA.historia = rec[0].historia.id;
+    const opt = (value, title, extra) => h('label', { class: 'check block-check' },
+      h('input', { type: 'radio', name: 'historia', value, checked: ARENA.historia === value, onchange: () => { ARENA.historia = value; } }),
+      h('span', { class: 'stack tight' }, h('b', { text: title }), extra ? h('span', { class: 'small muted', text: extra }) : null));
+    recBox.replaceChildren(h('legend', { text: t('arena.elige.historia') }),
+      rec.length ? h('p', { class: 'hint small muted', text: t('arena.recomendadaHint') }) : h('p', { class: 'hint small muted', text: t('arena.sinHistorias') }),
+      h('div', { class: 'stack tight' },
+        rec.map((r, i) => opt(r.historia.id, r.historia.titulo || t('forja.sinTitulo'),
+          (i === 0 ? t('arena.recomendada') + ' · ' : '') + t('arena.encaje', { n: r.match, total: r.total }))),
+        opt('', t('arena.desdeCero'), t('arena.desdeCero.d'))));
+  }
+  drawRec();
+
+  form.append(h('div', { class: 'row' }, h('button', { class: 'btn primary', type: 'submit', id: 'arena-start' }, icon('swords'), t('arena.empezar'))));
+  form.addEventListener('submit', e => { e.preventDefault(); startDuel(); });
+  view.append(h('div', { class: 'card' }, form));
+
+  const ds = UI.state.duelos.slice(-5).reverse();
+  if (ds.length) {
+    view.append(h('h2', { text: t('arena.ultimos') }), h('ul', { class: 'qlist', id: 'arena-hist' }, ds.map(d => h('li', null,
+      icon(d.superado ? 'trophy' : 'circle-x', 'ic sm'),
+      h('span', { text: L(arenaRecruiter(d.recruiter).nombre) + ' · ' + t('arena.modo.' + (DUELO.modos.includes(d.modo) ? d.modo : 'escrito')) }),
+      h('span', { class: 'spacer' }),
+      h('span', { class: 'mono small', text: t('arena.conviccionN', { n: d.conviccion }) }), ' ',
+      h('span', { class: 'chip' + (d.superado ? ' ok' : ''), text: t(d.superado ? 'arena.ganado' : 'arena.perdido') })))));
+  }
+}
+
+function startDuel() {
+  let rec = arenaRecruiter(ARENA.recruiter);
+  let q = arenaQuestion(ARENA.pregunta);
+  if (ARENA.modo === 'sorpresa') {
+    rec = pick(RECRUITERS.filter(r => !r.jefe));
+    q = pick(arenaQuestions());
+    const best = recommendStories(q, UI.state.historias, scoreOf, 1)[0];
+    ARENA.historia = best ? best.historia.id : '';
+  }
+  const base = UI.state.historias.find(x => x.id === ARENA.historia);
+  ARENA.story = base ? { ...base } : { id: 'arena', titulo: '', tipo: 'ensayo', s: '', t: '', a: '', r: '', l: '', competencias: [] };
+  ARENA.duel = newDuel(rec, q, ARENA.modo);
+  ARENA.marcas = {};
+  ARENA.score = null;
+  ARENA.ultima = null;
+  playSound('tick');
+  render();
+}
+
+function meter(conv) {
+  const i = h('i');
+  i.style.width = conv + '%';
+  return h('div', { class: 'conv' },
+    h('div', { class: 'row spread small' }, h('span', { text: t('arena.conviccion') }), h('b', { class: 'mono', id: 'arena-conv', text: conv + ' / 100' })),
+    h('div', { class: 'bar conv-bar' + (conv >= DUELO.victoria ? ' gold' : ''), role: 'meter', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(conv), 'aria-label': t('arena.conviccion') }, i, (() => { const m = h('span', { class: 'goal', 'aria-hidden': 'true' }); m.style.left = DUELO.victoria + '%'; return m; })()),
+    h('p', { class: 'tiny muted', text: t('arena.meta', { n: DUELO.victoria }) }));
+}
+
+function renderDuel(view) {
+  const d = ARENA.duel;
+  const rec = arenaRecruiter(d.recruiter);
+  const q = arenaQuestion(d.pregunta);
+  if (d.fin) { renderReport(view, rec, q); return; }
+  const ronda = d.rondas.length;
+  const criterio = ronda ? nextFollowUp(rec, ARENA.score, d.preguntadas) : null;
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.modo.' + d.modo), title: L(rec.nombre), lede: t('arena.ronda', { n: ronda + 1, total: rec.repreguntas + 1 }) });
+
+  const said = ronda ? (ARENA.ultima >= 0 ? rec.frases.bien : rec.frases.mal) : rec.frases.inicio;
+  const bubble = h('div', { class: 'card rec-say', id: 'arena-say' },
+    h('span', { class: 'rec-av' + (rec.jefe ? ' boss' : ''), 'aria-hidden': 'true' }, icon(rec.icono)),
+    h('div', { class: 'stack tight' },
+      h('p', { text: L(said) }),
+      ronda ? h('p', { class: 'small mono ' + (ARENA.ultima >= 0 ? 'up' : 'down'), id: 'arena-delta', text: t('arena.delta', { n: (ARENA.ultima >= 0 ? '+' : '') + ARENA.ultima }) }) : null));
+  const ask = h('div', { class: 'callout', id: 'arena-pregunta' }, icon('message-square-quote'),
+    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), ronda ? t('arena.rep.' + criterio) : L(q)));
+  view.append(h('div', { class: 'duel-top' }, bubble, h('div', { class: 'card' }, meter(d.conviccion))), ask);
+  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? L(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
+  view.append(live);
+
+  const form = h('form', { class: 'card stack', id: 'arena-answer', 'aria-label': t('arena.respuesta') });
+  const voz = d.modo === 'voz';
+  if (voz) {
+    if (ARENA.story.a || ARENA.story.s) {
+      form.append(h('details', null, h('summary', { text: t('arena.verHistoria') }),
+        h('div', { class: 'stack small' }, [...BLOQUES, 'l'].filter(b => ARENA.story[b]).map(b => h('p', null, h('b', { text: t('bloque.' + b) + ': ' }), ARENA.story[b])))));
+    }
+    form.append(h('p', { text: t('arena.voz.instr') }),
+      h('fieldset', null, h('legend', { text: t('arena.voz.check') }),
+        h('div', { class: 'stack tight' }, Object.keys(PESOS).map(id => h('label', { class: 'check' },
+          h('input', { type: 'checkbox', name: 'marca', value: id, checked: !!ARENA.marcas[id], onchange: e => { ARENA.marcas[id] = e.target.checked; } }),
+          t('arena.voz.' + id))))));
+  } else if (!ronda) {
+    for (const b of [...BLOQUES, 'l']) {
+      const fid = 'a-' + b;
+      form.append(h('div', { class: 'field' }, h('label', { for: fid }, t('bloque.' + b), b === 'l' ? h('span', { class: 'chip', text: t('ui.opcional') }) : null),
+        h('textarea', { id: fid, rows: b === 'a' ? 5 : 2, maxlength: LIMITES.bloque, value: ARENA.story[b], placeholder: t('forja.ph.' + b), oninput: e => { ARENA.story[b] = e.target.value; } })));
+    }
+  } else {
+    form.append(h('div', { class: 'field' }, h('label', { for: 'arena-follow', text: t('arena.tuRespuesta') }),
+      h('p', { class: 'hint', id: 'arena-follow-hint', text: t('arena.seAnade', { bloque: t('bloque.' + REPREGUNTA_BLOQUE[criterio]) }) }),
+      h('textarea', { id: 'arena-follow', rows: 4, maxlength: LIMITES.bloque, 'aria-describedby': 'arena-follow-hint' })));
+  }
+
+  let timerBox = null;
+  if (d.modo === 'contrarreloj') {
+    timerBox = h('div', { class: 'row timer', id: 'arena-timer' },
+      icon('timer'), h('span', { class: 'mono', id: 'arena-secs', text: fmtDuration(DUELO.contrarreloj) }),
+      h('span', { class: 'spacer' }),
+      h('button', { class: 'btn sm', type: 'button', id: 'arena-stop-timer', onclick: () => { stopTimer(); ARENA.duel = { ...ARENA.duel, modo: 'escrito' }; toast(t('arena.relojParado'), { ic: 'timer' }); render(); } }, t('arena.pararReloj')));
+    form.prepend(timerBox);
+  }
+  form.append(h('div', { class: 'row' },
+    h('button', { class: 'btn primary', type: 'submit', id: 'arena-send' }, icon('send'), t('arena.enviar')),
+    h('span', { class: 'small muted', text: t('arena.enviarHint') }),
+    h('span', { class: 'spacer' }),
+    h('button', { class: 'btn', type: 'button', id: 'arena-quit', onclick: () => { stopTimer(); ARENA.duel = null; render(); } }, t('arena.abandonar'))));
+  form.addEventListener('submit', e => { e.preventDefault(); submit(false); });
+  view.append(form);
+
+  function submit(tiempoAgotado) {
+    stopTimer();
+    if (!voz && ronda) {
+      const extra = $('#arena-follow').value;
+      ARENA.story = applyFollowUp(ARENA.story, criterio, extra);
+    }
+    const sc = voz ? selfScore(ARENA.marcas) : scoreOf(ARENA.story);
+    const before = ARENA.duel.conviccion;
+    ARENA.duel = playRound(ARENA.duel, rec, sc, { criterio, tiempoAgotado });
+    ARENA.score = sc;
+    ARENA.ultima = ARENA.duel.conviccion - before;
+    playSound(ARENA.ultima >= 0 ? 'ok' : 'fail');
+    if (ARENA.duel.fin) finishDuel(rec);
+    render();
+    const f = $('#arena-follow') || $('#arena-again');
+    if (f) f.focus();
+  }
+  renderDuel.submit = () => submit(false);
+
+  if (d.modo === 'contrarreloj') {
+    let left = DUELO.contrarreloj;
+    ARENA.timer = { id: setInterval(() => {
+      left -= 1;
+      const s = $('#arena-secs');
+      if (s) s.textContent = fmtDuration(Math.max(0, left));
+      if (left === 15) toast(t('arena.quedan', { s: 15 }), { ic: 'timer' });
+      if (left <= 0) { toast(t('arena.tiempo'), { ic: 'timer' }); submit(true); }
+    }, 1000) };
+  }
+}
+
+function finishDuel(rec) {
+  const d = ARENA.duel;
+  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo };
+  UI.state.duelos.push(rec0);
+  if (UI.state.duelos.length > LIMITES.duelos) UI.state.duelos = UI.state.duelos.slice(-LIMITES.duelos);
+  if (typeof onDuelEnd === 'function') onDuelEnd(rec0, rec, d, ARENA.score);
+  saveState();
+  playSound(d.fin === 'ganado' ? 'star' : 'fail');
+}
+
+function renderReport(view, rec, q) {
+  const d = ARENA.duel;
+  const won = d.fin === 'ganado';
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: L(won ? rec.frases.gana : rec.frases.pierde) });
+  view.append(h('div', { class: 'callout ' + (won ? 'ok' : 'warn'), id: 'arena-veredicto', role: 'status' }, icon(won ? 'trophy' : 'circle-x'),
+    h('p', null, h('b', { text: t(won ? 'arena.ganado' : 'arena.perdido') + '. ' }), t('arena.veredicto', { rec: L(rec.nombre), n: d.conviccion, meta: DUELO.victoria }))));
+  view.append(h('div', { class: 'grid two' },
+    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), L(q))),
+    h('div', { class: 'card stack' }, h('h2', { text: t('arena.rondas') }),
+      h('table', { id: 'arena-rondas' }, h('thead', null, h('tr', null, ['arena.col.ronda', 'arena.col.tema', 'arena.col.nota', 'arena.col.cambio'].map(k => h('th', { scope: 'col', text: t(k) })))),
+        h('tbody', null, d.rondas.map((r, i) => h('tr', null,
+          h('td', { text: String(i + 1) }),
+          h('td', { text: r.criterio ? t('crit.' + r.criterio) : t('arena.inicial') }),
+          h('td', { class: 'mono', text: String(r.total) }),
+          h('td', { class: 'mono', text: (r.delta >= 0 ? '+' : '') + r.delta + (r.tiempoAgotado ? ' ⏱' : '') }))))))));
+  const sc = ARENA.score;
+  const tips = sc && sc.consejos ? sc.consejos.slice(0, 3) : [];
+  const flojos = sc ? gaps(rec, sc).slice(0, 3) : [];
+  view.append(h('div', { class: 'card stack' }, h('h2', { text: t('arena.mejorar') }),
+    tips.length ? h('ul', { class: 'tips' }, tips.map(c => h('li', null, icon('lightbulb'), h('span', { text: tipText(c) }))))
+      : flojos.length ? h('ul', { class: 'tips' }, flojos.map(id => h('li', null, icon('lightbulb'), h('span', { text: t('arena.rep.' + id) }))))
+        : h('p', { class: 'small muted', text: t('arena.nadaQueMejorar') })));
+  const base = UI.state.historias.find(x => x.id === ARENA.historia);
+  view.append(h('div', { class: 'row wrap' },
+    h('button', { class: 'btn primary', type: 'button', id: 'arena-again', onclick: () => { ARENA.duel = null; render(); } }, icon('rotate-ccw'), t('arena.otro')),
+    !base && ARENA.duel.modo !== 'voz' ? h('button', { class: 'btn', type: 'button', id: 'arena-save', onclick: () => {
+      renderEditor.prefill = { titulo: '', s: ARENA.story.s, t: ARENA.story.t, a: ARENA.story.a, r: ARENA.story.r, l: ARENA.story.l, competencias: (q.comp || []).slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id };
+      ARENA.duel = null; go('forja/nueva');
+    } }, icon('hammer'), t('arena.guardarComo')) : null,
+    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null));
+}
+
+document.addEventListener('keydown', e => {
+  if (!String(document.body.dataset.route || '').startsWith('arena') || document.querySelector('dialog[open]')) return;
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && $('#arena-send')) { e.preventDefault(); $('#arena-answer').requestSubmit(); }
+  else if (e.altKey && e.code === 'KeyR' && $('#arena-random')) { e.preventDefault(); renderLobby.random(); }
+  else if (e.altKey && e.code === 'KeyN' && ARENA.duel && ARENA.duel.fin) { e.preventDefault(); ARENA.duel = null; render(); }
+});
+
 // ---- src/ui/ayuda.js ----
 // Centro de ayuda con seis pestañas. «Método STAR» se genera desde engine/constants.js.
 
@@ -2940,6 +3516,7 @@ const HELP_BUILD = {
   },
   recruiters: () => [
     h('p', { text: t('ayuda.recruiters.intro') }),
+    h('div', { class: 'callout', id: 'ayuda-duelo' }, icon('swords'), h('p', null, h('b', { text: t('ayuda.arena.titulo') + '. ' }), t('ayuda.arena.reglas', { ini: DUELO.conviccionInicial, max: DUELO.maxDelta, derrota: DUELO.derrotaInmediata, meta: DUELO.victoria, pen: DUELO.penalizacionTiempo }))),
     ...RECRUITERS.map(r => h('div', { class: 'card stack' }, h('div', { class: 'row' }, icon(r.icono), h('h3', { text: L(r.nombre) }), h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) })), h('p', { class: 'muted', text: L(r.estilo) }))),
   ],
   atajos: () => {

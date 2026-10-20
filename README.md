@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.2.0" src="https://img.shields.io/badge/versi%C3%B3n-0.2.0-1a4fe0?style=flat"/>
+  <img alt="Versión 0.3.0" src="https://img.shields.io/badge/versi%C3%B3n-0.3.0-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -27,7 +27,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.2.0 en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
+> **Estado:** versión 0.3.0 en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
 
 ## Índice
 
@@ -101,6 +101,7 @@ flowchart LR
 | **Forja** | <img src="docs/img/forja-light.png" width="300" alt="Forja, tema claro"/> | <img src="docs/img/forja-dark.png" width="300" alt="Forja, tema oscuro"/> | <img src="docs/img/forja-movil.png" width="140" alt="Forja en móvil"/> |
 | **Editor STAR** | <img src="docs/img/editor-light.png" width="300" alt="Editor con puntuación en vivo, tema claro"/> | <img src="docs/img/editor-dark.png" width="300" alt="Editor con puntuación en vivo, tema oscuro"/> | <img src="docs/img/editor-movil.png" width="140" alt="Editor en móvil"/> |
 | **Constelación** | <img src="docs/img/constelacion-light.png" width="300" alt="Constelación, tema claro"/> | <img src="docs/img/constelacion-dark.png" width="300" alt="Constelación, tema oscuro"/> | <img src="docs/img/constelacion-movil.png" width="140" alt="Constelación en móvil"/> |
+| **Arena** | <img src="docs/img/arena-light.png" width="300" alt="Arena, tema claro"/> | <img src="docs/img/arena-dark.png" width="300" alt="Arena, tema oscuro"/> | <img src="docs/img/arena-movil.png" width="140" alt="Arena en móvil"/> |
 | **Perfil** | <img src="docs/img/perfil-light.png" width="300" alt="Perfil, tema claro"/> | <img src="docs/img/perfil-dark.png" width="300" alt="Perfil, tema oscuro"/> | <img src="docs/img/perfil-movil.png" width="140" alt="Perfil en móvil"/> |
 | **Ayuda · Método** | <img src="docs/img/ayuda-light.png" width="300" alt="Centro de ayuda, pestaña Método STAR, tema claro"/> | <img src="docs/img/ayuda-dark.png" width="300" alt="Centro de ayuda, tema oscuro"/> | <img src="docs/img/ayuda-movil.png" width="140" alt="Centro de ayuda en móvil"/> |
 
@@ -152,7 +153,7 @@ flowchart LR
     CONT[content: competencias, recruiters, preguntas, léxico] --> ENG
     ENG[engine: analyzer, score, sanitize…<br/>puro y sin DOM] --> UI[ui: shell, perfil, forja, ayuda…]
   end
-  V[vendor: Geist, Sora, 67 iconos Lucide, logo] --> B
+  V[vendor: Geist, Sora, 72 iconos Lucide, logo] --> B
   src --> B[app/build.js]
   B --> D[dist/index.html<br/>CSP por hashes]
   B --> A[dist/artifact/astrolabio.html]
@@ -163,8 +164,8 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 86 pruebas |
-| Extremo a extremo (Playwright) | 12 flujos |
+| Motor, contenido e i18n (`node --test`) | 99 pruebas |
+| Extremo a extremo (Playwright) | 14 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -180,6 +181,7 @@ flowchart LR
 
 ## Historial de versiones
 
+- **0.3.0** · Arena: cinco recruiters, convicción, repreguntas, informe y modos escrito, voz alta, contrarreloj y sorpresa
 - **0.2.0** · Constelación de competencias, banco de 104 preguntas, historias modelo y búsqueda
 - **0.1.0** · Cimientos: perfil, Forja, motor STAR, shell completo y ayuda
 
