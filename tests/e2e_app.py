@@ -456,6 +456,34 @@ def t_jefe(browser):
     no_errors(pg, 'jefe')
 
 
+def t_mobile_estrecho(browser):
+    """Con cifras grandes (racha 128, 12 340 XP) nada se sale ni se aplasta en móviles de 320, 360 y 390 px."""
+    st = state(historias=[BUENA], xp=12340, racha=128)
+    for w in (320, 360, 390):
+        pg = new_page(browser, width=w, height=760, state=st)
+        for route in ['', 'forja', 'forja/' + BUENA['id'], 'constelacion', 'arena', 'perfil', 'progreso', 'insignias']:
+            goto(pg, route)
+            r = pg.evaluate("""(() => { const tb = document.getElementById('topbar').getBoundingClientRect();
+              const fuera = [...document.querySelectorAll('#topbar > *')].filter(e => e.offsetParent)
+                .filter(e => { const x = e.getBoundingClientRect(); return x.right > tb.right + .5 || x.left < tb.left - .5; }).map(e => e.id || e.className);
+              const s = document.getElementById('search-btn').getBoundingClientRect();
+              return { sw: document.documentElement.scrollWidth, fuera, buscar: [Math.round(s.width), Math.round(s.height)] }; })()""")
+            check(r['sw'] <= w, f'{w}px #{route or "inicio"}: desbordamiento horizontal ({r["sw"]})')
+            check(not r['fuera'], f'{w}px #{route or "inicio"}: controles fuera de la barra {r["fuera"]}')
+            check(r['buscar'] == [38, 38], f'{w}px: el botón de búsqueda está deformado {r["buscar"]}')
+        check(pg.locator('#lang-seg').is_hidden(), 'en móvil el idioma va en «Más», no en la barra')
+        pg.context.close()
+    pg = new_page(browser, width=390, height=760, state=st)
+    goto(pg)
+    pg.click('#more-btn')
+    pg.wait_for_selector('#dlg-more[open]')
+    pg.click('[data-lang-m="en"]')
+    check(pg.evaluate('document.documentElement.lang') == 'en', 'idioma desde «Más»')
+    check(pg.get_attribute('[data-lang-m="en"]', 'aria-pressed') == 'true' and pg.evaluate('document.activeElement.dataset.langM') == 'en', 'el botón pulsado queda marcado y con el foco')
+    check(pg.locator('#dlg-more[open]').count() == 1, 'el menú sigue abierto tras cambiar de idioma')
+    no_errors(pg, 'mobile estrecho')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -464,6 +492,7 @@ TESTS = [
     ('datos corruptos y saneado', t_corrupt),
     ('shell: tema, acento, idioma, ayuda, Ctrl K, atajos', t_shell),
     ('móvil: barra inferior y Más con acentos', t_mobile),
+    ('móvil estrecho: 320–390 px con cifras grandes, idioma en Más', t_mobile_estrecho),
     ('exportar, importar y borrar todo', t_export_import),
     ('inglés sin restos en español', t_english),
     ('movimiento reducido', t_reduced),

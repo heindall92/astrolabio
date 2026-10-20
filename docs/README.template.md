@@ -27,7 +27,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión {{VERSION}} en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
+> **Estado:** versión {{VERSION}} en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Índice
 

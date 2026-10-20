@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.4.0" src="https://img.shields.io/badge/versi%C3%B3n-0.4.0-1a4fe0?style=flat"/>
+  <img alt="Versión 0.4.1" src="https://img.shields.io/badge/versi%C3%B3n-0.4.1-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -27,7 +27,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.4.0 en desarrollo. El repositorio es privado y la demo pública en GitHub Pages llegará con la 1.0.
+> **Estado:** versión 0.4.1 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Índice
 
@@ -167,7 +167,7 @@ flowchart LR
 | Prueba | Cifra |
 |---|---|
 | Motor, contenido e i18n (`node --test`) | 115 pruebas |
-| Extremo a extremo (Playwright) | 16 flujos |
+| Extremo a extremo (Playwright) | 17 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -183,6 +183,7 @@ flowchart LR
 
 ## Historial de versiones
 
+- **0.4.1** · Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes
 - **0.4.0** · Juego completo: XP, meta diaria, rachas, seis rangos, 34 insignias (4 secretas), jefe final por ruta y carta de oferta
 - **0.3.0** · Arena: cinco recruiters, convicción, repreguntas, informe y modos escrito, voz alta, contrarreloj y sorpresa
 - **0.2.0** · Constelación de competencias, banco de 104 preguntas, historias modelo y búsqueda
