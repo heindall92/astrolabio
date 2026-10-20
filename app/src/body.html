@@ -1,0 +1,46 @@
+<a class="skip" href="#contenido" id="skip">Saltar al contenido</a>
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="Navegación principal">
+    <div class="side-in">
+      <a class="brand" href="#inicio">
+        {{MARK}}
+        <span class="wordmark"><b>Astro<span>labio</span></b><small>STAR INTERVIEW LAB</small></span>
+      </a>
+      <button class="pill-profile" id="pill-profile" type="button"></button>
+      <nav class="nav" id="nav" aria-label="Secciones"></nav>
+      <div class="side-foot">
+        <button class="navlike" type="button" id="accent-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="accent-pop"><i data-icon="palette"></i><span data-t="ui.acento">Acento</span></button>
+        <button class="navlike" type="button" id="account-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="account-pop"><span class="avatar" id="avatar" aria-hidden="true">A</span><span data-t="ui.cuenta">Cuenta</span><span class="spacer"></span><i data-icon="ellipsis"></i></button>
+      </div>
+    </div>
+    <div class="popover" id="accent-pop" role="dialog" aria-labelledby="accent-h" hidden></div>
+    <div class="popover" id="account-pop" role="menu" aria-labelledby="account-btn" hidden></div>
+  </aside>
+  <div class="main">
+    <header class="topbar" id="topbar">
+      <button class="icon-btn desk-only" type="button" id="collapse-btn" aria-controls="side" aria-expanded="true"><i data-icon="panel-left-close"></i></button>
+      <span class="mobile-only brand-mini" aria-hidden="true"></span>
+      <span class="stat gold" id="stat-racha"></span>
+      <span class="stat gold" id="stat-xp"></span>
+      <span class="spacer"></span>
+      <button class="searchbtn" type="button" id="search-btn" aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K"><i data-icon="search"></i><span data-t="ui.buscar">Buscar</span><kbd>Ctrl K</kbd></button>
+      <div class="seg" role="group" id="lang-seg" aria-label="Idioma de la interfaz">
+        <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+      </div>
+      <button class="switch" type="button" role="switch" id="theme-btn" aria-checked="false"><i data-icon="sun"></i><i data-icon="moon"></i><span class="knob"></span></button>
+      <button class="icon-btn" type="button" id="sound-btn" aria-pressed="true"><i data-icon="volume-2"></i></button>
+      <button class="icon-btn" type="button" id="help-btn" aria-haspopup="dialog" aria-keyshortcuts="Shift+?"><i data-icon="circle-question-mark"></i></button>
+    </header>
+    <main class="content" id="contenido" tabindex="-1"></main>
+    <footer class="foot" id="foot"></footer>
+  </div>
+</div>
+<nav class="bnav" id="bnav" aria-label="Secciones (móvil)"></nav>
+<dialog id="dlg-help" aria-labelledby="help-h"></dialog>
+<dialog id="dlg-search" class="search-dlg" aria-label="Buscar"></dialog>
+<dialog id="dlg-confirm" aria-labelledby="confirm-h"></dialog>
+<dialog id="dlg-more" class="sheet" aria-labelledby="more-h"></dialog>
+<dialog id="dlg-misc" aria-labelledby="misc-h"></dialog>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<input type="file" id="import-file" accept="application/json,.json" hidden>
