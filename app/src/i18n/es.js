@@ -41,7 +41,7 @@ export const ES = {
   'wizard.titulo1': '¿Para qué rol te preparas?', 'wizard.lede1': 'Cada ruta tiene sus preguntas, sus historias de ejemplo y sus recruiters.',
   'wizard.titulo2': '¿Cuál es tu nivel?', 'wizard.lede2': 'El nivel cambia las preguntas y lo que espera quien te entrevista.',
   'wizard.titulo3': '¿Dónde quieres entrar?', 'wizard.lede3': 'El tipo de empresa cambia el tono del recruiter y las competencias que más pesan.',
-  'wizard.empezar': 'Empezar', 'wizard.masRutas': 'Más rutas en camino: soporte IT, gestión de proyectos, UX/UI, preventa y cambio de carrera.',
+  'wizard.empezar': 'Empezar', 'wizard.masRutas': 'Próximamente: versiones para Latinoamérica con su vocabulario y sus tipos de empresa.',
   'wizard.noEstasSolo': 'No estás solo. Tu experiencia vale aunque venga de unas prácticas, un CTF, un máster, un voluntariado o un trabajo de hostelería. Aquí aprendes a contarla.',
 
   'priv.titulo': 'Tus historias no salen de aquí', 'priv.lede': 'Astrolabio funciona entero en tu navegador. Sin servidor, sin cuentas y sin analítica.',
@@ -366,4 +366,14 @@ export const ES = {
   "rol.appsec.des": "Seguridad del software, análisis de código y del ciclo de desarrollo.",
   "rol.ia": "IA y ML",
   "rol.ia.des": "Modelos, datos de entrenamiento, evaluación y uso responsable.",
+  "rol.soporte": "Soporte IT",
+  "rol.soporte.des": "Atención a usuarios, incidencias, equipos y base de conocimiento.",
+  "rol.pm": "Proyectos y Agile",
+  "rol.pm.des": "Planificación, riesgos, equipos, clientes y entregas.",
+  "rol.ux": "UX/UI",
+  "rol.ux.des": "Investigación con usuarios, prototipos, accesibilidad y sistemas de diseño.",
+  "rol.preventa": "Preventa técnica",
+  "rol.preventa.des": "Demostraciones, pruebas de concepto, propuestas y clientes.",
+  "rol.cambio": "Cambio de carrera",
+  "rol.cambio.des": "Vienes de otro sector: convierte tu experiencia en historias para IT.",
 };

@@ -41,7 +41,7 @@ export const EN = {
   'wizard.titulo1': 'Which role are you preparing for?', 'wizard.lede1': 'Each path has its own questions, sample stories and recruiters.',
   'wizard.titulo2': 'What is your level?', 'wizard.lede2': 'Your level changes the questions and what the interviewer expects.',
   'wizard.titulo3': 'Where do you want to work?', 'wizard.lede3': 'The company type changes the recruiter’s tone and which competencies matter most.',
-  'wizard.empezar': 'Start', 'wizard.masRutas': 'More paths on the way: IT support, project management, UX/UI, presales and career change.',
+  'wizard.empezar': 'Start', 'wizard.masRutas': 'Coming soon: Latin American versions with their own vocabulary and company types.',
   'wizard.noEstasSolo': 'You are not alone. Your experience counts even if it comes from an internship, a CTF, a master’s degree, volunteering or a hospitality job. Here you learn to tell it.',
 
   'priv.titulo': 'Your stories stay here', 'priv.lede': 'Astrolabio runs entirely in your browser. No server, no accounts and no analytics.',
@@ -366,4 +366,14 @@ export const EN = {
   "rol.appsec.des": "Software security, code analysis and the development lifecycle.",
   "rol.ia": "AI and ML",
   "rol.ia.des": "Models, training data, evaluation and responsible use.",
+  "rol.soporte": "IT support",
+  "rol.soporte.des": "User support, tickets, devices and knowledge base.",
+  "rol.pm": "Projects and Agile",
+  "rol.pm.des": "Planning, risks, teams, clients and delivery.",
+  "rol.ux": "UX/UI",
+  "rol.ux.des": "User research, prototypes, accessibility and design systems.",
+  "rol.preventa": "Technical presales",
+  "rol.preventa.des": "Demos, proofs of concept, proposals and clients.",
+  "rol.cambio": "Career change",
+  "rol.cambio.des": "Coming from another sector: turn your experience into IT stories.",
 };

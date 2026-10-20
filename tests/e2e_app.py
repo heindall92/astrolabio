@@ -518,7 +518,8 @@ def t_chuleta_vacia(browser):
 
 
 def t_rutas_nuevas(browser):
-    for rol, q in (('cloud', 'certificado'), ('dev', 'revisión de código'), ('appsec', 'vulnerabilidad'), ('ia', 'modelo')):
+    for rol, q in (('cloud', 'certificado'), ('dev', 'revisión de código'), ('appsec', 'vulnerabilidad'), ('ia', 'modelo'),
+                   ('soporte', 'usuario'), ('pm', 'proyecto'), ('ux', 'diseño'), ('preventa', 'cliente'), ('cambio', 'trabajo anterior')):
         pg = new_page(browser, state=state(perfil=dict(PERFIL, rol=rol)))
         goto(pg, 'forja')
         check(pg.locator('#banco li').count() >= 26, rol + ': banco de preguntas')
@@ -530,7 +531,7 @@ def t_rutas_nuevas(browser):
         pg.context.close()
     pg = new_page(browser)
     goto(pg)
-    check(pg.locator('label.choice:has(input[name=rol])').count() == 8, 'el asistente ofrece las ocho rutas')
+    check(pg.locator('label.choice:has(input[name=rol])').count() == 13, 'el asistente ofrece las trece rutas')
     pg.click('label.choice:has(input[value=ia])')
     no_errors(pg, 'asistente')
 
@@ -554,7 +555,7 @@ TESTS = [
     ('jefe final por ruta y carta de oferta imprimible', t_jefe),
     ('entrevista en inglés, chuleta y ecosistema', t_ingles_chuleta),
     ('chuleta vacía', t_chuleta_vacia),
-    ('rutas Sistemas y Cloud, Desarrollo, AppSec e IA', t_rutas_nuevas),
+    ('rutas v1.x y v2.x con contenido propio', t_rutas_nuevas),
 ]
 
 if __name__ == '__main__':
