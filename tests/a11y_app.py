@@ -3,7 +3,7 @@ Ejecuta: python3 tests/a11y_app.py"""
 import sys
 import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from helpers import axe, check, goto, new_page, run, settle  # noqa: E402
+from helpers import axe, fresh, check, goto, new_page, run, settle  # noqa: E402
 from e2e_app import BUENA, state  # noqa: E402
 
 MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
@@ -50,8 +50,7 @@ def _oferta(pg):
         s.duelos.push({fecha: '2026-10-21', recruiter: 'subeliston', ruta: s.perfil.rol, conviccion: 77, superado: true, modo: 'escrito'});
         s.historialXp = {'2026-10-20': 40}; s.historialMedia = {'2026-10-19': 50, '2026-10-20': 72};
         localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
-    pg.reload()
-    goto(pg, 'oferta/' + pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).perfil.rol"))
+    fresh(pg, 'oferta/' + pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).perfil.rol"))
 
 
 def _progreso(pg):

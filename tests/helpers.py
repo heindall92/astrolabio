@@ -44,6 +44,15 @@ def goto(page, route=''):
     settle(page)
 
 
+def fresh(page, route=''):
+    """Recarga de verdad (documento nuevo) y espera a la ruta: más estable que reload() + cambio de hash."""
+    page.reload(wait_until='load')
+    page.goto(URL + ('#' + route if route else ''), wait_until='load')
+    page.wait_for_function('r => document.body.dataset.route === r', arg=route or 'inicio', timeout=15000)
+    page.wait_for_selector('#vh')
+    settle(page)
+
+
 def settle(page):
     """Espera solo a las animaciones finitas (las infinitas nunca terminan)."""
     page.evaluate("""() => Promise.all(document.getAnimations()
