@@ -2,7 +2,7 @@
 
 function scoreOf(story) {
   const p = UI.state.perfil || {};
-  return scoreStory(story, { idioma: p.idioma || 'es', nivel: p.nivel || 'junior', marcados: UI.state.ajustes.sensibles });
+  return scoreStory(story, { idioma: detectLanguage(story) || p.idioma || 'es', nivel: p.nivel || 'junior', marcados: UI.state.ajustes.sensibles });
 }
 const ESTADO_IC = { borrador: 'pencil', lista: 'check', brillante: 'sparkles' };
 function stateChip(estado) {
@@ -28,7 +28,7 @@ VIEWS.forja = (view, arg) => {
   if (arg) return renderEditor(view, arg);
   const hs = UI.state.historias;
   viewHead(view, { eyebrow: t('nav.forja'), title: t('forja.titulo'), lede: t('forja.lede'),
-    action: h('a', { class: 'btn primary', href: '#forja/nueva', 'aria-keyshortcuts': 'N' }, icon('plus'), t('forja.nueva')) });
+    action: h('div', { class: 'row wrap' }, hs.length ? h('a', { class: 'btn', href: '#chuleta', id: 'chuleta-link' }, icon('printer'), t('chuleta.boton')) : null, h('a', { class: 'btn primary', href: '#forja/nueva', 'aria-keyshortcuts': 'N' }, icon('plus'), t('forja.nueva'))) });
   if (!hs.length) {
     view.append(h('div', { class: 'empty' }, icon('star', 'ic lg'), h('h2', { text: t('forja.vacioTitulo') }), h('p', { class: 'muted', text: t('forja.vacio') }),
       h('div', { class: 'row' }, h('a', { class: 'btn primary', href: '#forja/nueva' }, icon('plus'), t('forja.nueva')))));
@@ -200,3 +200,21 @@ function tipText(c) {
   if (p.segundos !== undefined) p.tiempo = fmtDuration(p.segundos);
   return t(c.clave, p);
 }
+
+// ---------- Chuleta imprimible ----------
+function firstSentence(text, max = 170) {
+  const s = String(text || '').trim().split(/(?<=[.!?])\s+/)[0] || '';
+  return s.length > max ? s.slice(0, max - 1).trimEnd() + '…' : s;
+}
+VIEWS.chuleta = view => {
+  const items = UI.state.historias.map(h0 => ({ h: h0, sc: scoreOf(h0) })).filter(x => x.sc.estado !== 'borrador').sort((a, b) => b.sc.total - a.sc.total).slice(0, 12);
+  viewHead(view, { eyebrow: t('nav.forja'), title: t('chuleta.titulo'), lede: t('chuleta.lede') });
+  view.append(h('div', { class: 'row no-print' },
+    h('button', { class: 'btn primary', type: 'button', id: 'chuleta-print', disabled: !items.length, onclick: () => window.print() }, icon('printer'), t('chuleta.imprimir')),
+    h('a', { class: 'btn', href: '#forja' }, t('ui.volver'))));
+  if (!items.length) { view.append(h('div', { class: 'empty', id: 'chuleta-vacia' }, icon('star', 'ic lg'), h('p', { text: t('chuleta.vacia') }))); return; }
+  view.append(h('div', { class: 'cheat', id: 'chuleta' }, items.map(({ h: st, sc }) => h('article', { class: 'cheat-card', 'aria-labelledby': 'ch-' + st.id },
+    h('div', { class: 'row spread' }, h('h2', { id: 'ch-' + st.id, text: st.titulo || t('forja.sinTitulo') }), h('span', { class: 'mono small', text: sc.total + '/100' })),
+    st.competencias.length ? h('p', { class: 'tiny muted', text: st.competencias.map(compName).join(' · ') }) : null,
+    h('dl', null, [...BLOQUES, 'l'].filter(b => st[b]).map(b => [h('dt', { text: b.toUpperCase() }), h('dd', { text: firstSentence(st[b]) })]))))));
+};

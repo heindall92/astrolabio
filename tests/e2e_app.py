@@ -456,6 +456,66 @@ def t_jefe(browser):
     no_errors(pg, 'jefe')
 
 
+
+BUENA_EN = story('h_en', 'The access review nobody wanted',
+                 'At an insurance company we were preparing the annual audit, and the sales department refused to run the quarterly access review because it took them a whole afternoon.',
+                 'I was responsible for getting the control applied before the audit, within six weeks.',
+                 'I analysed the permissions of the department and found 40 administrator accounts that nobody used. I scripted a report that pre-filled the review, so managers only had to confirm or reject each line. I met the sales director, showed him the risk with two real examples and agreed a fifteen-minute slot each quarter. I documented the procedure, trained two team leads and scheduled reminders in their calendars.',
+                 'The review went from 6 hours to 25 minutes per quarter, we removed 40 unused accounts and the audit closed that control with no findings.',
+                 'I learned that a control is accepted faster when it is designed around the time of the people who have to apply it.', ['analisis', 'conflictos'])
+
+
+def t_ingles_chuleta(browser):
+    pg = new_page(browser, state=state(historias=[BUENA, BUENA_EN]))
+    goto(pg, 'forja')
+    check(pg.locator('.story-card, #story-list > *').count() == 2, 'dos historias')
+    # La historia en inglés se puntúa con el analizador inglés aunque el perfil sea español
+    goto(pg, 'forja/h_en')
+    check(int(pg.inner_text('#score-total')) >= 60, 'analizador inglés por detección de idioma')
+    # Entrevista en inglés en la Arena
+    goto(pg, 'arena')
+    pg.check('#arena-en')
+    check(pg.get_attribute('#arena-lemon', 'href') == 'https://heindall92.github.io/lemonbyte/', 'enlace a LemonByte')
+    pg.check('input[name=historia][value=h_en]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-answer')
+    q = pg.inner_text('#arena-pregunta span[lang=en]')
+    check(not SPANISH.search(q), 'pregunta en inglés: ' + q)
+    check(pg.get_attribute('#arena-say', 'lang') == 'en', 'recruiter marcado como inglés')
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-follow, #arena-veredicto')
+    if pg.locator('#arena-follow').count():
+        check(not SPANISH.search(pg.inner_text('#arena-pregunta span[lang=en]')), 'repregunta en inglés')
+    # Chuleta imprimible
+    goto(pg, 'forja')
+    pg.click('#chuleta-link')
+    pg.wait_for_selector('#chuleta')
+    check(pg.locator('.cheat-card').count() == 2, 'chuleta con las historias listas')
+    check(pg.is_enabled('#chuleta-print'), 'botón de imprimir')
+    pg.emulate_media(media='print')
+    check(pg.is_visible('#chuleta') and not pg.is_visible('.topbar') and not pg.is_visible('#chuleta-print'), 'impresión solo de la chuleta')
+    pg.emulate_media(media='screen')
+    # Acerca de: ecosistema con enlaces comprobados o marcados como pendientes
+    pg.click('#help-btn')
+    pg.click('#tab-acerca')
+    items = pg.locator('#ecosistema > li')
+    check(items.count() == 8, 'ecosistema completo')
+    for i in range(items.count()):
+        li = items.nth(i)
+        main = li.locator('a').first
+        has_web = main.count() and 'github.io' in (main.get_attribute('href') or '')
+        check(has_web or 'pendiente' in li.inner_text().lower(), 'enlace o marca de pendiente: ' + li.inner_text())
+    pg.keyboard.press('Escape')
+    no_errors(pg, 'ingles')
+
+
+def t_chuleta_vacia(browser):
+    pg = new_page(browser, state=state())
+    goto(pg, 'chuleta')
+    check(pg.locator('#chuleta-vacia').count() == 1 and pg.is_disabled('#chuleta-print'), 'chuleta vacía')
+    no_errors(pg, 'chuleta vacía')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -473,6 +533,8 @@ TESTS = [
     ('arena: contrarreloj, voz alta, sorpresa y atajos', t_arena_modos),
     ('juego: XP, racha, rango, insignias, Progreso y ayuda', t_juego),
     ('jefe final por ruta y carta de oferta imprimible', t_jefe),
+    ('entrevista en inglés, chuleta y ecosistema', t_ingles_chuleta),
+    ('chuleta vacía', t_chuleta_vacia),
 ]
 
 if __name__ == '__main__':

@@ -35,7 +35,7 @@ export const INSIGNIAS = [
   B('racha-7', 'flame-kindling', 'Una semana', 'One week', 'Racha de 7 días.', 'A 7-day streak.', c => c.state.racha >= 7),
   B('racha-30', 'calendar-check', 'Un mes de constancia', 'A month of consistency', 'Racha de 30 días.', 'A 30-day streak.', c => c.state.racha >= 30),
   B('meta-diaria', 'target', 'Meta cumplida', 'Goal reached', 'Cumple la meta diaria de XP.', 'Reach the daily XP goal.', c => Object.values(c.state.historialXp).some(v => v >= c.meta)),
-  B('bilingue', 'languages', 'Bilingüe', 'Bilingual', 'Termina un duelo con la interfaz en inglés.', 'Finish a duel with the interface in English.', c => !!c.duel && c.lang === 'en'),
+  B('bilingue', 'languages', 'Bilingüe', 'Bilingual', 'Termina una entrevista en inglés en la Arena.', 'Finish an English interview in the Arena.', c => !!c.duel && (c.lang === 'en' || c.duel.registro.ingles === true)),
   B('ensayo-general', 'drama', 'Ensayo general', 'Dress rehearsal', 'Tres historias de ensayo para practicar.', 'Three rehearsal stories for practice.', c => c.state.historias.filter(h => h.tipo === 'ensayo').length >= 3),
   B('madrugador', 'sunrise', 'Madrugador', 'Early bird', 'Practicar antes de las 7:00.', 'Practise before 7 a.m.', c => c.hour < 7, true),
   B('hosteleria', 'coffee', 'De la hostelería al SOC', 'From hospitality to the SOC', 'Una historia lista que nace en la hostelería.', 'A ready story born in hospitality.', c => c.state.historias.some((h, i) => c.scores[i] && c.scores[i].estado !== 'borrador' && HOSTELERIA.test([h.s, h.t, h.a, h.r].join(' '))), true),

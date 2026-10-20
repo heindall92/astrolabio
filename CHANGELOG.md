@@ -2,6 +2,15 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.5.0] · 2026-10-21 · Inglés, chuleta y ecosistema
+
+### Añadido
+- Analizador en inglés completo: léxico ampliado, verbos regulares en pasado tras «I» y detección automática del idioma de cada historia.
+- «Entrevista en inglés» en la Arena: pregunta, repreguntas y recruiter en inglés (marcados con `lang="en"`), enlazada con LemonByte.
+- Chuleta imprimible con las mejores historias (primera frase de cada bloque).
+- «Acerca de» con las ocho herramientas del ecosistema; enlaces comprobados a mano y marca «pendiente de confirmar» cuando no hay web publicada.
+- La insignia «Bilingüe» se consigue con una entrevista en inglés.
+
 ## [0.4.0] · 2026-10-21 · Juego completo
 
 ### Añadido

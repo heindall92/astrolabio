@@ -8,7 +8,7 @@ const ROUTES = [
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta'];
 const VIEWS = {};
 
 function parseHash() {

@@ -83,17 +83,26 @@ const HELP_BUILD = {
     h('p', null, t('ayuda.acerca.autor'), ' ', h('b', { text: 'Yoandy Ramírez Delgado' }), ' (heindall92). ', t('ayuda.acerca.licencia')),
     h('div', { class: 'callout' }, icon('info'), h('p', { text: t('aviso.independencia') })),
     h('h3', { text: t('ayuda.acerca.ecosistema') }),
-    h('ul', null, ECOSISTEMA.map(e => h('li', null, h('a', { href: e.url, target: '_blank', rel: 'noopener noreferrer', text: e.nombre }), ' · ', L(e.des)))),
+    h('ul', { id: 'ecosistema' }, ECOSISTEMA.map(e => h('li', null,
+      e.url ? h('a', { href: e.url, target: '_blank', rel: 'noopener noreferrer', text: e.nombre }) : h('b', { text: e.nombre }),
+      ' · ', L(e.des), ' ',
+      e.url ? null : h('span', { class: 'chip', text: t('ayuda.acerca.pendiente') }),
+      e.repo ? [' ', h('a', { class: 'small', href: e.repo, target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('ayuda.acerca.repoDe', { n: e.nombre }), text: t('ayuda.acerca.repo') })] : null))),
     h('h3', { text: t('ayuda.acerca.soporte') }),
     h('p', null, t('ayuda.acerca.soporteTxt'), ' ', h('a', { href: 'https://github.com/heindall92/astrolabio/issues', target: '_blank', rel: 'noopener noreferrer', text: 'github.com/heindall92/astrolabio' }), '.'),
   ],
 };
 
+// Enlaces comprobados a mano el 2026-10-21 (responden y el título coincide). url: null = pendiente de confirmar.
 const ECOSISTEMA = [
-  { nombre: 'LemonByte', url: 'https://github.com/heindall92', des: { es: 'Inglés técnico para IT: practica el vocabulario de la entrevista en inglés.', en: 'Technical English for IT: practise interview vocabulary in English.' } },
-  { nombre: 'ARGOS', url: 'https://github.com/heindall92', des: { es: 'Laboratorio de GRC.', en: 'GRC lab.' } },
-  { nombre: 'Rosetta', url: 'https://heindall92.github.io/rosetta_multinorma/', des: { es: 'Mapa multinorma de cumplimiento (ENS, ISO 27001, NIS2…).', en: 'Multi-framework compliance map (ENS, ISO 27001, NIS2…).' } },
-  { nombre: 'CTEM-Nexus', url: 'https://github.com/heindall92', des: { es: 'Gestión continua de la exposición a amenazas.', en: 'Continuous threat exposure management.' } },
+  { nombre: 'LemonByte', url: 'https://heindall92.github.io/lemonbyte/', repo: 'https://github.com/heindall92/lemonbyte', des: { es: 'Inglés técnico para ciberseguridad: practica la entrevista en inglés.', en: 'Technical English for cybersecurity: practise the interview in English.' } },
+  { nombre: 'ARGOS', url: 'https://heindall92.github.io/argos-grc/', repo: 'https://github.com/heindall92/argos-grc', des: { es: 'Laboratorio GRC con rutas, simulacros, rangos y logros.', en: 'GRC lab with paths, drills, ranks and achievements.' } },
+  { nombre: 'Rosetta Multinorma', url: 'https://heindall92.github.io/rosetta_multinorma/', repo: 'https://github.com/heindall92/rosetta_multinorma', des: { es: 'Normas y leyes sobre un catálogo de controles unificado.', en: 'Standards and laws on a unified control catalogue.' } },
+  { nombre: 'CTEM-Nexus', url: 'https://heindall92.github.io/ctem-nexus/', repo: 'https://github.com/heindall92/ctem-nexus', des: { es: 'Gestión continua de la exposición a amenazas.', en: 'Continuous threat exposure management.' } },
+  { nombre: 'ENS Compliance Studio', url: 'https://heindall92.github.io/grc_ens_compliance_studio/', repo: 'https://github.com/heindall92/grc_ens_compliance_studio', des: { es: 'Categorización, MAGERIT y declaración de aplicabilidad.', en: 'Categorisation, MAGERIT and statement of applicability.' } },
+  { nombre: 'KAIROS', url: 'https://heindall92.github.io/kairos/', repo: 'https://github.com/heindall92/kairos', des: { es: 'Continuidad de negocio: BIA, BCP y DRP.', en: 'Business continuity: BIA, BCP and DRP.' } },
+  { nombre: 'ENS AD Auditor', url: 'https://heindall92.github.io/ens_ad-auditor/', repo: 'https://github.com/heindall92/ens_ad-auditor', des: { es: 'Directorio activo frente a las medidas del ENS.', en: 'Active Directory against the ENS measures.' } },
+  { nombre: 'Norvik', url: null, repo: 'https://github.com/heindall92/Norvik_Gobernanza', des: { es: 'Gobernanza: roles, políticas y el marco que une al resto.', en: 'Governance: roles, policies and the framework that ties the rest together.' } },
 ];
 
 function allGlossary() {

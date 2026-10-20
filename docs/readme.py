@@ -58,6 +58,7 @@ HIST = [
     ('0.2.0', 'Constelación de competencias, banco de 104 preguntas, historias modelo y búsqueda'),
     ('0.3.0', 'Arena: cinco recruiters, convicción, repreguntas, informe y modos escrito, voz alta, contrarreloj y sorpresa'),
     ('0.4.0', 'Juego completo: XP, meta diaria, rachas, seis rangos, 34 insignias (4 secretas), jefe final por ruta y carta de oferta'),
+    ('0.5.0', 'Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»'),
 ]
 FILAS = []
 for name, label in [('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('insignias', 'Insignias')]:

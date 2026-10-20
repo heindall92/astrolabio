@@ -6,12 +6,20 @@ const ARENA_SHORTCUTS = [
   ['Alt N', 'atajo.arena.otro'],
 ];
 const MODO_IC = { escrito: 'pen-line', voz: 'mic', contrarreloj: 'timer', sorpresa: 'shuffle' };
-const ARENA = { recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
+const ARENA = { ingles: false, recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
 
 function arenaQuestions() {
   const rol = UI.state.perfil.rol;
   return [...ROLE_CONTENT[rol].preguntas, ...COMUNES.filter(q => !q.guia)];
 }
+/** Texto bilingüe en el idioma del duelo (la entrevista en inglés no depende del idioma de la interfaz). */
+function LD(obj) { return ARENA.ingles && obj && obj.en ? obj.en : L(obj); }
+function tD(key, params) {
+  if (!ARENA.ingles) return t(key, params);
+  const prev = UI.lang; UI.lang = 'en';
+  try { return t(key, params); } finally { UI.lang = prev; }
+}
+const LANG_D = () => (ARENA.ingles && UI.lang !== 'en' ? 'en' : null);
 function arenaRecruiter(id) { return RECRUITERS.find(r => r.id === id) || RECRUITERS[0]; }
 function arenaQuestion(id) { return arenaQuestions().find(q => q.id === id) || allQuestions().find(q => q.id === id) || COMUNES.find(q => q.id === id && !q.guia) || null; }
 function stopTimer() { if (ARENA.timer) { clearInterval(ARENA.timer.id); ARENA.timer = null; } }
@@ -48,6 +56,11 @@ function renderLobby(view) {
       h('input', { type: 'radio', name: 'modo', value: m, checked: ARENA.modo === m, 'aria-describedby': 'modo-d-' + m, onchange: () => { ARENA.modo = m; } }),
       icon(MODO_IC[m], 'ic sm'), t('arena.modo.' + m)))),
     h('ul', { class: 'small muted stack tight' }, DUELO.modos.map(m => h('li', { id: 'modo-d-' + m }, h('b', { text: t('arena.modo.' + m) + ': ' }), t('arena.modo.' + m + '.d', { s: DUELO.contrarreloj }))))));
+
+  const lemon = ECOSISTEMA.find(e => e.nombre === 'LemonByte');
+  form.append(h('fieldset', null, h('legend', { text: t('arena.idioma') }),
+    h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'arena-en', checked: ARENA.ingles, onchange: e => { ARENA.ingles = e.target.checked; } }), icon('languages', 'ic sm'), t('arena.ingles')),
+    h('p', { class: 'hint small muted' }, t('arena.inglesD') + ' ', lemon && lemon.url ? h('a', { href: lemon.url, target: '_blank', rel: 'noopener noreferrer', id: 'arena-lemon', text: t('arena.lemon') }) : null)));
 
   const qs = arenaQuestions();
   const rol = UI.state.perfil.rol;
@@ -136,15 +149,15 @@ function renderDuel(view) {
   viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.modo.' + d.modo), title: L(rec.nombre), lede: t('arena.ronda', { n: ronda + 1, total: rec.repreguntas + 1 }) });
 
   const said = ronda ? (ARENA.ultima >= 0 ? rec.frases.bien : rec.frases.mal) : rec.frases.inicio;
-  const bubble = h('div', { class: 'card rec-say', id: 'arena-say' },
+  const bubble = h('div', { class: 'card rec-say', id: 'arena-say', lang: LANG_D() },
     h('span', { class: 'rec-av' + (rec.jefe ? ' boss' : ''), 'aria-hidden': 'true' }, icon(rec.icono)),
     h('div', { class: 'stack tight' },
-      h('p', { text: L(said) }),
+      h('p', { text: LD(said) }),
       ronda ? h('p', { class: 'small mono ' + (ARENA.ultima >= 0 ? 'up' : 'down'), id: 'arena-delta', text: t('arena.delta', { n: (ARENA.ultima >= 0 ? '+' : '') + ARENA.ultima }) }) : null));
   const ask = h('div', { class: 'callout', id: 'arena-pregunta' }, icon('message-square-quote'),
-    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), ronda ? t('arena.rep.' + criterio) : L(q)));
+    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), h('span', { lang: LANG_D(), text: ronda ? tD('arena.rep.' + criterio) : LD(q) })));
   view.append(h('div', { class: 'duel-top' }, bubble, h('div', { class: 'card' }, meter(d.conviccion))), ask);
-  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? L(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
+  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? LD(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
   view.append(live);
 
   const form = h('form', { class: 'card stack', id: 'arena-answer', 'aria-label': t('arena.respuesta') });
@@ -220,7 +233,7 @@ function renderDuel(view) {
 
 function finishDuel(rec) {
   const d = ARENA.duel;
-  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo };
+  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo, ingles: ARENA.ingles };
   UI.state.duelos.push(rec0);
   if (UI.state.duelos.length > LIMITES.duelos) UI.state.duelos = UI.state.duelos.slice(-LIMITES.duelos);
   if (typeof onDuelEnd === 'function') onDuelEnd(rec0, rec, d, ARENA.score);
@@ -231,11 +244,12 @@ function finishDuel(rec) {
 function renderReport(view, rec, q) {
   const d = ARENA.duel;
   const won = d.fin === 'ganado';
-  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: L(won ? rec.frases.gana : rec.frases.pierde) });
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: LD(won ? rec.frases.gana : rec.frases.pierde) });
+  if (LANG_D()) $('.lede', view).setAttribute('lang', 'en');
   view.append(h('div', { class: 'callout ' + (won ? 'ok' : 'warn'), id: 'arena-veredicto', role: 'status' }, icon(won ? 'trophy' : 'circle-x'),
     h('p', null, h('b', { text: t(won ? 'arena.ganado' : 'arena.perdido') + '. ' }), t('arena.veredicto', { rec: L(rec.nombre), n: d.conviccion, meta: DUELO.victoria }))));
   view.append(h('div', { class: 'grid two' },
-    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), L(q))),
+    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), h('span', { lang: LANG_D(), text: LD(q) }))),
     h('div', { class: 'card stack' }, h('h2', { text: t('arena.rondas') }),
       h('table', { id: 'arena-rondas' }, h('thead', null, h('tr', null, ['arena.col.ronda', 'arena.col.tema', 'arena.col.nota', 'arena.col.cambio'].map(k => h('th', { scope: 'col', text: t(k) })))),
         h('tbody', null, d.rondas.map((r, i) => h('tr', null,

@@ -457,6 +457,20 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
   .letter .stamp { color: #b3141a; border-color: #b3141a; }
   .toasts, .celebra { display: none !important; }
 }
+
+/* ============ Chuleta ============ */
+.cheat { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin-top: 16px; }
+.cheat-card { padding: 16px 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--s1); display: flex; flex-direction: column; gap: 8px; break-inside: avoid; }
+.cheat-card h2 { font-size: 1.05rem; margin: 0; }
+.cheat-card dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 0; font-size: .875rem; }
+.cheat-card dt { font: 700 .8rem var(--f-mono); color: var(--accent); }
+.cheat-card dd { margin: 0; }
+@media print {
+  .view > .cheat { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .view > .vhead { display: block !important; }
+  .cheat-card { border: 1px solid #999; background: #fff; color: #000; padding: 10px; }
+  .cheat-card dt { color: #000; }
+}
 </style>
 <a class="skip" href="#contenido" id="skip">Saltar al contenido</a>
 <div class="app" id="app">
@@ -506,8 +520,8 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 <input type="file" id="import-file" accept="application/json,.json" hidden>
 
 <script>(()=>{'use strict';
-const APP_VERSION="0.4.0";
-const ICONS={"archive":"<rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\" /> <path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\" /> <path d=\"M10 12h4\" />","arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","badge":"<path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","calendar-check":"<path d=\"M8 2v3\" /> <path d=\"M16 2v3\" /> <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"m9 15 2 2 4-4\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","chart-no-axes-column-increasing":"<path d=\"M5 21v-6\" /> <path d=\"M12 21V9\" /> <path d=\"M19 21V3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle":"<circle cx=\"12\" cy=\"12\" r=\"10\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","coffee":"<path d=\"M10 2v2\" /> <path d=\"M14 2v2\" /> <path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /> <path d=\"M6 2v2\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","drama":"<path d=\"M10 11h.01\" /> <path d=\"M14 6h.01\" /> <path d=\"M18 6h.01\" /> <path d=\"M6.5 13.1h.01\" /> <path d=\"M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3\" /> <path d=\"M17.4 9.9c-.8.8-2 .8-2.8 0\" /> <path d=\"M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7\" /> <path d=\"M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","feather":"<path d=\"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z\" /> <path d=\"M16 8 2 22\" /> <path d=\"M17.488 15H9\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","file-text":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" /> <path d=\"M10 9H8\" /> <path d=\"M16 13H8\" /> <path d=\"M16 17H8\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","flame-kindling":"<path d=\"M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 1 1-10 0c0-.3 0-.6.1-.9a2 2 0 1 0 3.3-2C8 4.5 11 2 12 2Z\" /> <path d=\"m5 22 14-4\" /> <path d=\"m5 18 14 4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","gem":"<path d=\"M10.5 3 8 9l4 13 4-13-2.5-6\" /> <path d=\"M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z\" /> <path d=\"M2 9h20\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","graduation-cap":"<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\" /> <path d=\"M22 10v6\" /> <path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","hourglass":"<path d=\"M5 22h14\" /> <path d=\"M5 2h14\" /> <path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\" /> <path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","landmark":"<path d=\"M10 18v-7\" /> <path d=\"M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z\" /> <path d=\"M14 18v-7\" /> <path d=\"M18 18v-7\" /> <path d=\"M3 22h18\" /> <path d=\"M6 18v-7\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","library":"<path d=\"m16 6 4 14\" /> <path d=\"M12 6v14\" /> <path d=\"M8 8v12\" /> <path d=\"M4 4v16\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","list-checks":"<path d=\"M13 5h8\" /> <path d=\"M13 12h8\" /> <path d=\"M13 19h8\" /> <path d=\"m3 17 2 2 4-4\" /> <path d=\"m3 7 2 2 4-4\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-circle":"<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","moon-star":"<path d=\"M18 5h4\" /> <path d=\"M20 3v4\" /> <path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","orbit":"<path d=\"M20.341 6.484A10 10 0 0 1 10.266 21.85\" /> <path d=\"M3.659 17.516A10 10 0 0 1 13.74 2.152\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" /> <circle cx=\"19\" cy=\"5\" r=\"2\" /> <circle cx=\"5\" cy=\"19\" r=\"2\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","printer":"<path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\" /> <path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\" /> <rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","stamp":"<path d=\"M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13\" /> <path d=\"M20 15.5a2.5 2.5 0 0 0-2.5-2.5h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1z\" /> <path d=\"M5 22h14\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","sunrise":"<path d=\"M12 2v8\" /> <path d=\"m4.93 10.93 1.41 1.41\" /> <path d=\"M2 18h2\" /> <path d=\"M20 18h2\" /> <path d=\"m19.07 10.93-1.41 1.41\" /> <path d=\"M22 22H2\" /> <path d=\"m8 6 4-4 4 4\" /> <path d=\"M16 18a4 4 0 0 0-8 0\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","trending-up":"<path d=\"M16 7h6v6\" /> <path d=\"m22 7-8.5 8.5-5-5L2 17\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","user-round-check":"<path d=\"M2 21a8 8 0 0 1 13.292-6\" /> <circle cx=\"10\" cy=\"8\" r=\"5\" /> <path d=\"m16 19 2 2 4-4\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
+const APP_VERSION="0.5.0";
+const ICONS={"archive":"<rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\" /> <path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\" /> <path d=\"M10 12h4\" />","arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","badge":"<path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\" />","bed":"<path d=\"M2 4v16\" /> <path d=\"M2 8h18a2 2 0 0 1 2 2v10\" /> <path d=\"M2 17h20\" /> <path d=\"M6 8v9\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","calendar-check":"<path d=\"M8 2v3\" /> <path d=\"M16 2v3\" /> <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"m9 15 2 2 4-4\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","chart-no-axes-column-increasing":"<path d=\"M5 21v-6\" /> <path d=\"M12 21V9\" /> <path d=\"M19 21V3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle":"<circle cx=\"12\" cy=\"12\" r=\"10\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","coffee":"<path d=\"M10 2v2\" /> <path d=\"M14 2v2\" /> <path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /> <path d=\"M6 2v2\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","drama":"<path d=\"M10 11h.01\" /> <path d=\"M14 6h.01\" /> <path d=\"M18 6h.01\" /> <path d=\"M6.5 13.1h.01\" /> <path d=\"M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3\" /> <path d=\"M17.4 9.9c-.8.8-2 .8-2.8 0\" /> <path d=\"M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7\" /> <path d=\"M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","feather":"<path d=\"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z\" /> <path d=\"M16 8 2 22\" /> <path d=\"M17.488 15H9\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","file-text":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" /> <path d=\"M10 9H8\" /> <path d=\"M16 13H8\" /> <path d=\"M16 17H8\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","flame-kindling":"<path d=\"M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 1 1-10 0c0-.3 0-.6.1-.9a2 2 0 1 0 3.3-2C8 4.5 11 2 12 2Z\" /> <path d=\"m5 22 14-4\" /> <path d=\"m5 18 14 4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","gem":"<path d=\"M10.5 3 8 9l4 13 4-13-2.5-6\" /> <path d=\"M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z\" /> <path d=\"M2 9h20\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","graduation-cap":"<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\" /> <path d=\"M22 10v6\" /> <path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","hourglass":"<path d=\"M5 22h14\" /> <path d=\"M5 2h14\" /> <path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\" /> <path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","landmark":"<path d=\"M10 18v-7\" /> <path d=\"M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z\" /> <path d=\"M14 18v-7\" /> <path d=\"M18 18v-7\" /> <path d=\"M3 22h18\" /> <path d=\"M6 18v-7\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","library":"<path d=\"m16 6 4 14\" /> <path d=\"M12 6v14\" /> <path d=\"M8 8v12\" /> <path d=\"M4 4v16\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","list-checks":"<path d=\"M13 5h8\" /> <path d=\"M13 12h8\" /> <path d=\"M13 19h8\" /> <path d=\"m3 17 2 2 4-4\" /> <path d=\"m3 7 2 2 4-4\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-circle":"<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","moon-star":"<path d=\"M18 5h4\" /> <path d=\"M20 3v4\" /> <path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","orbit":"<path d=\"M20.341 6.484A10 10 0 0 1 10.266 21.85\" /> <path d=\"M3.659 17.516A10 10 0 0 1 13.74 2.152\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" /> <circle cx=\"19\" cy=\"5\" r=\"2\" /> <circle cx=\"5\" cy=\"19\" r=\"2\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","printer":"<path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\" /> <path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\" /> <rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","stamp":"<path d=\"M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13\" /> <path d=\"M20 15.5a2.5 2.5 0 0 0-2.5-2.5h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1z\" /> <path d=\"M5 22h14\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","sunrise":"<path d=\"M12 2v8\" /> <path d=\"m4.93 10.93 1.41 1.41\" /> <path d=\"M2 18h2\" /> <path d=\"M20 18h2\" /> <path d=\"m19.07 10.93-1.41 1.41\" /> <path d=\"M22 22H2\" /> <path d=\"m8 6 4-4 4 4\" /> <path d=\"M16 18a4 4 0 0 0-8 0\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","trending-up":"<path d=\"M16 7h6v6\" /> <path d=\"m22 7-8.5 8.5-5-5L2 17\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","user-round-check":"<path d=\"M2 21a8 8 0 0 1 13.292-6\" /> <circle cx=\"10\" cy=\"8\" r=\"5\" /> <path d=\"m16 19 2 2 4-4\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
 const MARK_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" role=\"img\" aria-label=\"Astrolabio\"><defs><radialGradient id=\"am-g\" cx=\"50%\" cy=\"50%\" r=\"55%\"><stop offset=\"0\" stop-color=\"#FFF7E0\"/><stop offset=\".35\" stop-color=\"#FFDB7A\"/><stop offset=\"1\" stop-color=\"#FFC233\"/></radialGradient></defs><path fill=\"#0B1024\" d=\"M18 5h28c7.7 0 14 6.3 14 14v18c0 7.7-6.3 14-14 14H30.5c-3.4 3.9-8.4 6.6-14.2 7.3-1 .1-1.5-1.1-.8-1.7 2.3-1.9 3.6-3.7 4-5.6H18C10.3 51 4 44.7 4 37V19C4 11.3 10.3 5 18 5Z\"/><path fill=\"url(#am-g)\" d=\"M32 9.5c1.3 9.6 4.4 14.9 16.5 18.5C36.4 31.6 33.3 36.9 32 46.5 30.7 36.9 27.6 31.6 15.5 28 27.6 24.4 30.7 19.1 32 9.5Z\"/></svg>";
 // ---- src/i18n/es.js ----
 // Diccionario de la interfaz en español (idioma principal).
@@ -858,6 +872,18 @@ const ES = {
   "oferta.p3": "Ahora toca lo importante: llevar estas historias a una entrevista de verdad. Mucha suerte.",
   "oferta.cargo": "Jefe final de la Arena",
   "oferta.aviso": "Documento generado en tu navegador por Astrolabio. Es parte de un juego y no tiene validez.",
+  "arena.idioma": "Idioma de la entrevista",
+  "arena.ingles": "Entrevista en inglés",
+  "arena.inglesD": "Preguntas, repreguntas y recruiter en inglés; el analizador detecta el idioma de tu respuesta. Para el vocabulario, practica antes en",
+  "arena.lemon": "LemonByte",
+  "ayuda.acerca.pendiente": "Enlace pendiente de confirmar",
+  "ayuda.acerca.repo": "Repositorio",
+  "ayuda.acerca.repoDe": "Repositorio de {n}",
+  "chuleta.boton": "Chuleta",
+  "chuleta.titulo": "Tu chuleta",
+  "chuleta.lede": "Tus mejores historias en una hoja: la primera frase de cada bloque para repasar antes de la entrevista.",
+  "chuleta.imprimir": "Imprimir o guardar en PDF",
+  "chuleta.vacia": "Aún no tienes historias en «Lista». Pule alguna en la Forja y vuelve.",
 };
 
 // ---- src/i18n/en.js ----
@@ -1209,6 +1235,18 @@ const EN = {
   "oferta.p3": "Now for what matters: taking these stories to a real interview. Good luck.",
   "oferta.cargo": "Final boss of the Arena",
   "oferta.aviso": "Document generated in your browser by Astrolabio. It is part of a game and has no validity.",
+  "arena.idioma": "Interview language",
+  "arena.ingles": "English interview",
+  "arena.inglesD": "Questions, follow-ups and recruiter in English; the analyser detects the language of your answer. For vocabulary, practise first on",
+  "arena.lemon": "LemonByte",
+  "ayuda.acerca.pendiente": "Link pending confirmation",
+  "ayuda.acerca.repo": "Repository",
+  "ayuda.acerca.repoDe": "Repository of {n}",
+  "chuleta.boton": "Cheat sheet",
+  "chuleta.titulo": "Your cheat sheet",
+  "chuleta.lede": "Your best stories on one page: the first sentence of each block to review before the interview.",
+  "chuleta.imprimir": "Print or save as PDF",
+  "chuleta.vacia": "You have no “Ready” stories yet. Polish one in the Forge and come back.",
 };
 
 // ---- src/content/lexico/es.js ----
@@ -1261,17 +1299,20 @@ const LEX_EN = {
     'monitored', 'correlated', 'triaged', 'classified', 'split', 'delegated', 'called', 'prepared', 'interviewed',
     'mapped', 'redesigned', 'replaced', 'removed', 'learned', 'learnt', 'studied', 'practised', 'achieved',
     'avoided', 'opened', 'closed', 'reported', 'warned', 'shipped', 'launched', 'mentored',
+    'ran', 'set up', 'wrote up', 'took', 'made', 'found', 'chose', 'drove', 'brought', 'sent', 'spoke', 'met',
+    'persuaded', 'challenged', 'restored', 'recovered', 'hardened', 'exploited', 'scanned', 'scripted', 'refactored',
+    'standardised', 'standardized', 'aligned', 'escalated', 'onboarded', 'rolled out', 'benchmarked', 'modelled', 'modeled',
   ],
   arranquesDebiles: ['i was', 'there was', 'there were', 'it was', 'we were', 'i had'],
   muletillas: [
     'basically', 'a bit', 'stuff', 'things', 'something', 'i tried', 'kind of', 'sort of', 'like', 'more or less',
-    'you know', 'i guess', 'pretty much', 'somehow', 'etc',
+    'you know', 'i guess', 'pretty much', 'somehow', 'etc', 'actually', 'literally', 'i mean', 'so yeah',
   ],
   plural: ['we', "we've", "we'd", "we're", 'our team', 'us'],
   singular: ['i', "i'd", "i've", 'myself'],
-  noVerbos: [],
-  aprendizaje: ['i learned', 'i learnt', 'next time', 'since then', 'now i always', 'i would', 'lesson', 'differently'],
-  cifrasPalabras: ['double', 'triple', 'half', 'zero', 'none', 'all', 'before', 'after', 'percent', 'hours', 'minutes', 'days', 'weeks'],
+  noVerbos: ['need', 'used', 'based', 'tired', 'red', 'bed', 'shed', 'speed', 'seed', 'feed', 'indeed', 'interested', 'supposed', 'scared', 'excited'],
+  aprendizaje: ['i learned', 'i learnt', 'next time', 'since then', 'now i always', 'i would', 'lesson', 'differently', 'taught me', 'i realised', 'i realized', 'from then on', 'going forward'],
+  cifrasPalabras: ['double', 'triple', 'half', 'zero', 'none', 'all', 'before', 'after', 'percent', 'hours', 'minutes', 'days', 'weeks', 'months', 'per cent', 'twice', 'dozens', 'hundreds', 'thousands'],
 };
 
 // ---- src/content/competencias.js ----
@@ -1824,7 +1865,7 @@ const INSIGNIAS = [
   B('racha-7', 'flame-kindling', 'Una semana', 'One week', 'Racha de 7 días.', 'A 7-day streak.', c => c.state.racha >= 7),
   B('racha-30', 'calendar-check', 'Un mes de constancia', 'A month of consistency', 'Racha de 30 días.', 'A 30-day streak.', c => c.state.racha >= 30),
   B('meta-diaria', 'target', 'Meta cumplida', 'Goal reached', 'Cumple la meta diaria de XP.', 'Reach the daily XP goal.', c => Object.values(c.state.historialXp).some(v => v >= c.meta)),
-  B('bilingue', 'languages', 'Bilingüe', 'Bilingual', 'Termina un duelo con la interfaz en inglés.', 'Finish a duel with the interface in English.', c => !!c.duel && c.lang === 'en'),
+  B('bilingue', 'languages', 'Bilingüe', 'Bilingual', 'Termina una entrevista en inglés en la Arena.', 'Finish an English interview in the Arena.', c => !!c.duel && (c.lang === 'en' || c.duel.registro.ingles === true)),
   B('ensayo-general', 'drama', 'Ensayo general', 'Dress rehearsal', 'Tres historias de ensayo para practicar.', 'Three rehearsal stories for practice.', c => c.state.historias.filter(h => h.tipo === 'ensayo').length >= 3),
   B('madrugador', 'sunrise', 'Madrugador', 'Early bird', 'Practicar antes de las 7:00.', 'Practise before 7 a.m.', c => c.hour < 7, true),
   B('hosteleria', 'coffee', 'De la hostelería al SOC', 'From hospitality to the SOC', 'Una historia lista que nace en la hostelería.', 'A ready story born in hospitality.', c => c.state.historias.some((h, i) => c.scores[i] && c.scores[i].estado !== 'borrador' && HOSTELERIA.test([h.s, h.t, h.a, h.r].join(' '))), true),
@@ -2039,7 +2080,14 @@ function measurable(text, idioma = 'es') {
 
 function actionVerbs(text, idioma = 'es') {
   const lex = lexicon(idioma);
-  const { found } = countList(text, lex.verbosAccion);
+  let { found } = countList(text, lex.verbosAccion);
+  if (idioma === 'en') {
+    // En inglés, «I» + verbo regular en pasado también cuenta aunque no esté en el léxico.
+    const seen = new Set(found.map(f => f.term));
+    for (const m of normalize(text).matchAll(/\bi (?:then |also |quickly |personally |first )?([a-z]{3,}ed)\b/g)) {
+      if (!seen.has(m[1]) && !lex.noVerbos.includes(m[1])) { seen.add(m[1]); found = [...found, { term: m[1], n: 1 }]; }
+    }
+  }
   const sentences = String(text || '').split(/[.!?\n]+/).map(s => normalize(s).trim()).filter(Boolean);
   const weak = [];
   for (const s of sentences) {
@@ -2102,6 +2150,19 @@ function analyze(story, { idioma = 'es', marcados = [] } = {}) {
     aprendizaje: learning(story, idioma),
     sensibles: sensitive(story, marcados),
   };
+}
+
+/** Idioma probable de una historia ('es' o 'en'), o null si hay poco texto. */
+function detectLanguage(story) {
+  const text = normalize([...BLOQUES, 'l'].map(b => (story && story[b]) || '').join(' '));
+  const words = text.split(/[^a-zñáéíóúü']+/).filter(Boolean);
+  if (words.length < 12) return null;
+  const ES_W = new Set(['el', 'la', 'de', 'que', 'y', 'en', 'los', 'las', 'un', 'una', 'del', 'por', 'con', 'para', 'se', 'mi', 'lo', 'al', 'es', 'como', 'pero', 'más']);
+  const EN_W = new Set(['the', 'and', 'of', 'to', 'in', 'a', 'i', 'was', 'with', 'for', 'my', 'that', 'it', 'on', 'we', 'had', 'is', 'as', 'by', 'from', 'which', 'this']);
+  let es = 0, en = 0;
+  for (const w of words) { if (ES_W.has(w)) es++; if (EN_W.has(w)) en++; }
+  if (es === en) return null;
+  return en > es ? 'en' : 'es';
 }
 
 // ---- src/engine/score.js ----
@@ -2305,6 +2366,7 @@ function sanitizeState(raw, { competencias } = {}) {
         conviccion: int(d.conviccion, 0, 100),
         superado: d.superado === true,
         modo: str(d.modo, 20),
+        ingles: d.ingles === true,
       });
     }
   }
@@ -2776,7 +2838,7 @@ const ROUTES = [
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta'];
 const VIEWS = {};
 
 function parseHash() {
@@ -3194,7 +3256,7 @@ VIEWS.inicio = (view) => {
 
 function scoreOf(story) {
   const p = UI.state.perfil || {};
-  return scoreStory(story, { idioma: p.idioma || 'es', nivel: p.nivel || 'junior', marcados: UI.state.ajustes.sensibles });
+  return scoreStory(story, { idioma: detectLanguage(story) || p.idioma || 'es', nivel: p.nivel || 'junior', marcados: UI.state.ajustes.sensibles });
 }
 const ESTADO_IC = { borrador: 'pencil', lista: 'check', brillante: 'sparkles' };
 function stateChip(estado) {
@@ -3220,7 +3282,7 @@ VIEWS.forja = (view, arg) => {
   if (arg) return renderEditor(view, arg);
   const hs = UI.state.historias;
   viewHead(view, { eyebrow: t('nav.forja'), title: t('forja.titulo'), lede: t('forja.lede'),
-    action: h('a', { class: 'btn primary', href: '#forja/nueva', 'aria-keyshortcuts': 'N' }, icon('plus'), t('forja.nueva')) });
+    action: h('div', { class: 'row wrap' }, hs.length ? h('a', { class: 'btn', href: '#chuleta', id: 'chuleta-link' }, icon('printer'), t('chuleta.boton')) : null, h('a', { class: 'btn primary', href: '#forja/nueva', 'aria-keyshortcuts': 'N' }, icon('plus'), t('forja.nueva'))) });
   if (!hs.length) {
     view.append(h('div', { class: 'empty' }, icon('star', 'ic lg'), h('h2', { text: t('forja.vacioTitulo') }), h('p', { class: 'muted', text: t('forja.vacio') }),
       h('div', { class: 'row' }, h('a', { class: 'btn primary', href: '#forja/nueva' }, icon('plus'), t('forja.nueva')))));
@@ -3393,6 +3455,24 @@ function tipText(c) {
   return t(c.clave, p);
 }
 
+// ---------- Chuleta imprimible ----------
+function firstSentence(text, max = 170) {
+  const s = String(text || '').trim().split(/(?<=[.!?])\s+/)[0] || '';
+  return s.length > max ? s.slice(0, max - 1).trimEnd() + '…' : s;
+}
+VIEWS.chuleta = view => {
+  const items = UI.state.historias.map(h0 => ({ h: h0, sc: scoreOf(h0) })).filter(x => x.sc.estado !== 'borrador').sort((a, b) => b.sc.total - a.sc.total).slice(0, 12);
+  viewHead(view, { eyebrow: t('nav.forja'), title: t('chuleta.titulo'), lede: t('chuleta.lede') });
+  view.append(h('div', { class: 'row no-print' },
+    h('button', { class: 'btn primary', type: 'button', id: 'chuleta-print', disabled: !items.length, onclick: () => window.print() }, icon('printer'), t('chuleta.imprimir')),
+    h('a', { class: 'btn', href: '#forja' }, t('ui.volver'))));
+  if (!items.length) { view.append(h('div', { class: 'empty', id: 'chuleta-vacia' }, icon('star', 'ic lg'), h('p', { text: t('chuleta.vacia') }))); return; }
+  view.append(h('div', { class: 'cheat', id: 'chuleta' }, items.map(({ h: st, sc }) => h('article', { class: 'cheat-card', 'aria-labelledby': 'ch-' + st.id },
+    h('div', { class: 'row spread' }, h('h2', { id: 'ch-' + st.id, text: st.titulo || t('forja.sinTitulo') }), h('span', { class: 'mono small', text: sc.total + '/100' })),
+    st.competencias.length ? h('p', { class: 'tiny muted', text: st.competencias.map(compName).join(' · ') }) : null,
+    h('dl', null, [...BLOQUES, 'l'].filter(b => st[b]).map(b => [h('dt', { text: b.toUpperCase() }), h('dd', { text: firstSentence(st[b]) })]))))));
+};
+
 // ---- src/ui/constelacion.js ----
 // Constelación: cada competencia es una constelación en una posición fija; cada historia, una estrella.
 // Se acompaña siempre de una tabla equivalente.
@@ -3545,12 +3625,20 @@ const ARENA_SHORTCUTS = [
   ['Alt N', 'atajo.arena.otro'],
 ];
 const MODO_IC = { escrito: 'pen-line', voz: 'mic', contrarreloj: 'timer', sorpresa: 'shuffle' };
-const ARENA = { recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
+const ARENA = { ingles: false, recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
 
 function arenaQuestions() {
   const rol = UI.state.perfil.rol;
   return [...ROLE_CONTENT[rol].preguntas, ...COMUNES.filter(q => !q.guia)];
 }
+/** Texto bilingüe en el idioma del duelo (la entrevista en inglés no depende del idioma de la interfaz). */
+function LD(obj) { return ARENA.ingles && obj && obj.en ? obj.en : L(obj); }
+function tD(key, params) {
+  if (!ARENA.ingles) return t(key, params);
+  const prev = UI.lang; UI.lang = 'en';
+  try { return t(key, params); } finally { UI.lang = prev; }
+}
+const LANG_D = () => (ARENA.ingles && UI.lang !== 'en' ? 'en' : null);
 function arenaRecruiter(id) { return RECRUITERS.find(r => r.id === id) || RECRUITERS[0]; }
 function arenaQuestion(id) { return arenaQuestions().find(q => q.id === id) || allQuestions().find(q => q.id === id) || COMUNES.find(q => q.id === id && !q.guia) || null; }
 function stopTimer() { if (ARENA.timer) { clearInterval(ARENA.timer.id); ARENA.timer = null; } }
@@ -3587,6 +3675,11 @@ function renderLobby(view) {
       h('input', { type: 'radio', name: 'modo', value: m, checked: ARENA.modo === m, 'aria-describedby': 'modo-d-' + m, onchange: () => { ARENA.modo = m; } }),
       icon(MODO_IC[m], 'ic sm'), t('arena.modo.' + m)))),
     h('ul', { class: 'small muted stack tight' }, DUELO.modos.map(m => h('li', { id: 'modo-d-' + m }, h('b', { text: t('arena.modo.' + m) + ': ' }), t('arena.modo.' + m + '.d', { s: DUELO.contrarreloj }))))));
+
+  const lemon = ECOSISTEMA.find(e => e.nombre === 'LemonByte');
+  form.append(h('fieldset', null, h('legend', { text: t('arena.idioma') }),
+    h('label', { class: 'check' }, h('input', { type: 'checkbox', id: 'arena-en', checked: ARENA.ingles, onchange: e => { ARENA.ingles = e.target.checked; } }), icon('languages', 'ic sm'), t('arena.ingles')),
+    h('p', { class: 'hint small muted' }, t('arena.inglesD') + ' ', lemon && lemon.url ? h('a', { href: lemon.url, target: '_blank', rel: 'noopener noreferrer', id: 'arena-lemon', text: t('arena.lemon') }) : null)));
 
   const qs = arenaQuestions();
   const rol = UI.state.perfil.rol;
@@ -3675,15 +3768,15 @@ function renderDuel(view) {
   viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.modo.' + d.modo), title: L(rec.nombre), lede: t('arena.ronda', { n: ronda + 1, total: rec.repreguntas + 1 }) });
 
   const said = ronda ? (ARENA.ultima >= 0 ? rec.frases.bien : rec.frases.mal) : rec.frases.inicio;
-  const bubble = h('div', { class: 'card rec-say', id: 'arena-say' },
+  const bubble = h('div', { class: 'card rec-say', id: 'arena-say', lang: LANG_D() },
     h('span', { class: 'rec-av' + (rec.jefe ? ' boss' : ''), 'aria-hidden': 'true' }, icon(rec.icono)),
     h('div', { class: 'stack tight' },
-      h('p', { text: L(said) }),
+      h('p', { text: LD(said) }),
       ronda ? h('p', { class: 'small mono ' + (ARENA.ultima >= 0 ? 'up' : 'down'), id: 'arena-delta', text: t('arena.delta', { n: (ARENA.ultima >= 0 ? '+' : '') + ARENA.ultima }) }) : null));
   const ask = h('div', { class: 'callout', id: 'arena-pregunta' }, icon('message-square-quote'),
-    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), ronda ? t('arena.rep.' + criterio) : L(q)));
+    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), h('span', { lang: LANG_D(), text: ronda ? tD('arena.rep.' + criterio) : LD(q) })));
   view.append(h('div', { class: 'duel-top' }, bubble, h('div', { class: 'card' }, meter(d.conviccion))), ask);
-  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? L(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
+  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? LD(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
   view.append(live);
 
   const form = h('form', { class: 'card stack', id: 'arena-answer', 'aria-label': t('arena.respuesta') });
@@ -3759,7 +3852,7 @@ function renderDuel(view) {
 
 function finishDuel(rec) {
   const d = ARENA.duel;
-  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo };
+  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo, ingles: ARENA.ingles };
   UI.state.duelos.push(rec0);
   if (UI.state.duelos.length > LIMITES.duelos) UI.state.duelos = UI.state.duelos.slice(-LIMITES.duelos);
   if (typeof onDuelEnd === 'function') onDuelEnd(rec0, rec, d, ARENA.score);
@@ -3770,11 +3863,12 @@ function finishDuel(rec) {
 function renderReport(view, rec, q) {
   const d = ARENA.duel;
   const won = d.fin === 'ganado';
-  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: L(won ? rec.frases.gana : rec.frases.pierde) });
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: LD(won ? rec.frases.gana : rec.frases.pierde) });
+  if (LANG_D()) $('.lede', view).setAttribute('lang', 'en');
   view.append(h('div', { class: 'callout ' + (won ? 'ok' : 'warn'), id: 'arena-veredicto', role: 'status' }, icon(won ? 'trophy' : 'circle-x'),
     h('p', null, h('b', { text: t(won ? 'arena.ganado' : 'arena.perdido') + '. ' }), t('arena.veredicto', { rec: L(rec.nombre), n: d.conviccion, meta: DUELO.victoria }))));
   view.append(h('div', { class: 'grid two' },
-    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), L(q))),
+    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), h('span', { lang: LANG_D(), text: LD(q) }))),
     h('div', { class: 'card stack' }, h('h2', { text: t('arena.rondas') }),
       h('table', { id: 'arena-rondas' }, h('thead', null, h('tr', null, ['arena.col.ronda', 'arena.col.tema', 'arena.col.nota', 'arena.col.cambio'].map(k => h('th', { scope: 'col', text: t(k) })))),
         h('tbody', null, d.rondas.map((r, i) => h('tr', null,
@@ -4092,17 +4186,26 @@ const HELP_BUILD = {
     h('p', null, t('ayuda.acerca.autor'), ' ', h('b', { text: 'Yoandy Ramírez Delgado' }), ' (heindall92). ', t('ayuda.acerca.licencia')),
     h('div', { class: 'callout' }, icon('info'), h('p', { text: t('aviso.independencia') })),
     h('h3', { text: t('ayuda.acerca.ecosistema') }),
-    h('ul', null, ECOSISTEMA.map(e => h('li', null, h('a', { href: e.url, target: '_blank', rel: 'noopener noreferrer', text: e.nombre }), ' · ', L(e.des)))),
+    h('ul', { id: 'ecosistema' }, ECOSISTEMA.map(e => h('li', null,
+      e.url ? h('a', { href: e.url, target: '_blank', rel: 'noopener noreferrer', text: e.nombre }) : h('b', { text: e.nombre }),
+      ' · ', L(e.des), ' ',
+      e.url ? null : h('span', { class: 'chip', text: t('ayuda.acerca.pendiente') }),
+      e.repo ? [' ', h('a', { class: 'small', href: e.repo, target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('ayuda.acerca.repoDe', { n: e.nombre }), text: t('ayuda.acerca.repo') })] : null))),
     h('h3', { text: t('ayuda.acerca.soporte') }),
     h('p', null, t('ayuda.acerca.soporteTxt'), ' ', h('a', { href: 'https://github.com/heindall92/astrolabio/issues', target: '_blank', rel: 'noopener noreferrer', text: 'github.com/heindall92/astrolabio' }), '.'),
   ],
 };
 
+// Enlaces comprobados a mano el 2026-10-21 (responden y el título coincide). url: null = pendiente de confirmar.
 const ECOSISTEMA = [
-  { nombre: 'LemonByte', url: 'https://github.com/heindall92', des: { es: 'Inglés técnico para IT: practica el vocabulario de la entrevista en inglés.', en: 'Technical English for IT: practise interview vocabulary in English.' } },
-  { nombre: 'ARGOS', url: 'https://github.com/heindall92', des: { es: 'Laboratorio de GRC.', en: 'GRC lab.' } },
-  { nombre: 'Rosetta', url: 'https://heindall92.github.io/rosetta_multinorma/', des: { es: 'Mapa multinorma de cumplimiento (ENS, ISO 27001, NIS2…).', en: 'Multi-framework compliance map (ENS, ISO 27001, NIS2…).' } },
-  { nombre: 'CTEM-Nexus', url: 'https://github.com/heindall92', des: { es: 'Gestión continua de la exposición a amenazas.', en: 'Continuous threat exposure management.' } },
+  { nombre: 'LemonByte', url: 'https://heindall92.github.io/lemonbyte/', repo: 'https://github.com/heindall92/lemonbyte', des: { es: 'Inglés técnico para ciberseguridad: practica la entrevista en inglés.', en: 'Technical English for cybersecurity: practise the interview in English.' } },
+  { nombre: 'ARGOS', url: 'https://heindall92.github.io/argos-grc/', repo: 'https://github.com/heindall92/argos-grc', des: { es: 'Laboratorio GRC con rutas, simulacros, rangos y logros.', en: 'GRC lab with paths, drills, ranks and achievements.' } },
+  { nombre: 'Rosetta Multinorma', url: 'https://heindall92.github.io/rosetta_multinorma/', repo: 'https://github.com/heindall92/rosetta_multinorma', des: { es: 'Normas y leyes sobre un catálogo de controles unificado.', en: 'Standards and laws on a unified control catalogue.' } },
+  { nombre: 'CTEM-Nexus', url: 'https://heindall92.github.io/ctem-nexus/', repo: 'https://github.com/heindall92/ctem-nexus', des: { es: 'Gestión continua de la exposición a amenazas.', en: 'Continuous threat exposure management.' } },
+  { nombre: 'ENS Compliance Studio', url: 'https://heindall92.github.io/grc_ens_compliance_studio/', repo: 'https://github.com/heindall92/grc_ens_compliance_studio', des: { es: 'Categorización, MAGERIT y declaración de aplicabilidad.', en: 'Categorisation, MAGERIT and statement of applicability.' } },
+  { nombre: 'KAIROS', url: 'https://heindall92.github.io/kairos/', repo: 'https://github.com/heindall92/kairos', des: { es: 'Continuidad de negocio: BIA, BCP y DRP.', en: 'Business continuity: BIA, BCP and DRP.' } },
+  { nombre: 'ENS AD Auditor', url: 'https://heindall92.github.io/ens_ad-auditor/', repo: 'https://github.com/heindall92/ens_ad-auditor', des: { es: 'Directorio activo frente a las medidas del ENS.', en: 'Active Directory against the ENS measures.' } },
+  { nombre: 'Norvik', url: null, repo: 'https://github.com/heindall92/Norvik_Gobernanza', des: { es: 'Gobernanza: roles, políticas y el marco que une al resto.', en: 'Governance: roles, policies and the framework that ties the rest together.' } },
 ];
 
 function allGlossary() {

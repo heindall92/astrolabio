@@ -64,9 +64,29 @@ def _insignias(pg):
     goto(pg, 'insignias')
 
 
+def _chuleta(pg):
+    goto(pg, 'chuleta')
+
+
+def _arena_en(pg):
+    goto(pg, 'arena')
+    pg.check('#arena-en')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-answer')
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-follow, #arena-veredicto')
+
+
+def _acerca(pg):
+    goto(pg, 'inicio')
+    pg.click('#help-btn')
+    pg.click('#tab-acerca')
+
+
 EXTRA_STEPS = [('arena', _arena_lobby), ('arena-duelo', _arena_duelo), ('arena-repregunta', _arena_repregunta),
                ('arena-informe', _arena_informe), ('arena-voz', _arena_voz), ('arena-contrarreloj', _arena_reloj),
-               ('oferta', _oferta), ('progreso-datos', _progreso), ('insignias', _insignias)]
+               ('oferta', _oferta), ('progreso-datos', _progreso), ('insignias', _insignias),
+               ('chuleta', _chuleta), ('arena-ingles', _arena_en), ('acerca', _acerca)]
 
 
 def sweep(theme, width):

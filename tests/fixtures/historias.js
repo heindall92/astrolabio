@@ -49,3 +49,18 @@ export const BUENA_EN = {
   r: 'The access was contained in 18 minutes, before any transfer, and the new rule reduced false positives in that family by 35 percent the following month.',
   l: 'I learned to write the timeline from minute one; next time it would save half an hour on the report.',
 };
+
+export const BUENA_EN_GRC = {
+  titulo: 'The access review nobody wanted',
+  s: 'At an insurance company we were preparing the annual audit, and the sales department refused to run the quarterly access review because it took them a whole afternoon.',
+  t: 'I was responsible for getting the control applied before the audit, within six weeks.',
+  a: 'I analysed the permissions of the department and found 40 administrator accounts that nobody used. I scripted a report that pre-filled the review, so managers only had to confirm or reject each line. I met the sales director, showed him the risk with two real examples and agreed a fifteen-minute slot each quarter. I documented the procedure, trained two team leads and scheduled reminders in their calendars.',
+  r: 'The review went from 6 hours to 25 minutes per quarter, we removed 40 unused accounts and the audit closed that control with no findings.',
+  l: 'I learned that a control is accepted faster when it is designed around the time of the people who have to apply it.',
+};
+export const MALA_EN = {
+  titulo: 'An audit',
+  s: 'We had an audit.', t: 'There were things to prepare.',
+  a: 'We basically reviewed stuff and kind of fixed some things. There was a meeting. We did the report.',
+  r: 'It went well.', l: '',
+};
