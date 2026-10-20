@@ -1,0 +1,68 @@
+"""axe-core sobre todas las vistas y estados: claro y oscuro, a 1280 y 390 px. 0 infracciones.
+Ejecuta: python3 tests/a11y_app.py"""
+import sys
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from helpers import axe, check, goto, new_page, run, settle  # noqa: E402
+from e2e_app import BUENA, state  # noqa: E402
+
+MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
+ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias']
+EXTRA_STEPS = []  # Las fases posteriores añaden pasos (p. ej., cada paso de la Arena).
+
+
+def sweep(theme, width):
+    def fn(browser):
+        n = 0
+        pg = new_page(browser, width=width, height=860 if width > 500 else 844, theme=theme)
+        goto(pg)
+        axe(pg, f'{theme}/{width}/asistente-1')
+        pg.click('label.choice:has(input[value=red])')
+        pg.click('#wiz-next')
+        settle(pg)
+        axe(pg, f'{theme}/{width}/asistente-2')
+        pg.click('label.choice:has(input[value=junior])')
+        pg.click('#wiz-next')
+        settle(pg)
+        axe(pg, f'{theme}/{width}/asistente-3')
+        pg = new_page(browser, width=width, height=860 if width > 500 else 844, theme=theme, state=state(historias=[BUENA, MALA]))
+        for r in ROUTES:
+            goto(pg, r)
+            axe(pg, f'{theme}/{width}/{r}')
+            n += 1
+        goto(pg)
+        pg.click('#help-btn')
+        for tab in ['guia', 'metodo', 'recruiters', 'atajos', 'glosario', 'acerca']:
+            pg.click('#tab-' + tab)
+            axe(pg, f'{theme}/{width}/ayuda-{tab}')
+        pg.keyboard.press('Escape')
+        pg.keyboard.press('Control+k')
+        pg.fill('#search-input', 'alerta')
+        axe(pg, f'{theme}/{width}/buscar')
+        pg.keyboard.press('Escape')
+        if width > 500:
+            pg.click('#accent-btn')
+            axe(pg, f'{theme}/{width}/acento')
+            pg.keyboard.press('Escape')
+            pg.click('#account-btn')
+            axe(pg, f'{theme}/{width}/cuenta')
+            pg.keyboard.press('Escape')
+        else:
+            pg.click('#more-btn')
+            axe(pg, f'{theme}/{width}/mas')
+            pg.keyboard.press('Escape')
+        goto(pg, 'forja/h_buena')
+        pg.click('#delete-story')
+        axe(pg, f'{theme}/{width}/confirmar')
+        pg.keyboard.press('Escape')
+        for label, step in EXTRA_STEPS:
+            step(pg)
+            axe(pg, f'{theme}/{width}/{label}')
+        check(n == len(ROUTES), 'todas las rutas')
+    return fn
+
+
+TESTS = [(f'axe {th} {w}px', sweep(th, w)) for th in ('light', 'dark') for w in (1280, 390)]
+
+if __name__ == '__main__':
+    run(TESTS)
