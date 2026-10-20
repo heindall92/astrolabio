@@ -108,7 +108,14 @@ export function measurable(text, idioma = 'es') {
 
 export function actionVerbs(text, idioma = 'es') {
   const lex = lexicon(idioma);
-  const { found } = countList(text, lex.verbosAccion);
+  let { found } = countList(text, lex.verbosAccion);
+  if (idioma === 'en') {
+    // En inglés, «I» + verbo regular en pasado también cuenta aunque no esté en el léxico.
+    const seen = new Set(found.map(f => f.term));
+    for (const m of normalize(text).matchAll(/\bi (?:then |also |quickly |personally |first )?([a-z]{3,}ed)\b/g)) {
+      if (!seen.has(m[1]) && !lex.noVerbos.includes(m[1])) { seen.add(m[1]); found = [...found, { term: m[1], n: 1 }]; }
+    }
+  }
   const sentences = String(text || '').split(/[.!?\n]+/).map(s => normalize(s).trim()).filter(Boolean);
   const weak = [];
   for (const s of sentences) {
@@ -171,4 +178,17 @@ export function analyze(story, { idioma = 'es', marcados = [] } = {}) {
     aprendizaje: learning(story, idioma),
     sensibles: sensitive(story, marcados),
   };
+}
+
+/** Idioma probable de una historia ('es' o 'en'), o null si hay poco texto. */
+export function detectLanguage(story) {
+  const text = normalize([...BLOQUES, 'l'].map(b => (story && story[b]) || '').join(' '));
+  const words = text.split(/[^a-zñáéíóúü']+/).filter(Boolean);
+  if (words.length < 12) return null;
+  const ES_W = new Set(['el', 'la', 'de', 'que', 'y', 'en', 'los', 'las', 'un', 'una', 'del', 'por', 'con', 'para', 'se', 'mi', 'lo', 'al', 'es', 'como', 'pero', 'más']);
+  const EN_W = new Set(['the', 'and', 'of', 'to', 'in', 'a', 'i', 'was', 'with', 'for', 'my', 'that', 'it', 'on', 'we', 'had', 'is', 'as', 'by', 'from', 'which', 'this']);
+  let es = 0, en = 0;
+  for (const w of words) { if (ES_W.has(w)) es++; if (EN_W.has(w)) en++; }
+  if (es === en) return null;
+  return en > es ? 'en' : 'es';
 }

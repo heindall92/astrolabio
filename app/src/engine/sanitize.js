@@ -96,6 +96,7 @@ export function sanitizeState(raw, { competencias } = {}) {
         conviccion: int(d.conviccion, 0, 100),
         superado: d.superado === true,
         modo: str(d.modo, 20),
+        ingles: d.ingles === true,
       });
     }
   }

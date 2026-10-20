@@ -417,10 +417,10 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - **Hecho cuando:** las reglas de XP e insignias están probadas en el motor y la ayuda «Método» se genera desde las constantes.
 
 ### v0.5.0 · Inglés, exportación y ecosistema
-- [ ] Analizador en inglés completo y modo «entrevista en inglés» enlazado con LemonByte.
-- [ ] Exportar e importar JSON (`yrd-ecosistema`, tipo `historias`) y «chuleta» imprimible de las mejores historias.
-- [ ] «Acerca de» con el ecosistema completo y los enlaces comprobados.
-- [ ] Intro de vídeo (si hay vídeo de la marca).
+- [x] Analizador en inglés completo y modo «entrevista en inglés» enlazado con LemonByte.
+- [x] Exportar e importar JSON (`yrd-ecosistema`, tipo `historias`) y «chuleta» imprimible de las mejores historias.
+- [x] «Acerca de» con el ecosistema completo y los enlaces comprobados.
+- [ ] Intro de vídeo (si hay vídeo de la marca). *Pendiente: no hay vídeo de la marca todavía.*
 
 ### v1.0.0 · Lanzamiento
 - [ ] Cifras del README verdaderas (pruebas, preguntas, insignias), capturas en claro, oscuro y móvil, y GIF del duelo.
