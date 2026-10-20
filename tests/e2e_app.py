@@ -242,6 +242,151 @@ def t_reduced(browser):
     no_errors(pg, 'reduced')
 
 
+def t_constelacion(browser):
+    pg = new_page(browser, state=state(historias=[BUENA, dict(BUENA, id='h_dos', titulo='Otra', competencias=['presion'])]))
+    goto(pg, 'constelacion')
+    check(pg.locator('.sky .star').count() == 3, 'tres estrellas (dos en presión y una en análisis)')
+    check(pg.locator('.sky .zone.empty').count() == 10, 'diez constelaciones vacías')
+    check('Te faltan' in pg.get_attribute('.sky', 'aria-label'), 'aria-label resumen')
+    check(pg.locator('table tbody tr').count() == 12, 'lista equivalente con 12 competencias')
+    pg.focus('.sky .star[tabindex="0"]')
+    first = pg.evaluate('document.activeElement.dataset.id')
+    pg.keyboard.press('ArrowRight')
+    second = pg.evaluate('document.activeElement.dataset.id')
+    check(first and second and pg.locator('#star-tip').is_visible(), 'flechas entre estrellas y ficha visible')
+    pg.keyboard.press('Enter')
+    pg.wait_for_selector('#f-titulo')
+    check('#forja/' in pg.url, 'Enter abre la historia')
+    goto(pg, 'constelacion')
+    pg.click('#contenido .card button:has-text("Escribir una historia") >> nth=0')
+    pg.wait_for_selector('#f-titulo')
+    check(pg.locator('#story-form input[type=checkbox]:checked').count() == 1, 'nueva historia con la competencia que falta')
+    box = pg.evaluate("[...document.querySelectorAll('.sky .star .hit')].map(r => r.getBoundingClientRect().width)")
+    no_errors(pg, 'constelacion')
+
+
+def t_contenido(browser):
+    pg = new_page(browser, state=state())
+    goto(pg, 'forja')
+    check(pg.locator('#modelos .card').count() == 3, 'tres historias modelo de la ruta')
+    n = int(pg.inner_text('#banco p.small').split()[0])
+    check(n >= 25, f'banco con al menos 25 preguntas ({n})')
+    pg.select_option('#banco-filtro', 'presion')
+    m = int(pg.inner_text('#banco p.small').split()[0])
+    check(0 < m < n, 'filtro por competencia')
+    pg.click('#modelos .card button >> nth=0')
+    pg.wait_for_selector('#f-titulo')
+    check(pg.locator('#ensayo-note').is_visible(), 'el modelo se practica como ensayo')
+    check(int(pg.inner_text('#score-total')) >= 85, 'el modelo puntúa alto')
+    goto(pg, 'forja')
+    pg.click('#banco li button >> nth=0')
+    pg.wait_for_selector('#pregunta-guia')
+    # Búsqueda sin tildes sobre preguntas y glosario
+    pg.keyboard.press('Control+k')
+    pg.fill('#search-input', 'guardia nocturna')
+    pg.fill('#search-input', 'falso positivo')
+    txt = pg.inner_text('#search-results').lower()
+    check('pregunta' in txt and 'glosario' in txt, 'preguntas y glosario en la búsqueda')
+    pg.fill('#search-input', 'estacionalidad')
+    check(pg.locator('#search-results [role=option]').count() >= 1, 'glosario de otra ruta')
+    pg.fill('#search-input', 'CONVICCION')
+    check(pg.locator('#search-results [role=option]').count() >= 1, 'insensible a mayúsculas y tildes')
+    pg.keyboard.press('Escape')
+    no_errors(pg, 'contenido')
+
+
+def t_arena(browser):
+    pg = new_page(browser, state=state(historias=[BUENA]))
+    goto(pg, 'arena')
+    check(pg.locator('.rec-card').count() == 5, 'cinco recruiters')
+    check(pg.is_checked('input[name=historia][value=h_buena]'), 'recomienda la historia que encaja')
+    # Duelo ganado con Rita en modo escrito
+    pg.check('input[name=recruiter][value=rita]', force=True)
+    pg.check('input[name=modo][value=escrito]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-answer')
+    check(pg.input_value('#a-a').startswith('Clasifiqué'), 'la historia elegida rellena la respuesta')
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-follow')
+    check('+' in pg.inner_text('#arena-delta'), 'la convicción sube con una buena historia')
+    check(int(pg.get_attribute('[role=meter]', 'aria-valuenow')) > 50, 'medidor de convicción')
+    pg.fill('#arena-follow', 'La decisión más difícil fue bloquear la sesión sin confirmación; lo hice porque el riesgo era alto.')
+    pg.keyboard.press('Control+Enter')
+    pg.wait_for_selector('#arena-veredicto')
+    check('Superado' in pg.inner_text('#arena-veredicto'), 'duelo ganado')
+    check(pg.locator('#arena-rondas tbody tr').count() == 2, 'una ronda inicial y una repregunta')
+    saved = pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).duelos")
+    check(len(saved) == 1 and saved[0]['superado'] is True and saved[0]['recruiter'] == 'rita', 'duelo guardado')
+    # Duelo perdido contra el jefe, desde cero, con Alt N
+    pg.keyboard.press('Alt+n')
+    pg.wait_for_selector('#arena-form')
+    pg.check('input[name=recruiter][value=subeliston]', force=True)
+    pg.check('input[name=historia][value=""]')
+    pg.click('#arena-start')
+    pg.fill('#a-s', 'Estaba en el SOC.')
+    pg.fill('#a-a', 'Básicamente nosotros miramos cosas.')
+    pg.click('#arena-send')
+    for _ in range(4):
+        pg.wait_for_selector('#arena-veredicto, #arena-follow')
+        if pg.locator('#arena-veredicto').count():
+            break
+        pg.fill('#arena-follow', 'Pues no sé, lo normal.')
+        pg.click('#arena-send')
+    pg.wait_for_selector('#arena-veredicto')
+    check('No superado' in pg.inner_text('#arena-veredicto'), 'duelo perdido')
+    check(pg.locator('#arena-save').count() == 1, 'ofrece guardar la respuesta como historia')
+    pg.click('#arena-save')
+    pg.wait_for_function('() => document.body.dataset.route === "forja/nueva"')
+    check(pg.input_value('#f-s') == 'Estaba en el SOC.', 'la respuesta pasa a la Forja')
+    goto(pg, 'arena')
+    check(pg.locator('#arena-hist li').count() == 2, 'historial de duelos')
+    no_errors(pg, 'arena')
+
+
+def t_arena_modos(browser):
+    pg = new_page(browser, state=state(historias=[BUENA]))
+    pg.clock.install()
+    goto(pg, 'arena')
+    # Alt R: pregunta al azar
+    before = pg.input_value('#arena-q')
+    for _ in range(6):
+        pg.keyboard.press('Alt+r')
+        if pg.input_value('#arena-q') != before:
+            break
+    check(pg.input_value('#arena-q') != before, 'Alt R cambia la pregunta')
+    # Contrarreloj: el tiempo agotado responde solo y penaliza
+    pg.check('input[name=recruiter][value=manager]', force=True)
+    pg.check('input[name=modo][value=contrarreloj]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-timer')
+    pg.clock.run_for(91000)
+    pg.wait_for_selector('#arena-delta')
+    pg.click('#arena-quit')
+    # Parar el reloj
+    pg.click('#arena-start')
+    pg.click('#arena-stop-timer')
+    check(pg.locator('#arena-timer').count() == 0, 'el reloj se puede parar')
+    pg.click('#arena-quit')
+    # En voz alta con autoevaluación
+    pg.check('input[name=modo][value=voz]')
+    pg.click('#arena-start')
+    for box in pg.locator('input[name=marca]').all():
+        box.check()
+    pg.click('#arena-send')
+    pg.wait_for_selector('#arena-delta')
+    check('+' in pg.inner_text('#arena-delta'), 'autoevaluación completa suma convicción')
+    pg.click('#arena-quit')
+    # Sorpresa
+    pg.check('input[name=modo][value=sorpresa]')
+    pg.click('#arena-start')
+    pg.wait_for_selector('#arena-answer')
+    # La búsqueda lleva a la pregunta en la Arena
+    pg.click('#arena-quit')
+    goto(pg, 'arena/pregunta/blue-07')
+    check(pg.input_value('#arena-q') == 'blue-07', 'enlace directo a una pregunta')
+    no_errors(pg, 'modos')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -253,6 +398,10 @@ TESTS = [
     ('exportar, importar y borrar todo', t_export_import),
     ('inglés sin restos en español', t_english),
     ('movimiento reducido', t_reduced),
+    ('constelación accesible con teclado y lista equivalente', t_constelacion),
+    ('historias modelo, banco de preguntas y búsqueda', t_contenido),
+    ('arena: duelo ganado y duelo perdido', t_arena),
+    ('arena: contrarreloj, voz alta, sorpresa y atajos', t_arena_modos),
 ]
 
 if __name__ == '__main__':

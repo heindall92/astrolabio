@@ -2,6 +2,27 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.3.0] · 2026-10-21 · Arena
+
+### Añadido
+- Arena con cinco recruiters de creación propia, cada uno con lo que más valora, su umbral y su número de repreguntas.
+- Barra de convicción (empieza en 50, meta 70, derrota inmediata en 15) y repreguntas sobre el criterio más flojo según el recruiter.
+- Modos escrito, en voz alta con autoevaluación, contrarreloj de 90 s (con botón para parar el reloj) y sorpresa.
+- Recomendación de la historia que mejor encaja con cada pregunta e informe del duelo con rondas y qué mejorar.
+- Atajos: `Ctrl Enter` responde, `Alt R` elige pregunta al azar y `Alt N` empieza otro duelo.
+- Motor `engine/arena.js` probado y comprobación en el build de nombres repetidos entre módulos.
+- e2e de un duelo ganado y otro perdido, y axe en cada paso del duelo.
+
+## [0.2.0] · 2026-10-20 · Constelación y banco de preguntas
+
+### Añadido
+- Constelación SVG de 12 competencias (4×3 en escritorio, 2×6 en móvil), navegable con teclado, con tabla equivalente y animación de estrella nueva.
+- Correspondencia de cada competencia con los 16 principios de liderazgo públicos.
+- Rutas Red, Blue, GRC y Data: 26 preguntas propias por ruta, 3 historias modelo bilingües y glosario.
+- Banco de preguntas en la Forja y preguntas comunes, incluidas las «trampa» con guía.
+- Búsqueda `Ctrl K` sobre historias, preguntas y glosario, insensible a mayúsculas y tildes.
+- Pruebas de contenido: sin duplicados, cada pregunta con competencia y paridad ES/EN.
+
 ## [0.1.0] · 2026-10-20 · Cimientos: perfil y Forja
 
 ### Añadido

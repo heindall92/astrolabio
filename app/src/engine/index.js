@@ -3,3 +3,4 @@ export * from './constants.js';
 export * from './analyzer.js';
 export * from './score.js';
 export * from './sanitize.js';
+export * from './arena.js';

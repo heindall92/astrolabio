@@ -349,6 +349,73 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
   .app { display: block; }
   body { background: #fff; color: #000; }
 }
+
+/* ============ Constelación ============ */
+.sky-card { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.sky-wrap { position: relative; border-radius: var(--r); background: var(--canvas); overflow: hidden; }
+.sky { display: block; width: 100%; height: auto; }
+.sky .zone-label { font: 600 15px var(--f); fill: var(--canvas-ink); }
+.sky .zone-meta { font: 500 11px var(--f-mono); fill: var(--canvas-ink); opacity: .78; letter-spacing: .04em; }
+.sky .zone.empty .zone-label { opacity: .9; }
+.sky .ghost-line { fill: none; stroke: var(--canvas-ink); stroke-opacity: .5; stroke-width: 1.5; stroke-dasharray: 4 6; }
+.sky .ghost-star { fill: none; stroke: var(--canvas-ink); stroke-opacity: .55; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.sky .const-line { fill: none; stroke: var(--canvas-ink); stroke-opacity: .5; stroke-width: 1.5; stroke-dasharray: 1200; stroke-dashoffset: 0; }
+.sky .star .hit { fill: transparent; }
+.sky .star .core { fill: var(--canvas-ink); transform-box: fill-box; transform-origin: center; transition: transform .2s var(--ease-out); }
+.sky .star.st-borrador .core { fill: var(--canvas-ink); opacity: .55; }
+.sky .star.st-lista .core { fill: var(--accent); }
+.sky .star.st-brillante .core { fill: var(--star); stroke: var(--star-ink); stroke-opacity: .55; stroke-width: 1; }
+.sky .star .glow { fill: var(--star); opacity: .22; }
+.sky .star:hover .core, .sky .star:focus-visible .core { transform: scale(1.25); }
+.sky .star:focus { outline: none; }
+.sky .star:focus-visible .hit { stroke: var(--canvas-ink); stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .sky .star.nueva .core { animation: flash .3s var(--ease-out); }
+  .sky .const-line.draw { animation: draw .6s var(--ease-out) both; }
+}
+@media (prefers-reduced-motion: reduce) { .sky .star.nueva { animation: fade .3s linear; } }
+@keyframes flash { from { transform: scale(2.2); opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1200; } }
+.star-tip { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 6px; max-width: 260px; padding: 10px 12px; border-radius: 12px; background: var(--s1); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow-lg); pointer-events: none; }
+.table-wrap { overflow-x: auto; }
+
+.qlist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.qlist li { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--line); }
+.qlist li:first-child { border-top: 0; }
+.qlist details summary { cursor: pointer; color: var(--accent); font-size: .875rem; font-weight: 550; min-height: 24px; }
+#banco select { width: auto; min-width: 220px; }
+
+/* ---------- Arena ---------- */
+.stack.tight { gap: 4px; }
+.row.wrap { flex-wrap: wrap; }
+.callout.ok { border-color: color-mix(in oklab, var(--ok) 40%, var(--line)); }
+.callout.ok .ic { color: var(--ok); }
+.chip.ok { color: var(--on-accent); background: var(--accent); border-color: transparent; }
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.rec-card { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 16px; border: 1px solid var(--line-2); background: var(--s1); cursor: pointer; transition: transform .16s var(--ease-out), border-color .16s, background-color .16s; }
+.rec-card:active { transform: scale(.98); }
+.rec-card input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.rec-card:has(input:checked) { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 8%, var(--s1)); box-shadow: 0 0 0 1px var(--accent); }
+.rec-card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rec-av { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: color-mix(in oklab, var(--accent) 14%, var(--s2)); color: var(--accent); }
+.rec-av.boss, .rec-card.boss .rec-av { background: color-mix(in oklab, var(--star) 30%, var(--s2)); color: var(--star-ink); }
+.block-check { border-radius: 14px; min-height: 48px; padding: 8px 14px; width: 100%; justify-content: flex-start; }
+#arena-q { flex: 1 1 260px; min-width: 0; }
+.duel-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 760px) { .duel-top { grid-template-columns: 1fr; } }
+.rec-say { display: flex; gap: 14px; align-items: flex-start; }
+.rec-say p:first-child { font-size: 1.05rem; }
+.up { color: var(--ok); }
+.down { color: var(--crit); }
+.conv-bar { position: relative; height: 12px; }
+.conv-bar i { transition: width .5s var(--ease-out); }
+.conv-bar .goal { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); border-radius: 2px; }
+.timer { padding: 8px 12px; border-radius: 12px; background: var(--s2); }
+.timer .mono { font-size: 1.1rem; font-weight: 600; }
+#arena-hist li { align-items: center; }
+@media (prefers-reduced-motion: reduce) { .conv-bar i { transition: none; } }
+.rec-card .chip { align-self: flex-start; }
+.duel-top { margin-bottom: 0; }
 </style>
 <a class="skip" href="#contenido" id="skip">Saltar al contenido</a>
 <div class="app" id="app">
@@ -398,8 +465,8 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 <input type="file" id="import-file" accept="application/json,.json" hidden>
 
 <script>(()=>{'use strict';
-const APP_VERSION="0.1.0";
-const ICONS={"arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
+const APP_VERSION="0.3.0";
+const ICONS={"arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
 const MARK_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" role=\"img\" aria-label=\"Astrolabio\"><defs><radialGradient id=\"am-g\" cx=\"50%\" cy=\"50%\" r=\"55%\"><stop offset=\"0\" stop-color=\"#FFF7E0\"/><stop offset=\".35\" stop-color=\"#FFDB7A\"/><stop offset=\"1\" stop-color=\"#FFC233\"/></radialGradient></defs><path fill=\"#0B1024\" d=\"M18 5h28c7.7 0 14 6.3 14 14v18c0 7.7-6.3 14-14 14H30.5c-3.4 3.9-8.4 6.6-14.2 7.3-1 .1-1.5-1.1-.8-1.7 2.3-1.9 3.6-3.7 4-5.6H18C10.3 51 4 44.7 4 37V19C4 11.3 10.3 5 18 5Z\"/><path fill=\"url(#am-g)\" d=\"M32 9.5c1.3 9.6 4.4 14.9 16.5 18.5C36.4 31.6 33.3 36.9 32 46.5 30.7 36.9 27.6 31.6 15.5 28 27.6 24.4 30.7 19.1 32 9.5Z\"/></svg>";
 // ---- src/i18n/es.js ----
 // Diccionario de la interfaz en español (idioma principal).
@@ -563,6 +630,121 @@ const ES = {
   'buscar.ph': 'Busca historias, preguntas, competencias…', 'buscar.resultados': 'Resultados', 'buscar.nada': 'Sin resultados.',
   'buscar.pista': 'Escribe para buscar. No importan las tildes.', 'buscar.n': '{n} resultados',
   'buscar.k.historia': 'Historia', 'buscar.k.competencia': 'Competencia', 'buscar.k.pregunta': 'Pregunta', 'buscar.k.glosario': 'Glosario',
+  "const.titulo": "Tu constelación",
+  "const.lede": "Cada competencia es una constelación y cada historia, una estrella. Cubres {n} de {total}.",
+  "const.aria": "Constelación de competencias: cubres {n} de {total}. Te faltan: {faltan}.",
+  "const.ariaCompleta": "Constelación completa: tienes historias para las {total} competencias.",
+  "const.zoneMeta": "{n} · MEJOR {best}",
+  "const.vacia": "SIN HISTORIAS",
+  "const.estrella": "{titulo}: {nota} de 100, {estado}. Competencia: {comp}. Abrir la historia.",
+  "const.teclado": "Pasa por encima o usa las flechas para recorrer las estrellas; Enter abre la historia.",
+  "const.sinEstrellas": "Todavía no hay estrellas: guarda una historia con al menos una competencia.",
+  "const.faltanTitulo": "Lo que te falta",
+  "const.teFalta": "Te falta una historia de {comp}.",
+  "const.prueba": "Prueba con:",
+  "const.escribir": "Escribir una historia",
+  "const.tabla": "Tabla de competencias",
+  "const.tablaCaption": "Competencias, número de historias, mejor puntuación y principios públicos relacionados",
+  "const.col.comp": "Competencia",
+  "const.col.n": "Historias",
+  "const.col.best": "Mejor nota",
+  "const.col.principios": "Principios relacionados (solo nombres)",
+  "forja.modelosTitulo": "Historias modelo · {rol}",
+  "forja.modelosLede": "Ejemplos de redacción propia para ver la estructura. Si usas uno, se guarda como ensayo: en la entrevista cuenta lo tuyo.",
+  "forja.modelo": "Modelo",
+  "forja.usarModelo": "Practicar con este modelo",
+  "forja.bancoTitulo": "Banco de preguntas",
+  "forja.bancoFiltro": "Filtrar por competencia",
+  "forja.bancoTodas": "Todas las competencias",
+  "forja.bancoN": "{n} preguntas",
+  "forja.trampa": "Trampa",
+  "forja.guia": "Guía de respuesta",
+  "forja.responder": "Responder",
+  "forja.responderAria": "Responder con una historia: {q}",
+  "forja.preguntaGuia": "Pregunta:",
+  "arena.titulo": "Arena",
+  "arena.lede": "Elige recruiter, modo y pregunta. Te repreguntará por lo que le falte a tu historia hasta convencerse… o no.",
+  "arena.preparar": "Preparar el duelo",
+  "arena.elige.recruiter": "Recruiter",
+  "arena.elige.modo": "Modo",
+  "arena.elige.pregunta": "Pregunta",
+  "arena.elige.historia": "Historia con la que respondes",
+  "arena.modo.escrito": "Escrito",
+  "arena.modo.voz": "En voz alta",
+  "arena.modo.contrarreloj": "Contrarreloj",
+  "arena.modo.sorpresa": "Sorpresa",
+  "arena.modo.escrito.d": "respondes por escrito bloque a bloque; la Forja puntúa cada ronda.",
+  "arena.modo.voz.d": "lo cuentas en voz alta y después marcas con sinceridad lo que has cumplido.",
+  "arena.modo.contrarreloj.d": "como el escrito, pero con {s} segundos por ronda. Puedes parar el reloj cuando quieras.",
+  "arena.modo.sorpresa.d": "recruiter y pregunta al azar, con tu historia que mejor encaja.",
+  "arena.comunes": "Preguntas comunes",
+  "arena.aleatoria": "Pregunta al azar",
+  "arena.aleatoriaToast": "Pregunta elegida al azar",
+  "arena.recomendadaHint": "Ordenadas por las competencias que comparten con la pregunta y por su nota.",
+  "arena.sinHistorias": "Aún no tienes historias. Puedes responder desde cero y guardarla después.",
+  "arena.recomendada": "Recomendada",
+  "arena.encaje": "{n} competencias en común · nota {total}",
+  "arena.desdeCero": "Desde cero",
+  "arena.desdeCero.d": "Escribes la respuesta en el duelo.",
+  "arena.empezar": "Empezar el duelo",
+  "arena.ultimos": "Últimos duelos",
+  "arena.conviccionN": "convicción {n}",
+  "arena.ganado": "Superado",
+  "arena.perdido": "No superado",
+  "arena.conviccion": "Convicción del recruiter",
+  "arena.meta": "Para superarlo necesitas {n} o más al terminar.",
+  "arena.ronda": "Ronda {n} de {total}",
+  "arena.delta": "Convicción {n}",
+  "arena.repregunta": "Repregunta:",
+  "arena.pregunta": "Pregunta:",
+  "arena.respuesta": "Tu respuesta",
+  "arena.verHistoria": "Ver la historia que vas a contar",
+  "arena.voz.instr": "Cuéntala en voz alta, como en la entrevista. Después marca lo que de verdad has hecho.",
+  "arena.voz.check": "Autoevaluación",
+  "arena.voz.reparto": "Contexto breve y la mayor parte del tiempo en lo que hice",
+  "arena.voz.duracion": "Entre uno y dos minutos y medio",
+  "arena.voz.yo": "Hablé en primera persona («yo hice»)",
+  "arena.voz.cifra": "Di al menos una cifra del resultado",
+  "arena.voz.verbos": "Usé verbos de acción concretos",
+  "arena.voz.muletillas": "Casi sin muletillas",
+  "arena.voz.aprendizaje": "Cerré con lo que aprendí",
+  "arena.tuRespuesta": "Tu respuesta a la repregunta",
+  "arena.seAnade": "Se añade al bloque {bloque} de tu historia en este duelo.",
+  "arena.relojParado": "Reloj parado: sigues en modo escrito",
+  "arena.pararReloj": "Parar el reloj",
+  "arena.enviar": "Responder",
+  "arena.enviarHint": "Ctrl + Enter",
+  "arena.abandonar": "Abandonar",
+  "arena.quedan": "Quedan {s} segundos",
+  "arena.tiempo": "Se acabó el tiempo",
+  "arena.informe": "Informe",
+  "arena.ganadoTitulo": "Duelo superado",
+  "arena.perdidoTitulo": "Duelo no superado",
+  "arena.veredicto": "{rec} termina con una convicción de {n} (meta: {meta}).",
+  "arena.rondas": "Rondas",
+  "arena.col.ronda": "Ronda",
+  "arena.col.tema": "Tema",
+  "arena.col.nota": "Nota",
+  "arena.col.cambio": "Cambio",
+  "arena.inicial": "Pregunta inicial",
+  "arena.mejorar": "Qué mejorar para la próxima",
+  "arena.nadaQueMejorar": "Nada importante: tu historia aguantó todas las repreguntas.",
+  "arena.otro": "Otro duelo",
+  "arena.guardarComo": "Guardar como historia",
+  "arena.pulir": "Pulir la historia en la Forja",
+  "arena.rep.reparto": "Me falta contexto. ¿Dónde estabas, qué estaba en juego y qué te tocaba a ti?",
+  "arena.rep.duracion": "Cuéntame más de lo que hiciste, paso a paso.",
+  "arena.rep.yo": "Has dicho mucho «nosotros». ¿Qué hiciste tú exactamente?",
+  "arena.rep.cifra": "¿Cómo mediste el resultado? Dame una cifra.",
+  "arena.rep.verbos": "¿Qué acciones concretas tomaste? Dime los pasos.",
+  "arena.rep.muletillas": "Repítemelo más directo, sin rodeos: ¿qué hiciste?",
+  "arena.rep.aprendizaje": "¿Qué aprendiste? ¿Qué harías distinto la próxima vez?",
+  "arena.rep.profundiza": "Interesante. ¿Cuál fue la decisión más difícil y por qué la tomaste?",
+  "atajo.arena.enviar": "Arena: responder",
+  "atajo.arena.aleatoria": "Arena: pregunta al azar",
+  "atajo.arena.otro": "Arena: otro duelo al terminar",
+  "ayuda.arena.titulo": "Reglas del duelo",
+  "ayuda.arena.reglas": "Empiezas con {ini} de convicción. Cada respuesta suma o resta según lo que valora el recruiter (como mucho {max} puntos). Si baja a {derrota} o menos, el duelo acaba. Tras las repreguntas, superas el duelo con {meta} o más. En contrarreloj, agotar el tiempo resta {pen}.",
 };
 
 // ---- src/i18n/en.js ----
@@ -727,6 +909,121 @@ const EN = {
   'buscar.ph': 'Search stories, questions, competencies…', 'buscar.resultados': 'Results', 'buscar.nada': 'No results.',
   'buscar.pista': 'Type to search. Accents do not matter.', 'buscar.n': '{n} results',
   'buscar.k.historia': 'Story', 'buscar.k.competencia': 'Competency', 'buscar.k.pregunta': 'Question', 'buscar.k.glosario': 'Glossary',
+  "const.titulo": "Your constellation",
+  "const.lede": "Each competency is a constellation and each story is a star. You cover {n} of {total}.",
+  "const.aria": "Competency constellation: you cover {n} of {total}. Missing: {faltan}.",
+  "const.ariaCompleta": "Complete constellation: you have stories for all {total} competencies.",
+  "const.zoneMeta": "{n} · BEST {best}",
+  "const.vacia": "NO STORIES",
+  "const.estrella": "{titulo}: {nota} out of 100, {estado}. Competency: {comp}. Open the story.",
+  "const.teclado": "Hover or use the arrow keys to move between stars; Enter opens the story.",
+  "const.sinEstrellas": "No stars yet: save a story with at least one competency.",
+  "const.faltanTitulo": "What is missing",
+  "const.teFalta": "You are missing a story about {comp}.",
+  "const.prueba": "Try:",
+  "const.escribir": "Write a story",
+  "const.tabla": "Competency table",
+  "const.tablaCaption": "Competencies, number of stories, best score and related public principles",
+  "const.col.comp": "Competency",
+  "const.col.n": "Stories",
+  "const.col.best": "Best score",
+  "const.col.principios": "Related principles (names only)",
+  "forja.modelosTitulo": "Model stories · {rol}",
+  "forja.modelosLede": "Original examples to show the structure. If you use one it is saved as practice: in the interview, tell your own.",
+  "forja.modelo": "Model",
+  "forja.usarModelo": "Practise with this model",
+  "forja.bancoTitulo": "Question bank",
+  "forja.bancoFiltro": "Filter by competency",
+  "forja.bancoTodas": "All competencies",
+  "forja.bancoN": "{n} questions",
+  "forja.trampa": "Trick",
+  "forja.guia": "Answer guide",
+  "forja.responder": "Answer",
+  "forja.responderAria": "Answer with a story: {q}",
+  "forja.preguntaGuia": "Question:",
+  "arena.titulo": "Arena",
+  "arena.lede": "Pick a recruiter, a mode and a question. They will follow up on what your story is missing until they are convinced… or not.",
+  "arena.preparar": "Set up the duel",
+  "arena.elige.recruiter": "Recruiter",
+  "arena.elige.modo": "Mode",
+  "arena.elige.pregunta": "Question",
+  "arena.elige.historia": "Story you answer with",
+  "arena.modo.escrito": "Written",
+  "arena.modo.voz": "Aloud",
+  "arena.modo.contrarreloj": "Timed",
+  "arena.modo.sorpresa": "Surprise",
+  "arena.modo.escrito.d": "you write block by block; the Forge scores every round.",
+  "arena.modo.voz.d": "you tell it aloud and then honestly tick what you did.",
+  "arena.modo.contrarreloj.d": "like written, but with {s} seconds per round. You can stop the clock at any time.",
+  "arena.modo.sorpresa.d": "random recruiter and question, with your best-matching story.",
+  "arena.comunes": "Common questions",
+  "arena.aleatoria": "Random question",
+  "arena.aleatoriaToast": "Random question picked",
+  "arena.recomendadaHint": "Sorted by competencies shared with the question and by score.",
+  "arena.sinHistorias": "You have no stories yet. You can answer from scratch and save it afterwards.",
+  "arena.recomendada": "Recommended",
+  "arena.encaje": "{n} shared competencies · score {total}",
+  "arena.desdeCero": "From scratch",
+  "arena.desdeCero.d": "You write the answer during the duel.",
+  "arena.empezar": "Start the duel",
+  "arena.ultimos": "Recent duels",
+  "arena.conviccionN": "conviction {n}",
+  "arena.ganado": "Passed",
+  "arena.perdido": "Not passed",
+  "arena.conviccion": "Recruiter conviction",
+  "arena.meta": "You need {n} or more at the end to pass.",
+  "arena.ronda": "Round {n} of {total}",
+  "arena.delta": "Conviction {n}",
+  "arena.repregunta": "Follow-up:",
+  "arena.pregunta": "Question:",
+  "arena.respuesta": "Your answer",
+  "arena.verHistoria": "See the story you are going to tell",
+  "arena.voz.instr": "Tell it aloud, as in the interview. Then tick what you really did.",
+  "arena.voz.check": "Self-assessment",
+  "arena.voz.reparto": "Short context and most of the time on what I did",
+  "arena.voz.duracion": "Between one and two and a half minutes",
+  "arena.voz.yo": "I spoke in the first person (“I did”)",
+  "arena.voz.cifra": "I gave at least one number for the result",
+  "arena.voz.verbos": "I used concrete action verbs",
+  "arena.voz.muletillas": "Hardly any filler words",
+  "arena.voz.aprendizaje": "I closed with what I learned",
+  "arena.tuRespuesta": "Your answer to the follow-up",
+  "arena.seAnade": "It is added to the {bloque} block of your story in this duel.",
+  "arena.relojParado": "Clock stopped: you are now in written mode",
+  "arena.pararReloj": "Stop the clock",
+  "arena.enviar": "Answer",
+  "arena.enviarHint": "Ctrl + Enter",
+  "arena.abandonar": "Quit",
+  "arena.quedan": "{s} seconds left",
+  "arena.tiempo": "Time is up",
+  "arena.informe": "Report",
+  "arena.ganadoTitulo": "Duel passed",
+  "arena.perdidoTitulo": "Duel not passed",
+  "arena.veredicto": "{rec} ends with a conviction of {n} (target: {meta}).",
+  "arena.rondas": "Rounds",
+  "arena.col.ronda": "Round",
+  "arena.col.tema": "Topic",
+  "arena.col.nota": "Score",
+  "arena.col.cambio": "Change",
+  "arena.inicial": "Opening question",
+  "arena.mejorar": "What to improve next time",
+  "arena.nadaQueMejorar": "Nothing major: your story held up to every follow-up.",
+  "arena.otro": "Another duel",
+  "arena.guardarComo": "Save as a story",
+  "arena.pulir": "Polish the story in the Forge",
+  "arena.rep.reparto": "I am missing context. Where were you, what was at stake and what was your part?",
+  "arena.rep.duracion": "Tell me more about what you did, step by step.",
+  "arena.rep.yo": "You said “we” a lot. What did you do exactly?",
+  "arena.rep.cifra": "How did you measure the result? Give me a number.",
+  "arena.rep.verbos": "What concrete actions did you take? Walk me through the steps.",
+  "arena.rep.muletillas": "Say it again, more directly: what did you do?",
+  "arena.rep.aprendizaje": "What did you learn? What would you do differently next time?",
+  "arena.rep.profundiza": "Interesting. What was the hardest decision and why did you make it?",
+  "atajo.arena.enviar": "Arena: answer",
+  "atajo.arena.aleatoria": "Arena: random question",
+  "atajo.arena.otro": "Arena: another duel when finished",
+  "ayuda.arena.titulo": "Duel rules",
+  "ayuda.arena.reglas": "You start at {ini} conviction. Each answer adds or subtracts according to what the recruiter values (at most {max} points). If it drops to {derrota} or lower, the duel ends. After the follow-ups, you pass with {meta} or more. In timed mode, running out of time costs {pen}.",
 };
 
 // ---- src/content/lexico/es.js ----
@@ -824,6 +1121,27 @@ const COMPETENCIAS = [
 ];
 
 const COMPETENCIA_IDS = COMPETENCIAS.map(c => c.id);
+
+// Correspondencia orientativa con los 16 Leadership Principles de Amazon: solo los nombres públicos.
+// Las descripciones son de redacción propia y no reproducen los textos oficiales.
+const PRINCIPIOS = [
+  { nombre: 'Customer Obsession', comp: ['cliente'], des: { es: 'Empezar por la persona a la que sirves.', en: 'Start from the person you serve.' } },
+  { nombre: 'Ownership', comp: ['iniciativa', 'resultados'], des: { es: 'Responder por el resultado más allá de tu tarea.', en: 'Answer for the outcome beyond your own task.' } },
+  { nombre: 'Invent and Simplify', comp: ['problemas', 'iniciativa'], des: { es: 'Buscar la solución más sencilla que funcione.', en: 'Look for the simplest solution that works.' } },
+  { nombre: 'Are Right, A Lot', comp: ['analisis'], des: { es: 'Decidir bien a menudo, contrastando con otras opiniones.', en: 'Decide well often, checking against other views.' } },
+  { nombre: 'Learn and Be Curious', comp: ['aprendizaje'], des: { es: 'Aprender siempre y explorar lo que no conoces.', en: 'Keep learning and explore what you do not know.' } },
+  { nombre: 'Hire and Develop the Best', comp: ['liderazgo', 'equipo'], des: { es: 'Ayudar a que otras personas crezcan.', en: 'Help other people grow.' } },
+  { nombre: 'Insist on the Highest Standards', comp: ['analisis', 'resultados'], des: { es: 'No conformarse con un trabajo a medias.', en: 'Do not settle for half-done work.' } },
+  { nombre: 'Think Big', comp: ['liderazgo', 'iniciativa'], des: { es: 'Proponer metas ambiciosas y explicarlas.', en: 'Propose ambitious goals and explain them.' } },
+  { nombre: 'Bias for Action', comp: ['presion', 'iniciativa'], des: { es: 'Actuar con rapidez cuando el riesgo es asumible.', en: 'Act quickly when the risk is acceptable.' } },
+  { nombre: 'Frugality', comp: ['problemas', 'resultados'], des: { es: 'Conseguir más con menos recursos.', en: 'Achieve more with fewer resources.' } },
+  { nombre: 'Earn Trust', comp: ['etica', 'comunicacion'], des: { es: 'Escuchar, ser honesto y reconocer errores.', en: 'Listen, be honest and admit mistakes.' } },
+  { nombre: 'Dive Deep', comp: ['analisis'], des: { es: 'Bajar a los detalles y comprobar los datos.', en: 'Go into the details and check the data.' } },
+  { nombre: 'Have Backbone; Disagree and Commit', comp: ['conflictos', 'etica'], des: { es: 'Discrepar con respeto y apoyar la decisión final.', en: 'Disagree respectfully, then back the final decision.' } },
+  { nombre: 'Deliver Results', comp: ['resultados', 'presion'], des: { es: 'Cumplir lo importante a pesar de los obstáculos.', en: 'Deliver what matters despite obstacles.' } },
+  { nombre: 'Strive to be Earth’s Best Employer', comp: ['equipo', 'liderazgo'], des: { es: 'Cuidar el entorno de trabajo de quienes te rodean.', en: 'Care for the work environment of those around you.' } },
+  { nombre: 'Success and Scale Bring Broad Responsibility', comp: ['etica'], des: { es: 'Pensar en el efecto de tu trabajo más allá de la empresa.', en: 'Think about the effect of your work beyond the company.' } },
+];
 
 // ---- src/content/recruiters.js ----
 // Recruiters de Astrolabio: personajes de creación propia.
@@ -924,11 +1242,369 @@ const GLOSARIO = [
   { id: 'g-conviccion', termino: { es: 'Convicción', en: 'Conviction' }, def: { es: 'En la Arena, cuánto se ha convencido el recruiter. A 100 pasas de fase.', en: 'In the Arena, how convinced the recruiter is. At 100 you move on.' } },
 ];
 
+// ---- src/content/roles/red.js ----
+// Ruta Red Team / Pentesting: preguntas, historias modelo y glosario. Redacción propia.
+// Formato de pregunta: [id, competencias, español, inglés].
+
+const RED_Q = [
+  ['red-01', ['comunicacion', 'cliente'], 'Cuéntame una vez que encontraste una vulnerabilidad crítica y tuviste que explicársela a alguien no técnico.', 'Tell me about a time you found a critical vulnerability and had to explain it to someone non-technical.'],
+  ['red-02', ['problemas', 'aprendizaje'], 'Háblame de un reto (CTF, máquina o auditoría) en el que te atascaste. ¿Qué hiciste para desbloquearlo?', 'Tell me about a challenge (CTF, box or audit) where you got stuck. What did you do to get unstuck?'],
+  ['red-03', ['comunicacion', 'etica'], 'Una vez que el alcance de un trabajo no estaba claro: ¿cómo lo resolviste?', 'A time when the scope of an engagement was unclear: how did you resolve it?'],
+  ['red-04', ['etica', 'liderazgo'], 'Cuéntame una ocasión en la que tuviste que decir que no a una prueba arriesgada.', 'Tell me about a time you had to say no to a risky test.'],
+  ['red-05', ['resultados', 'comunicacion'], '¿Cuál es el informe del que estás más orgulloso y por qué?', 'Which report are you most proud of, and why?'],
+  ['red-06', ['presion', 'resultados'], 'Una prueba con un plazo muy corto: ¿cómo decidiste qué atacar primero?', 'A test with a very short deadline: how did you decide what to attack first?'],
+  ['red-07', ['analisis'], 'Un hallazgo que otros habían pasado por alto. ¿Cómo diste con él?', 'A finding others had missed. How did you spot it?'],
+  ['red-08', ['iniciativa', 'problemas'], 'Una herramienta o script que creaste para ahorrar tiempo en una auditoría.', 'A tool or script you built to save time during an assessment.'],
+  ['red-09', ['conflictos', 'comunicacion'], 'Un equipo de desarrollo que no estaba de acuerdo con la gravedad de tu hallazgo. ¿Qué hiciste?', 'A development team disagreed with the severity of your finding. What did you do?'],
+  ['red-10', ['aprendizaje'], 'Una técnica de ataque que aprendiste desde cero para un trabajo concreto.', 'An attack technique you learned from scratch for a specific job.'],
+  ['red-11', ['etica', 'presion'], 'Una vez que rompiste algo sin querer durante una prueba. ¿Cómo lo gestionaste?', 'A time you accidentally broke something during a test. How did you handle it?'],
+  ['red-12', ['equipo'], 'Un trabajo en equipo en un CTF o una auditoría. ¿Cuál fue tu papel?', 'Teamwork in a CTF or an assessment. What was your role?'],
+  ['red-13', ['cliente', 'resultados'], 'Un cliente que quería solo «el informe para cumplir». ¿Cómo le aportaste valor real?', 'A client who only wanted a report to tick a box. How did you give them real value?'],
+  ['red-14', ['analisis', 'problemas'], 'Una cadena de fallos pequeños que, juntos, daban un impacto alto.', 'A chain of small issues that together had high impact.'],
+  ['red-15', ['comunicacion'], 'Una presentación de resultados ante dirección. ¿Cómo la preparaste?', 'Presenting results to senior management. How did you prepare?'],
+  ['red-16', ['iniciativa', 'aprendizaje'], 'Algo que investigaste por tu cuenta y acabó siendo útil en el trabajo.', 'Something you researched on your own that ended up being useful at work.'],
+  ['red-17', ['liderazgo', 'equipo'], 'Una vez que enseñaste a alguien menos experimentado a explotar o a documentar un fallo.', 'A time you taught someone less experienced to exploit or document a flaw.'],
+  ['red-18', ['etica'], 'Encontraste datos personales durante una prueba. ¿Qué hiciste con ellos?', 'You came across personal data during a test. What did you do with it?'],
+  ['red-19', ['problemas', 'presion'], 'Un entorno que se caía o no respondía en mitad de la prueba. ¿Cómo seguiste?', 'An environment that kept going down mid-test. How did you carry on?'],
+  ['red-20', ['resultados', 'analisis'], 'Cómo mediste el impacto de tus recomendaciones después de una auditoría.', 'How you measured the impact of your recommendations after an assessment.'],
+  ['red-21', ['conflictos', 'etica'], 'Te pidieron rebajar la gravedad de un hallazgo en el informe. ¿Qué respondiste?', 'You were asked to downgrade a finding in the report. What did you answer?'],
+  ['red-22', ['cliente', 'comunicacion'], 'Un cliente nervioso tras conocer un hallazgo grave. ¿Cómo le acompañaste?', 'A worried client after learning about a serious finding. How did you support them?'],
+  ['red-23', ['aprendizaje', 'resultados'], 'Tu progreso en una plataforma de práctica (HTB, TryHackMe, CTF): ¿qué te enseñó para el trabajo real?', 'Your progress on a practice platform (HTB, TryHackMe, CTFs): what did it teach you for real work?'],
+  ['red-24', ['iniciativa', 'resultados'], 'Una mejora que propusiste en la metodología de pruebas del equipo.', 'An improvement you proposed to the team testing methodology.'],
+  ['red-25', ['analisis', 'etica'], 'Un posible falso positivo de un escáner que tuviste que confirmar a mano.', 'A possible scanner false positive that you had to confirm manually.'],
+  ['red-26', ['presion', 'comunicacion'], 'Detectaste una intrusión real de un tercero mientras hacías una prueba. ¿Qué hiciste?', 'You detected a real third-party intrusion while testing. What did you do?'],
+];
+
+const RED_MODELOS = [
+  { id: 'red-m1', competencias: ['comunicacion', 'problemas', 'etica'],
+    es: { titulo: 'La inyección que nadie veía',
+      s: 'En mis prácticas en una consultora de seguridad, el equipo hacía una auditoría web para un cliente de logística con dos semanas de plazo y un alcance de tres aplicaciones.',
+      t: 'Me tocó revisar el portal de proveedores y explicar los hallazgos al responsable de operaciones, que no era técnico.',
+      a: 'Primero mapeé todas las rutas del portal con el proxy y prioricé los formularios que tocaban datos de pago. Detecté que un filtro de búsqueda devolvía errores de base de datos y reproduje una inyección SQL en un entorno de pruebas sin tocar producción. Documenté cada paso con capturas, validé el impacto con mi tutor y calculé cuántos registros quedaban expuestos. Después preparé una explicación de una página con una analogía de una puerta mal cerrada y la presenté yo mismo en la reunión con operaciones. Propuse una corrección con consultas parametrizadas y acordé con el desarrollador una fecha para volver a probar.',
+      r: 'El cliente corrigió el fallo en 4 días en lugar de las 3 semanas habituales y la nueva prueba confirmó que los 12.000 registros de proveedores ya no estaban expuestos.',
+      l: 'Aprendí que un hallazgo crítico solo sirve si la otra persona entiende el riesgo, así que ahora siempre preparo la versión no técnica antes que el informe.' },
+    en: { titulo: 'The injection nobody saw',
+      s: 'During my internship at a security consultancy, the team was running a web assessment for a logistics client, with a two-week deadline and three applications in scope.',
+      t: 'I was in charge of the supplier portal and of explaining the findings to the operations manager, who was not technical.',
+      a: 'First I mapped every route of the portal with the proxy and prioritised the forms that handled payment data. I detected that a search filter returned database errors and I reproduced a SQL injection in a test environment without touching production. I documented each step with screenshots, validated the impact with my mentor and calculated how many records were exposed. Then I prepared a one-page explanation using the analogy of a badly locked door and presented it myself in the meeting with operations. I proposed a fix with parameterised queries and agreed a retest date with the developer.',
+      r: 'The client fixed the flaw in 4 days instead of the usual 3 weeks, and the retest confirmed that the 12,000 supplier records were no longer exposed.',
+      l: 'I learned that a critical finding only helps if the other person understands the risk, so now I always prepare the non-technical version before the report.' } },
+  { id: 'red-m2', competencias: ['problemas', 'aprendizaje', 'iniciativa'],
+    es: { titulo: 'La máquina que me tuvo tres noches',
+      s: 'Mientras estudiaba un curso de pentesting, me propuse resolver una máquina de dificultad media en una plataforma de práctica y llevaba tres noches sin conseguir acceso inicial.',
+      t: 'Quería entender por qué no avanzaba y salir de ahí con un método que pudiera repetir, no solo con la solución.',
+      a: 'Paré y escribí en una tabla todo lo que había probado, servicio por servicio. Comparé esa tabla con mi lista de comprobación y detecté que no había enumerado los subdominios. Automaticé la enumeración con un pequeño script y encontré un panel de administración olvidado. Investigué la versión del panel, reproduje la vulnerabilidad en local antes de lanzarla y documenté cada paso en mis notas. Al terminar, reorganicé mi lista de comprobación para que la enumeración de subdominios fuera el paso tres y no el diez.',
+      r: 'Conseguí acceso esa misma noche y, con la lista nueva, las cinco máquinas siguientes me llevaron de media 4 horas en lugar de 9.',
+      l: 'Aprendí que cuando me atasco no necesito más herramientas, sino revisar mi método por escrito.' },
+    en: { titulo: 'The box that kept me up three nights',
+      s: 'While taking a pentesting course, I set out to solve a medium-difficulty box on a practice platform and had spent three nights without initial access.',
+      t: 'I wanted to understand why I was stuck and come out of it with a method I could repeat, not just the answer.',
+      a: 'I stopped and wrote down in a table everything I had tried, service by service. I compared that table with my checklist and detected that I had not enumerated subdomains. I automated the enumeration with a small script and found a forgotten admin panel. I investigated the panel version, reproduced the vulnerability locally before launching it and documented every step in my notes. When I finished, I reorganised my checklist so that subdomain enumeration was step three instead of step ten.',
+      r: 'I got access that same night and, with the new checklist, the next five boxes took me 4 hours on average instead of 9.',
+      l: 'I learned that when I am stuck I do not need more tools, I need to review my method in writing.' } },
+  { id: 'red-m3', competencias: ['etica', 'liderazgo', 'comunicacion'],
+    es: { titulo: 'La prueba que no lancé',
+      s: 'En una auditoría interna de una empresa industrial, el responsable del proyecto quería que probáramos una denegación de servicio contra el servidor que controlaba una línea de producción.',
+      t: 'Yo tenía que ejecutar las pruebas de red y decidir si esa prueba entraba en el alcance con garantías.',
+      a: 'Revisé el documento de alcance y comprobé que no incluía sistemas de producción en horario laboral. Calculé con el responsable de planta cuánto costaba una hora de línea parada. Expliqué por escrito el riesgo y propuse una alternativa: probar la misma configuración en un servidor gemelo de preproducción. Organicé la prueba un sábado con el técnico de planta presente y documenté el resultado.',
+      r: 'Detectamos la misma debilidad sin parar la línea, evitamos un riesgo de unos 20.000 euros por hora y el cliente añadió el entorno gemelo a todas sus auditorías.',
+      l: 'Desde entonces, cuando una prueba puede afectar a producción, pido el coste de la parada antes de discutir la técnica.' },
+    en: { titulo: 'The test I did not run',
+      s: 'During an internal assessment for an industrial company, the project lead wanted us to test a denial of service against the server that controlled a production line.',
+      t: 'I was running the network tests and had to decide whether that test was safely in scope.',
+      a: 'I reviewed the scope document and confirmed it did not include production systems during working hours. I calculated with the plant manager how much one hour of stopped line cost. I explained the risk in writing and proposed an alternative: testing the same configuration on a twin pre-production server. I organised the test on a Saturday with the plant technician present and documented the result.',
+      r: 'We detected the same weakness without stopping the line, avoided a risk of about 20,000 euros per hour, and the client added the twin environment to all its assessments.',
+      l: 'Since then, when a test can affect production, I ask for the cost of downtime before discussing the technique.' } },
+];
+
+const RED_GLOSARIO = [
+  ['red-g1', 'Alcance', 'Scope', 'Qué sistemas, fechas y técnicas autoriza el cliente en una prueba.', 'Which systems, dates and techniques the client authorises in a test.'],
+  ['red-g2', 'Pentesting', 'Pentesting', 'Prueba de intrusión: atacar un sistema con permiso para encontrar sus debilidades.', 'Penetration testing: attacking a system with permission to find its weaknesses.'],
+  ['red-g3', 'CTF', 'CTF', 'Capture the Flag: competición de retos de seguridad para practicar.', 'Capture the Flag: a competition of security challenges for practice.'],
+  ['red-g4', 'Inyección SQL', 'SQL injection', 'Fallo que permite manipular las consultas a la base de datos desde un campo de entrada.', 'A flaw that lets an attacker manipulate database queries through an input field.'],
+  ['red-g5', 'Enumeración', 'Enumeration', 'Fase de reconocimiento en la que se listan servicios, usuarios o rutas.', 'Reconnaissance phase that lists services, users or routes.'],
+  ['red-g6', 'Retest', 'Retest', 'Nueva prueba para confirmar que un fallo se ha corregido.', 'A new test to confirm a flaw has been fixed.'],
+  ['red-g7', 'CVSS', 'CVSS', 'Sistema de puntuación de 0 a 10 para la gravedad de una vulnerabilidad.', 'A 0 to 10 scoring system for vulnerability severity.'],
+];
+
+// ---- src/content/roles/blue.js ----
+// Ruta Blue Team / SOC: preguntas, historias modelo y glosario. Redacción propia.
+
+const BLUE_Q = [
+  ['blue-01', ['analisis', 'presion'], 'Cuéntame una alerta que parecía un falso positivo y no lo era.', 'Tell me about an alert that looked like a false positive but was not.'],
+  ['blue-02', ['presion', 'resultados'], 'Una noche de guardia en la que todo se complicó: ¿qué priorizaste?', 'An on-call night when everything went wrong: what did you prioritise?'],
+  ['blue-03', ['analisis', 'resultados'], 'Una regla de detección que mejoraste. ¿Cómo mediste que funcionaba?', 'A detection rule you improved. How did you measure that it worked?'],
+  ['blue-04', ['iniciativa', 'presion'], 'Una vez que tuviste que escalar un incidente sin tener toda la información.', 'A time you had to escalate an incident without having all the information.'],
+  ['blue-05', ['aprendizaje', 'etica'], 'Háblame de un error tuyo en un incidente y de lo que cambiaste después.', 'Tell me about a mistake you made during an incident and what you changed afterwards.'],
+  ['blue-06', ['comunicacion', 'presion'], 'Un incidente en el que tuviste que informar a dirección mientras seguía activo.', 'An incident where you had to brief management while it was still active.'],
+  ['blue-07', ['problemas', 'iniciativa'], 'Una tarea repetitiva del SOC que automatizaste.', 'A repetitive SOC task you automated.'],
+  ['blue-08', ['equipo', 'comunicacion'], 'Un cambio de turno en el que el traspaso de información fue clave.', 'A shift handover where passing on information was key.'],
+  ['blue-09', ['analisis'], 'Una investigación en la que correlacionaste fuentes distintas para entender un ataque.', 'An investigation where you correlated different sources to understand an attack.'],
+  ['blue-10', ['conflictos', 'cliente'], 'Un área de negocio que se quejaba de que tus bloqueos le impedían trabajar.', 'A business unit complaining that your blocks stopped them from working.'],
+  ['blue-11', ['aprendizaje', 'problemas'], 'Una amenaza nueva que tuviste que estudiar en horas para poder detectarla.', 'A new threat you had to study within hours in order to detect it.'],
+  ['blue-12', ['resultados', 'analisis'], 'Cómo redujiste el ruido de alertas sin perder visibilidad.', 'How you reduced alert noise without losing visibility.'],
+  ['blue-13', ['etica', 'comunicacion'], 'Detectaste que un compañero había cerrado mal un caso. ¿Qué hiciste?', 'You found that a colleague had closed a case incorrectly. What did you do?'],
+  ['blue-14', ['liderazgo', 'presion'], 'Una vez que coordinaste a varias personas durante un incidente.', 'A time you coordinated several people during an incident.'],
+  ['blue-15', ['cliente', 'comunicacion'], 'Un usuario que había caído en un phishing y tenía miedo de contarlo.', 'A user who had fallen for phishing and was afraid to report it.'],
+  ['blue-16', ['iniciativa', 'aprendizaje'], 'Un laboratorio casero o una práctica que montaste para aprender detección.', 'A home lab or exercise you built to learn detection.'],
+  ['blue-17', ['problemas', 'analisis'], 'Un registro que faltaba justo cuando lo necesitabas. ¿Cómo lo resolviste?', 'A log source that was missing just when you needed it. How did you solve it?'],
+  ['blue-18', ['resultados', 'equipo'], 'Un procedimiento de respuesta que escribiste o mejoraste.', 'A response playbook you wrote or improved.'],
+  ['blue-19', ['presion', 'etica'], 'Tuviste que decidir entre aislar un servidor crítico o esperar. ¿Qué decidiste?', 'You had to choose between isolating a critical server or waiting. What did you decide?'],
+  ['blue-20', ['conflictos', 'equipo'], 'Un desacuerdo con otro equipo sobre la causa de un incidente.', 'A disagreement with another team about the cause of an incident.'],
+  ['blue-21', ['comunicacion', 'aprendizaje'], 'Una lección aprendida que presentaste al equipo después de un incidente.', 'A lessons-learned session you presented to the team after an incident.'],
+  ['blue-22', ['analisis', 'iniciativa'], 'Una búsqueda proactiva de amenazas que encontró algo inesperado.', 'A proactive threat hunt that found something unexpected.'],
+  ['blue-23', ['cliente', 'resultados'], 'Un informe mensual del SOC que hiciste más útil para quien lo leía.', 'A monthly SOC report you made more useful for its readers.'],
+  ['blue-24', ['presion', 'problemas'], 'Varias alertas críticas a la vez y una sola persona disponible: tú.', 'Several critical alerts at once and only one person available: you.'],
+  ['blue-25', ['etica', 'analisis'], 'Una vez que encontraste indicios de un abuso interno. ¿Cómo procediste?', 'A time you found signs of insider misuse. How did you proceed?'],
+  ['blue-26', ['equipo', 'liderazgo'], 'Un compañero nuevo al que ayudaste a hacer su primera guardia.', 'A new colleague you helped through their first on-call shift.'],
+];
+
+const BLUE_MODELOS = [
+  { id: 'blue-m1', competencias: ['presion', 'analisis', 'resultados'],
+    es: { titulo: 'La alerta de las 3:00',
+      s: 'Trabajaba de analista junior en un SOC de un banco mediano durante una guardia nocturna, con un único compañero y más de 200 alertas abiertas en la cola.',
+      t: 'Tenía que decidir qué alertas atender primero y si alguna justificaba despertar al responsable de incidentes.',
+      a: 'Clasifiqué la cola por criticidad del activo y aislé una alerta de inicio de sesión que el sistema marcaba como falso positivo. Correlacioné los registros del proxy y del directorio y detecté que la misma cuenta había entrado desde dos países en diez minutos. Bloqueé la sesión según el procedimiento, avisé al responsable con un resumen de tres líneas y documenté la cronología mientras él llegaba. Después revisé la regla de detección y propuse un umbral nuevo que tuviera en cuenta los viajes imposibles.',
+      r: 'Contuvimos el acceso en 18 minutos, antes de cualquier transferencia, y con la regla nueva los falsos positivos de esa familia bajaron un 35 % el mes siguiente.',
+      l: 'La próxima vez documentaría la cronología desde el primer minuto: me habría ahorrado media hora en el informe.' },
+    en: { titulo: 'The 3 a.m. alert',
+      s: 'I was a junior analyst in the security operations centre of a mid-sized bank, on a night shift with one colleague and more than 200 open alerts in the queue.',
+      t: 'I had to decide which alerts to handle first and whether any of them justified waking up the incident manager.',
+      a: 'I triaged the queue by asset criticality and isolated a login alert that the tool had flagged as a false positive. I correlated the proxy and directory logs and detected that the same account had signed in from two countries within ten minutes. I blocked the session following the runbook, warned the manager with a three-line summary and documented the timeline while he was on his way. Afterwards I reviewed the detection rule and proposed a new threshold that accounted for impossible travel.',
+      r: 'The access was contained in 18 minutes, before any transfer, and the new rule reduced false positives in that family by 35 percent the following month.',
+      l: 'I learned to write the timeline from minute one; next time it would save half an hour on the report.' } },
+  { id: 'blue-m2', competencias: ['iniciativa', 'problemas', 'resultados'],
+    es: { titulo: 'El enriquecimiento que nadie tenía tiempo de hacer',
+      s: 'En mi primer año en un SOC externo, cada analista dedicaba unos diez minutos por alerta a buscar a mano la reputación de IP y dominios en varias webs.',
+      t: 'Nadie me lo había pedido, pero quería reducir ese tiempo sin saltarme ningún paso del procedimiento.',
+      a: 'Medí durante una semana cuánto tardaba yo en cada alerta y anoté qué consultas repetía siempre. Propuse a mi responsable un pequeño script que hiciera esas consultas y dejara el resultado en el propio caso. Lo programé en mis ratos libres, lo probé con 50 alertas antiguas y comparé el resultado con lo que habíamos hecho a mano. Documenté cómo usarlo y formé a los compañeros de mi turno en una sesión de veinte minutos.',
+      r: 'El tiempo medio por alerta bajó de 10 a 4 minutos y el equipo ganó unas 15 horas a la semana para investigar casos de verdad.',
+      l: 'Aprendí que medir antes de proponer hace que una idea se acepte mucho más rápido.' },
+    en: { titulo: 'The enrichment nobody had time for',
+      s: 'In my first year at a managed SOC, each analyst spent about ten minutes per alert manually checking IP and domain reputation on several websites.',
+      t: 'Nobody had asked me to, but I wanted to cut that time without skipping any step of the procedure.',
+      a: 'For a week I measured how long each alert took me and noted which lookups I always repeated. I proposed to my manager a small script that ran those lookups and left the result in the case itself. I wrote it in my spare time, tested it on 50 old alerts and compared the result with what we had done by hand. I documented how to use it and trained my shift colleagues in a twenty-minute session.',
+      r: 'The average time per alert went from 10 to 4 minutes and the team gained about 15 hours a week to investigate real cases.',
+      l: 'I learned that measuring before proposing makes an idea accepted much faster.' } },
+  { id: 'blue-m3', competencias: ['aprendizaje', 'etica', 'comunicacion'],
+    es: { titulo: 'El caso que cerré demasiado pronto',
+      s: 'En mi segundo mes en el SOC de una aseguradora cerré como falso positivo una alerta de macro en un documento porque el usuario era de confianza.',
+      t: 'Dos días después la misma máquina volvió a alertar y me tocaba reconocer el error y arreglarlo.',
+      a: 'Avisé a mi responsable en cuanto lo vi, sin esperar a la reunión. Reabrí el caso, analicé el documento en un entorno aislado y confirmé que descargaba un segundo fichero. Aislé el equipo, revisé los otros tres usuarios que habían recibido el mismo correo y escalé con todo documentado. Después propuse añadir al procedimiento un paso obligatorio de análisis en entorno aislado para todas las macros, sin excepción por usuario.',
+      r: 'No hubo movimiento lateral, los 4 equipos quedaron limpios en 1 día y desde el cambio no se ha cerrado ninguna macro sin analizar en 6 meses.',
+      l: 'Aprendí a separar la confianza en la persona de la evidencia técnica, y a contar un error pronto en lugar de esconderlo.' },
+    en: { titulo: 'The case I closed too soon',
+      s: 'In my second month at an insurer’s SOC I closed a document macro alert as a false positive because the user was trusted.',
+      t: 'Two days later the same machine alerted again, and it was on me to own the mistake and fix it.',
+      a: 'I told my manager as soon as I saw it, without waiting for the meeting. I reopened the case, analysed the document in a sandbox and confirmed that it downloaded a second file. I isolated the machine, reviewed the three other users who had received the same email and escalated with everything documented. Afterwards I proposed adding a mandatory sandbox step to the procedure for every macro, with no exceptions based on the user.',
+      r: 'There was no lateral movement, the 4 machines were clean within 1 day, and since the change no macro has been closed without analysis in 6 months.',
+      l: 'I learned to separate trust in the person from technical evidence, and to report a mistake early instead of hiding it.' } },
+];
+
+const BLUE_GLOSARIO = [
+  ['blue-g1', 'SOC', 'SOC', 'Centro de operaciones de seguridad: equipo que vigila y responde a alertas.', 'Security operations centre: the team that monitors and responds to alerts.'],
+  ['blue-g2', 'SIEM', 'SIEM', 'Plataforma que reúne registros de muchos sistemas y genera alertas.', 'A platform that gathers logs from many systems and raises alerts.'],
+  ['blue-g3', 'Falso positivo', 'False positive', 'Alerta que salta sin que haya un ataque real.', 'An alert raised when there is no real attack.'],
+  ['blue-g4', 'Triaje', 'Triage', 'Clasificar las alertas por gravedad para decidir el orden de atención.', 'Sorting alerts by severity to decide what to handle first.'],
+  ['blue-g5', 'Escalado', 'Escalation', 'Pasar un incidente a un nivel superior o a otro equipo.', 'Handing an incident to a higher tier or another team.'],
+  ['blue-g6', 'Playbook', 'Playbook', 'Procedimiento paso a paso para responder a un tipo de incidente.', 'Step-by-step procedure to respond to a type of incident.'],
+  ['blue-g7', 'Threat hunting', 'Threat hunting', 'Búsqueda proactiva de amenazas que no han generado alerta.', 'Proactive search for threats that have not triggered an alert.'],
+];
+
+// ---- src/content/roles/grc.js ----
+// Ruta GRC / Auditoría: preguntas, historias modelo y glosario. Redacción propia.
+
+const GRC_Q = [
+  ['grc-01', ['liderazgo', 'conflictos'], 'Una vez que tuviste que convencer a un área de negocio de aplicar un control que no quería.', 'A time you had to convince a business unit to apply a control it did not want.'],
+  ['grc-02', ['presion', 'resultados'], 'Una auditoría con poco tiempo y muchas evidencias pendientes: ¿cómo la organizaste?', 'An audit with little time and many pending pieces of evidence: how did you organise it?'],
+  ['grc-03', ['comunicacion', 'etica'], 'Un hallazgo incómodo que tuviste que comunicar a dirección.', 'An uncomfortable finding you had to report to senior management.'],
+  ['grc-04', ['problemas', 'etica'], 'Cuando una norma decía una cosa y la realidad de la empresa otra: ¿qué hiciste?', 'When a standard said one thing and the company reality another: what did you do?'],
+  ['grc-05', ['problemas', 'resultados'], 'Un proceso que simplificaste sin perder cumplimiento.', 'A process you simplified without losing compliance.'],
+  ['grc-06', ['analisis'], 'Un análisis de riesgos en el que tus conclusiones cambiaron las prioridades.', 'A risk assessment where your conclusions changed priorities.'],
+  ['grc-07', ['aprendizaje'], 'Una norma o regulación nueva que tuviste que aprender rápido.', 'A new standard or regulation you had to learn quickly.'],
+  ['grc-08', ['cliente', 'comunicacion'], 'Un responsable de área que no entendía por qué le pedías evidencias.', 'A department head who did not understand why you were asking for evidence.'],
+  ['grc-09', ['analisis', 'etica'], 'Una evidencia que no cuadraba. ¿Cómo lo investigaste?', 'A piece of evidence that did not add up. How did you investigate it?'],
+  ['grc-10', ['equipo', 'resultados'], 'Un proyecto de certificación en el que trabajaste con varios departamentos.', 'A certification project where you worked with several departments.'],
+  ['grc-11', ['iniciativa'], 'Una mejora en la gestión de riesgos que propusiste por tu cuenta.', 'An improvement in risk management that you proposed on your own initiative.'],
+  ['grc-12', ['conflictos', 'etica'], 'Te presionaron para dar por cerrada una no conformidad que no lo estaba.', 'You were pressured to close a nonconformity that was not resolved.'],
+  ['grc-13', ['comunicacion'], 'Una política que reescribiste para que la gente la entendiera.', 'A policy you rewrote so that people would understand it.'],
+  ['grc-14', ['presion', 'cliente'], 'Un auditor externo que pedía algo para ayer. ¿Cómo respondiste?', 'An external auditor who wanted something yesterday. How did you respond?'],
+  ['grc-15', ['analisis', 'resultados'], 'Un indicador de cumplimiento que diseñaste. ¿Qué decisiones permitió?', 'A compliance metric you designed. What decisions did it enable?'],
+  ['grc-16', ['liderazgo', 'equipo'], 'Una formación de concienciación que organizaste. ¿Cómo mediste su efecto?', 'An awareness training you organised. How did you measure its effect?'],
+  ['grc-17', ['problemas', 'analisis'], 'Un proveedor con un riesgo alto que el negocio no quería cambiar.', 'A high-risk supplier the business did not want to replace.'],
+  ['grc-18', ['etica', 'iniciativa'], 'Detectaste un incumplimiento que nadie había visto. ¿Qué hiciste?', 'You detected a compliance breach nobody had noticed. What did you do?'],
+  ['grc-19', ['aprendizaje', 'problemas'], 'Tu primer contacto con un marco como ISO 27001, ENS o NIS2: ¿cómo lo abordaste?', 'Your first contact with a framework like ISO 27001, ENS or NIS2: how did you approach it?'],
+  ['grc-20', ['cliente', 'resultados'], 'Una vez que ayudaste a un área a pasar una auditoría que temía.', 'A time you helped a department pass an audit it was afraid of.'],
+  ['grc-21', ['conflictos', 'comunicacion'], 'Seguridad y negocio en desacuerdo sobre un riesgo: ¿cómo mediaste?', 'Security and business disagreed about a risk: how did you mediate?'],
+  ['grc-22', ['presion', 'analisis'], 'Una brecha de datos en la que tuviste que valorar si había que notificarla.', 'A data breach where you had to assess whether it had to be notified.'],
+  ['grc-23', ['resultados', 'iniciativa'], 'Una herramienta o plantilla que creaste para recoger evidencias más rápido.', 'A tool or template you created to collect evidence faster.'],
+  ['grc-24', ['etica', 'cliente'], 'Un cliente que quería un certificado sin hacer el trabajo. ¿Qué le dijiste?', 'A client who wanted a certificate without doing the work. What did you tell them?'],
+  ['grc-25', ['equipo', 'aprendizaje'], 'Una auditoría en la que aprendiste algo de alguien de otra área.', 'An audit where you learned something from someone in another department.'],
+  ['grc-26', ['liderazgo', 'resultados'], 'Un plan de tratamiento de riesgos que conseguiste que se aprobara.', 'A risk treatment plan you got approved.'],
+];
+
+const GRC_MODELOS = [
+  { id: 'grc-m1', competencias: ['liderazgo', 'conflictos', 'etica'],
+    es: { titulo: 'El control que nadie quería',
+      s: 'En una aseguradora preparábamos la auditoría anual y el área comercial se negaba a aplicar la revisión trimestral de accesos porque decía que le quitaba tiempo de ventas.',
+      t: 'Mi responsabilidad era conseguir que el control se aplicara antes de la auditoría, en seis semanas.',
+      a: 'Analicé los permisos del área y detecté 40 cuentas con acceso de administración que nadie usaba. Preparé una propuesta sencilla: en lugar de revisar todo, el responsable comercial solo validaría una lista corta que yo generaba cada trimestre. Me reuní con él, le expliqué el riesgo con un ejemplo de su propio sector y negocié un piloto de un mes. Automaticé la lista con una hoja de cálculo y documenté el procedimiento en una página.',
+      r: 'La revisión pasó de 6 horas a 25 minutos por trimestre, eliminamos 40 cuentas sobrantes y la auditoría cerró el punto sin hallazgos.',
+      l: 'Aprendí que un control se acepta antes cuando se diseña desde el tiempo de quien lo tiene que aplicar.' },
+    en: { titulo: 'The control nobody wanted',
+      s: 'At an insurer we were preparing the annual audit, and the sales department refused to apply the quarterly access review because it said it took time away from selling.',
+      t: 'It was my responsibility to get the control in place before the audit, within six weeks.',
+      a: 'I analysed the department permissions and detected 40 accounts with admin rights that nobody used. I prepared a simple proposal: instead of reviewing everything, the sales manager would only validate a short list that I generated every quarter. I met him, explained the risk with an example from his own sector and negotiated a one-month pilot. I automated the list with a spreadsheet and documented the procedure on one page.',
+      r: 'The review went from 6 hours to 25 minutes per quarter, 40 unnecessary accounts were removed and the audit closed the point with no findings.',
+      l: 'I learned that a control is accepted sooner when it is designed around the time of whoever has to apply it.' } },
+  { id: 'grc-m2', competencias: ['presion', 'resultados', 'equipo'],
+    es: { titulo: 'Treinta evidencias en diez días',
+      s: 'En mis prácticas en una consultora de cumplimiento, un cliente de la administración pública tenía la auditoría del ENS en diez días y le faltaban treinta evidencias.',
+      t: 'Me encargué de organizar la recogida de evidencias y de que llegaran revisadas al auditor.',
+      a: 'Clasifiqué las treinta evidencias por responsable y por esfuerzo, y prioricé las que bloqueaban otras. Preparé una tabla compartida con una fecha por evidencia y una plantilla para cada tipo. Llamé a cada responsable para acordar su fecha en lugar de enviar un correo masivo. Revisé cada evidencia el mismo día que llegaba y devolví las incompletas con una nota concreta. Cada mañana envié un resumen de cinco líneas al responsable del cliente.',
+      r: 'Llegamos con 29 de 30 evidencias revisadas, la que faltaba se justificó con un plan fechado y la auditoría terminó con solo 2 observaciones menores.',
+      l: 'Aprendí que una llamada de dos minutos consigue una fecha mejor que diez correos.' },
+    en: { titulo: 'Thirty pieces of evidence in ten days',
+      s: 'During my internship at a compliance consultancy, a public sector client had its ENS audit in ten days and was missing thirty pieces of evidence.',
+      t: 'I was in charge of organising the evidence collection and making sure it reached the auditor reviewed.',
+      a: 'I classified the thirty items by owner and by effort, and prioritised the ones blocking others. I prepared a shared table with a date per item and a template for each type. I called each owner to agree their date instead of sending a mass email. I reviewed each item the same day it arrived and returned incomplete ones with a specific note. Every morning I sent a five-line summary to the client lead.',
+      r: 'We arrived with 29 of 30 items reviewed, the missing one was covered by a dated plan, and the audit ended with only 2 minor observations.',
+      l: 'I learned that a two-minute call gets a better date than ten emails.' } },
+  { id: 'grc-m3', competencias: ['comunicacion', 'etica', 'analisis'],
+    es: { titulo: 'El hallazgo que nadie quería oír',
+      s: 'En una empresa industrial mediana revisaba las copias de seguridad para la certificación ISO 27001 y descubrí que nunca se había probado una restauración completa.',
+      t: 'Tenía que comunicarlo a dirección sabiendo que el director de sistemas había dicho en el comité que todo estaba bajo control.',
+      a: 'Antes de nada, comprobé el dato con el técnico de copias para no equivocarme. Calculé cuánto tiempo estaría parada la planta si fallaba la restauración, a partir de los datos de producción. Hablé primero con el director de sistemas en privado, le enseñé la evidencia y le propuse presentar juntos un plan. Preparé una diapositiva con el riesgo, el coste estimado y tres pasos concretos, y la presentamos los dos en el comité.',
+      r: 'Dirección aprobó una prueba de restauración en dos semanas; la prueba falló en el primer intento, se corrigió y la segunda tardó 6 horas frente a las 48 estimadas.',
+      l: 'Aprendí que dar la mala noticia primero en privado convierte a un posible rival en un aliado.' },
+    en: { titulo: 'The finding nobody wanted to hear',
+      s: 'At a mid-sized industrial company I was reviewing backups for the ISO 27001 certification and found that a full restore had never been tested.',
+      t: 'I had to report it to management knowing that the IT director had told the committee everything was under control.',
+      a: 'First, I checked the fact with the backup technician so I would not be wrong. I calculated how long the plant would stop if the restore failed, using production data. I spoke to the IT director in private first, showed him the evidence and proposed presenting a plan together. I prepared one slide with the risk, the estimated cost and three specific steps, and we both presented it to the committee.',
+      r: 'Management approved a restore test within two weeks; the test failed at the first attempt, was fixed, and the second one took 6 hours against the 48 estimated.',
+      l: 'I learned that giving bad news privately first turns a potential rival into an ally.' } },
+];
+
+const GRC_GLOSARIO = [
+  ['grc-g1', 'GRC', 'GRC', 'Gobierno, riesgo y cumplimiento: cómo una organización decide, gestiona riesgos y cumple normas.', 'Governance, risk and compliance: how an organisation decides, manages risk and meets rules.'],
+  ['grc-g2', 'ENS', 'ENS', 'Esquema Nacional de Seguridad: marco obligatorio de seguridad para el sector público español.', 'Spain’s National Security Framework, mandatory for the public sector.'],
+  ['grc-g3', 'ISO/IEC 27001', 'ISO/IEC 27001', 'Norma internacional para sistemas de gestión de la seguridad de la información.', 'International standard for information security management systems.'],
+  ['grc-g4', 'No conformidad', 'Nonconformity', 'Incumplimiento de un requisito detectado en una auditoría.', 'Failure to meet a requirement, found during an audit.'],
+  ['grc-g5', 'Evidencia', 'Evidence', 'Prueba documental de que un control se aplica.', 'Documentary proof that a control is applied.'],
+  ['grc-g6', 'Tratamiento del riesgo', 'Risk treatment', 'Decisión sobre un riesgo: reducirlo, transferirlo, evitarlo o aceptarlo.', 'Decision about a risk: reduce, transfer, avoid or accept it.'],
+  ['grc-g7', 'NIS2', 'NIS2', 'Directiva europea de ciberseguridad para sectores esenciales e importantes.', 'EU cybersecurity directive for essential and important sectors.'],
+];
+
+// ---- src/content/roles/data.js ----
+// Ruta Data / Analítica: preguntas, historias modelo y glosario. Redacción propia.
+
+const DATA_Q = [
+  ['data-01', ['analisis', 'resultados'], 'Un análisis tuyo que cambió una decisión. ¿Cómo lo supiste?', 'An analysis of yours that changed a decision. How did you know?'],
+  ['data-02', ['presion', 'problemas'], 'Datos sucios y un plazo imposible: ¿qué sacrificaste y por qué?', 'Dirty data and an impossible deadline: what did you sacrifice and why?'],
+  ['data-03', ['etica', 'comunicacion'], 'Una vez que tus números contradecían lo que alguien importante quería oír.', 'A time your numbers contradicted what someone important wanted to hear.'],
+  ['data-04', ['cliente', 'problemas'], 'Un panel o informe que nadie usaba y cómo lo arreglaste.', 'A dashboard or report nobody used and how you fixed it.'],
+  ['data-05', ['comunicacion'], 'Cuando tuviste que explicar una métrica compleja a alguien sin formación técnica.', 'When you had to explain a complex metric to someone without a technical background.'],
+  ['data-06', ['analisis'], 'Un error en los datos que detectaste antes de que llegara a un informe.', 'A data error you caught before it reached a report.'],
+  ['data-07', ['iniciativa', 'resultados'], 'Un proceso manual de datos que automatizaste.', 'A manual data process you automated.'],
+  ['data-08', ['aprendizaje'], 'Una herramienta o lenguaje que aprendiste para un proyecto concreto.', 'A tool or language you learned for a specific project.'],
+  ['data-09', ['cliente', 'comunicacion'], 'Una petición de datos ambigua. ¿Cómo averiguaste lo que de verdad necesitaban?', 'An ambiguous data request. How did you find out what they really needed?'],
+  ['data-10', ['equipo'], 'Un proyecto de datos en el que dependías de otros equipos.', 'A data project where you depended on other teams.'],
+  ['data-11', ['etica'], 'Datos personales en un análisis: ¿cómo los protegiste?', 'Personal data in an analysis: how did you protect it?'],
+  ['data-12', ['analisis', 'problemas'], 'Un resultado sorprendente que tuviste que comprobar antes de creértelo.', 'A surprising result you had to check before believing it.'],
+  ['data-13', ['conflictos', 'analisis'], 'Dos áreas que medían lo mismo de forma distinta. ¿Cómo lo unificaste?', 'Two departments measuring the same thing differently. How did you unify it?'],
+  ['data-14', ['resultados', 'cliente'], 'Un modelo o análisis cuyo impacto económico pudiste medir.', 'A model or analysis whose financial impact you could measure.'],
+  ['data-15', ['presion', 'comunicacion'], 'Una petición urgente de dirección con datos incompletos.', 'An urgent request from management with incomplete data.'],
+  ['data-16', ['aprendizaje', 'etica'], 'Un análisis tuyo que resultó estar mal. ¿Qué hiciste?', 'An analysis of yours that turned out to be wrong. What did you do?'],
+  ['data-17', ['iniciativa', 'analisis'], 'Una pregunta de negocio que nadie te había hecho y que respondiste con datos.', 'A business question nobody had asked you that you answered with data.'],
+  ['data-18', ['liderazgo', 'comunicacion'], 'Una vez que convenciste a un equipo de cambiar su forma de medir.', 'A time you convinced a team to change how it measured something.'],
+  ['data-19', ['problemas', 'resultados'], 'Una consulta o proceso lento que optimizaste.', 'A slow query or pipeline you optimised.'],
+  ['data-20', ['equipo', 'aprendizaje'], 'Un compañero al que enseñaste a usar los datos por su cuenta.', 'A colleague you taught to use data on their own.'],
+  ['data-21', ['cliente', 'resultados'], 'Un indicador que propusiste y que la empresa sigue usando.', 'A metric you proposed that the company still uses.'],
+  ['data-22', ['analisis', 'etica'], 'Una correlación que alguien quería presentar como causa. ¿Qué dijiste?', 'A correlation someone wanted to present as causation. What did you say?'],
+  ['data-23', ['presion', 'resultados'], 'Una campaña o lanzamiento en el que tuviste que analizar datos en tiempo real.', 'A campaign or launch where you had to analyse data in real time.'],
+  ['data-24', ['problemas', 'iniciativa'], 'Un trabajo de fin de máster o proyecto personal con datos reales.', 'A master’s thesis or personal project with real data.'],
+  ['data-25', ['comunicacion', 'cliente'], 'Un gráfico que rediseñaste porque se malinterpretaba.', 'A chart you redesigned because it was being misread.'],
+  ['data-26', ['conflictos', 'equipo'], 'Un desacuerdo con un ingeniero sobre la calidad de una fuente de datos.', 'A disagreement with an engineer about the quality of a data source.'],
+];
+
+const DATA_MODELOS = [
+  { id: 'data-m1', competencias: ['analisis', 'resultados', 'cliente'],
+    es: { titulo: 'El panel que cambió la campaña',
+      s: 'En mi máster colaboré con una ONG que repartía alimentos en cinco barrios y decidía las rutas de reparto de memoria, sin mirar datos.',
+      t: 'Me encargué de analizar seis meses de entregas y proponer un reparto mejor antes de la campaña de invierno.',
+      a: 'Recopilé las hojas de cálculo de cada voluntario, limpié más de 3.000 filas con fechas en formatos distintos y unifiqué los nombres de los barrios. Analicé la demanda por semana y comparé las entregas con el padrón municipal. Detecté que dos barrios recibían la mitad de lo que necesitaban. Diseñé un panel sencillo con tres gráficos y lo presenté a la junta con una recomendación concreta. Después formé a dos voluntarias para que lo actualizaran solas.',
+      r: 'La ONG cambió las rutas, las entregas en los dos barrios subieron un 60 % y el tiempo de planificación pasó de un día a dos horas por semana.',
+      l: 'Aprendí a empezar por la decisión que hay que tomar y no por el gráfico.' },
+    en: { titulo: 'The dashboard that changed the campaign',
+      s: 'During my master’s degree I worked with a charity that delivered food in five neighbourhoods and planned its delivery routes from memory, without data.',
+      t: 'I took charge of analysing six months of deliveries and proposing a better plan before the winter campaign.',
+      a: 'I gathered every volunteer’s spreadsheet, cleaned more than 3,000 rows with dates in different formats and unified the neighbourhood names. I analysed weekly demand and compared deliveries with the municipal census. I detected that two neighbourhoods were receiving half of what they needed. I designed a simple dashboard with three charts and presented it to the board with a specific recommendation. Then I trained two volunteers to update it on their own.',
+      r: 'The charity changed its routes, deliveries in the two neighbourhoods rose by 60 percent and planning time went from one day to two hours a week.',
+      l: 'I learned to start from the decision that has to be made, not from the chart.' } },
+  { id: 'data-m2', competencias: ['etica', 'comunicacion', 'analisis'],
+    es: { titulo: 'Los números que nadie quería ver',
+      s: 'En mi primer empleo como analista junior en una cadena de tiendas, el director comercial esperaba que mi informe confirmara el éxito de una promoción.',
+      t: 'Tenía que medir el efecto real de la promoción en las ventas de un mes.',
+      a: 'Comparé las tiendas con promoción con un grupo de tiendas parecidas sin ella, en lugar de mirar solo el antes y el después. Detecté que las ventas habían subido igual en las dos y que el aumento venía de la temporada. Revisé el cálculo con un compañero para descartar errores. Preparé dos gráficos claros y pedí una reunión breve con el director antes de enviar el informe. Le expliqué el resultado y le propuse repetir la prueba con un diseño mejor.',
+      r: 'La empresa no amplió la promoción a 80 tiendas, lo que evitó un gasto de unos 150.000 euros, y la segunda prueba sí mostró un efecto del 4 % en una categoría concreta.',
+      l: 'Desde entonces siempre busco un grupo de control antes de atribuir un cambio a una acción.' },
+    en: { titulo: 'The numbers nobody wanted to see',
+      s: 'In my first job as a junior analyst at a retail chain, the sales director expected my report to confirm the success of a promotion.',
+      t: 'I had to measure the real effect of the promotion on one month of sales.',
+      a: 'I compared the stores with the promotion against a group of similar stores without it, instead of looking only at before and after. I detected that sales had risen the same in both and that the increase came from seasonality. I reviewed the calculation with a colleague to rule out errors. I prepared two clear charts and asked for a short meeting with the director before sending the report. I explained the result and proposed repeating the test with a better design.',
+      r: 'The company did not extend the promotion to 80 stores, avoiding about 150,000 euros of spend, and the second test did show a 4 percent effect in one category.',
+      l: 'Since then I always look for a control group before attributing a change to an action.' } },
+  { id: 'data-m3', competencias: ['presion', 'problemas', 'resultados'],
+    es: { titulo: 'El informe del lunes a las nueve',
+      s: 'Un viernes por la tarde, en una empresa de logística, dirección pidió para el lunes a las nueve un informe de retrasos de los últimos doce meses, y la fuente principal tenía tres meses con datos corruptos.',
+      t: 'Tenía que entregar un informe fiable a tiempo, aunque no fuera perfecto.',
+      a: 'Prioricé las tres preguntas que dirección iba a usar para decidir y aparqué el resto. Investigué los tres meses dañados y detecté que el error estaba en la zona horaria de las fechas, así que lo corregí con una regla y validé el resultado con 100 envíos revisados a mano. Marqué en el informe qué cifras eran estimaciones y con qué margen. Preparé un resumen de una página y dejé el detalle en un anexo.',
+      r: 'Entregué el lunes a las 8:40, dirección decidió cambiar de transportista en dos rutas y los retrasos en esas rutas bajaron un 22 % en el trimestre siguiente.',
+      l: 'Aprendí que ser transparente con el margen de error genera más confianza que esperar al dato perfecto.' },
+    en: { titulo: 'The Monday 9 a.m. report',
+      s: 'One Friday afternoon at a logistics company, management asked for a twelve-month delay report by Monday at nine, and the main source had three months of corrupted data.',
+      t: 'I had to deliver a reliable report on time, even if it was not perfect.',
+      a: 'I prioritised the three questions management would use to decide and parked the rest. I investigated the three damaged months and detected that the error was in the time zone of the dates, so I fixed it with a rule and validated the result against 100 shipments checked by hand. I marked in the report which figures were estimates and with what margin. I prepared a one-page summary and left the detail in an appendix.',
+      r: 'I delivered on Monday at 8:40, management decided to change carrier on two routes, and delays on those routes fell by 22 percent the following quarter.',
+      l: 'I learned that being transparent about the margin of error builds more trust than waiting for perfect data.' } },
+];
+
+const DATA_GLOSARIO = [
+  ['data-g1', 'Limpieza de datos', 'Data cleaning', 'Corregir errores, duplicados y formatos antes de analizar.', 'Fixing errors, duplicates and formats before analysing.'],
+  ['data-g2', 'Grupo de control', 'Control group', 'Conjunto sin el cambio que sirve para comparar y medir su efecto real.', 'A group without the change, used to compare and measure the real effect.'],
+  ['data-g3', 'KPI', 'KPI', 'Indicador clave de rendimiento: la cifra que dice si se cumple un objetivo.', 'Key performance indicator: the number that shows whether a goal is met.'],
+  ['data-g4', 'Correlación', 'Correlation', 'Dos variables que se mueven juntas, sin que una tenga por qué causar la otra.', 'Two variables moving together, without one necessarily causing the other.'],
+  ['data-g5', 'ETL', 'ETL', 'Extraer, transformar y cargar: el proceso que lleva los datos de su origen al análisis.', 'Extract, transform, load: moving data from its source to analysis.'],
+  ['data-g6', 'Panel', 'Dashboard', 'Pantalla con los indicadores clave para seguir un negocio.', 'A screen with key indicators to follow a business.'],
+  ['data-g7', 'Estacionalidad', 'Seasonality', 'Variación que se repite según la época del año.', 'Variation that repeats depending on the time of year.'],
+];
+
+// ---- src/content/roles/index.js ----
+// Contenido por ruta, normalizado: { preguntas, modelos, glosario }.
+
+function buildRole(rol, qs, modelos, glosario) {
+  return {
+    preguntas: qs.map(([id, comp, es, en]) => ({ id, rol, comp, es, en })),
+    modelos,
+    glosario: glosario.map(([id, tes, ten, des, den]) => ({ id, termino: { es: tes, en: ten }, def: { es: des, en: den } })),
+  };
+}
+
+const ROLE_CONTENT = {
+  red: buildRole('red', RED_Q, RED_MODELOS, RED_GLOSARIO),
+  blue: buildRole('blue', BLUE_Q, BLUE_MODELOS, BLUE_GLOSARIO),
+  grc: buildRole('grc', GRC_Q, GRC_MODELOS, GRC_GLOSARIO),
+  data: buildRole('data', DATA_Q, DATA_MODELOS, DATA_GLOSARIO),
+};
+
+function allQuestions() {
+  return Object.values(ROLE_CONTENT).flatMap(r => r.preguntas);
+}
+
 // ---- src/engine/constants.js ----
 // Constantes del analizador STAR, de la puntuación y del juego.
 // La ayuda «Método STAR» se genera a partir de este archivo: no escribas cifras a mano en otro sitio.
 
-const VERSION = '0.1.0';
 
 /** Reparto ideal de palabras por bloque (porcentaje mínimo y máximo). */
 const REPARTO = {
@@ -1386,6 +2062,117 @@ function sanitizeState(raw, { competencias } = {}) {
     out.ajustes.sensibles = raw.ajustes.sensibles.filter(s => typeof s === 'string').map(s => s.slice(0, LIMITES.sensible)).slice(0, LIMITES.sensibles);
   }
   return out;
+}
+
+// ---- src/engine/arena.js ----
+// Motor de la Arena: convicción del recruiter, repreguntas según lo que falte y recomendación de historias.
+// Puro y sin DOM: todas las reglas del duelo están aquí y se prueban con node --test.
+
+/** Reglas del duelo (la ayuda las muestra desde aquí). */
+const DUELO = {
+  conviccionInicial: 50,
+  victoria: 70,
+  derrotaInmediata: 15,
+  factor: 0.6,
+  maxDelta: 30,
+  contrarreloj: 90,
+  penalizacionTiempo: 10,
+  modos: ['escrito', 'voz', 'contrarreloj', 'sorpresa'],
+};
+
+/** Bloque al que se añade la respuesta de cada repregunta. */
+const REPREGUNTA_BLOQUE = { reparto: 's', duracion: 'a', yo: 'a', cifra: 'r', verbos: 'a', muletillas: 'a', aprendizaje: 'l', profundiza: 'a' };
+
+function clampN(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+
+/** Nota ponderada 0–100 según lo que valora el recruiter. */
+function weightedScore(recruiter, score) {
+  let num = 0, den = 0;
+  for (const c of score.criterios) {
+    const w = PESOS[c.id] * ((recruiter.pesos && recruiter.pesos[c.id]) || 1);
+    num += (c.max ? c.puntos / c.max : 0) * w;
+    den += w;
+  }
+  let pct = den ? (num / den) * 100 : 0;
+  // Los datos sensibles cuestan confianza aunque el resto esté bien.
+  if (score.analisis && score.analisis.sensibles && score.analisis.sensibles.length) pct -= 15;
+  return Math.round(clampN(pct, 0, 100));
+}
+
+/** Cambio de convicción de una respuesta. */
+function convictionDelta(recruiter, score, { tiempoAgotado = false } = {}) {
+  const w = weightedScore(recruiter, score);
+  let d = Math.round((w - recruiter.umbral) * DUELO.factor * recruiter.ganancia);
+  d = clampN(d, -DUELO.maxDelta, DUELO.maxDelta);
+  if (tiempoAgotado) d -= DUELO.penalizacionTiempo;
+  return d;
+}
+
+/** Criterios flojos ordenados por lo que más le importa al recruiter. */
+function gaps(recruiter, score) {
+  return score.criterios
+    .filter(c => !c.ok)
+    .map(c => ({ id: c.id, falta: (1 - c.puntos / c.max) * PESOS[c.id] * ((recruiter.pesos && recruiter.pesos[c.id]) || 1) }))
+    .sort((a, b) => b.falta - a.falta)
+    .map(g => g.id);
+}
+
+/** Siguiente repregunta: el hueco más importante que aún no se ha preguntado, o «profundiza». */
+function nextFollowUp(recruiter, score, preguntadas = []) {
+  const g = gaps(recruiter, score).find(id => !preguntadas.includes(id));
+  return g || 'profundiza';
+}
+
+/** Une la respuesta a una repregunta con la historia en el bloque correspondiente. */
+function applyFollowUp(story, criterio, texto) {
+  const b = REPREGUNTA_BLOQUE[criterio] || 'a';
+  const extra = String(texto || '').trim();
+  if (!extra) return { ...story };
+  return { ...story, [b]: (String(story[b] || '').trim() + ' ' + extra).trim() };
+}
+
+/** Crea un duelo nuevo. */
+function newDuel(recruiter, pregunta, modo) {
+  return { recruiter: recruiter.id, pregunta: pregunta.id, modo, conviccion: DUELO.conviccionInicial, rondas: [], preguntadas: [], fin: null };
+}
+
+/** Registra una ronda y decide si el duelo sigue. Devuelve el duelo actualizado. */
+function playRound(duel, recruiter, score, { criterio = null, tiempoAgotado = false } = {}) {
+  const delta = convictionDelta(recruiter, score, { tiempoAgotado });
+  const conviccion = clampN(duel.conviccion + delta, 0, 100);
+  const rondas = [...duel.rondas, { criterio, delta, conviccion, total: score.total, tiempoAgotado }];
+  const preguntadas = criterio ? [...duel.preguntadas, criterio] : duel.preguntadas;
+  let fin = null;
+  if (conviccion <= DUELO.derrotaInmediata) fin = 'perdido';
+  else if (rondas.length > recruiter.repreguntas) fin = conviccion >= DUELO.victoria ? 'ganado' : 'perdido';
+  return { ...duel, conviccion, rondas, preguntadas, fin };
+}
+
+/** Puntuación de autoevaluación (modo en voz alta): marcas por criterio → misma forma que scoreStory. */
+function selfScore(marcas) {
+  const criterios = Object.keys(PESOS).map(id => ({ id, max: PESOS[id], puntos: marcas[id] ? PESOS[id] : 0, ok: !!marcas[id] }));
+  return { total: criterios.reduce((n, c) => n + c.puntos, 0), criterios, consejos: [], analisis: { sensibles: [] } };
+}
+
+/**
+ * Historias que mejor encajan con una pregunta: coincidencia de competencias primero, luego la nota.
+ * scoreFn(story) → { total }.
+ */
+function recommendStories(pregunta, historias, scoreFn, n = 3) {
+  const comps = pregunta.comp || [];
+  return historias
+    .map(h => {
+      const match = h.competencias.filter(c => comps.includes(c)).length;
+      const total = scoreFn(h).total;
+      return { historia: h, match, total, rank: match * 100 + total };
+    })
+    .sort((a, b) => b.rank - a.rank)
+    .slice(0, n);
+}
+
+/** Elige un elemento con un número aleatorio inyectable (para pruebas). */
+function pick(list, rnd = Math.random) {
+  return list[Math.floor(rnd() * list.length) % list.length];
 }
 
 // ---- src/ui/core.js ----
@@ -2082,11 +2869,55 @@ VIEWS.forja = (view, arg) => {
   if (!hs.length) {
     view.append(h('div', { class: 'empty' }, icon('star', 'ic lg'), h('h2', { text: t('forja.vacioTitulo') }), h('p', { class: 'muted', text: t('forja.vacio') }),
       h('div', { class: 'row' }, h('a', { class: 'btn primary', href: '#forja/nueva' }, icon('plus'), t('forja.nueva')))));
-    return;
+  } else {
+    const sorted = hs.slice().sort((a, b) => (b.editada || '').localeCompare(a.editada || ''));
+    view.append(stagger(h('div', { class: 'story-list', id: 'story-list' }, sorted.map(storyCard))));
   }
-  const sorted = hs.slice().sort((a, b) => (b.editada || '').localeCompare(a.editada || ''));
-  view.append(stagger(h('div', { class: 'story-list', id: 'story-list' }, sorted.map(storyCard))));
+  renderModels(view);
+  renderQuestionBank(view);
 };
+
+function renderModels(view) {
+  const rol = UI.state.perfil.rol;
+  const ms = ROLE_CONTENT[rol].modelos;
+  view.append(h('div', { class: 'vhead' }, h('div', null, h('h2', { id: 'modelos-h', text: t('forja.modelosTitulo', { rol: t('rol.' + rol) }) }), h('p', { class: 'lede small', text: t('forja.modelosLede') }))));
+  view.append(stagger(h('div', { class: 'story-list', id: 'modelos' }, ms.map(m => {
+    const v = L(m);
+    const sc = scoreOf(v);
+    return h('div', { class: 'card stack' },
+      h('div', { class: 'row spread' }, h('span', { class: 'chip ensayo' }, icon('book-open', 'ic sm'), t('forja.modelo')), h('span', { class: 'score' }, String(sc.total), h('small', { text: '/100' }))),
+      h('h3', { text: v.titulo }),
+      h('p', { class: 'small muted', text: v.a.slice(0, 140) + '…' }),
+      h('div', null, h('button', { class: 'btn sm', type: 'button', onclick: () => { renderEditor.prefill = { ...v, tipo: 'ensayo', competencias: [...m.competencias] }; go('forja/nueva'); } }, icon('pencil', 'ic sm'), t('forja.usarModelo'))));
+  }))));
+}
+
+let bankFilter = '';
+function renderQuestionBank(view) {
+  const rol = UI.state.perfil.rol;
+  const all = [...ROLE_CONTENT[rol].preguntas, ...COMUNES];
+  const box = h('div', { class: 'card stack', id: 'banco' });
+  const sel = h('select', { id: 'banco-filtro', onchange: e => { bankFilter = e.target.value; draw(); } },
+    h('option', { value: '', text: t('forja.bancoTodas') }), COMPETENCIAS.map(c => { const o = h('option', { value: c.id, text: compName(c.id) }); if (c.id === bankFilter) o.selected = true; return o; }));
+  const list = h('ul', { class: 'qlist' });
+  const count = h('p', { class: 'small muted', 'aria-live': 'polite' });
+  function draw() {
+    const qs = all.filter(q => !bankFilter || q.comp.includes(bankFilter));
+    count.textContent = t('forja.bancoN', { n: qs.length });
+    list.replaceChildren(...qs.map(q => h('li', null,
+      h('div', { class: 'stack' }, h('p', { text: L(q) }), h('p', { class: 'tiny muted' }, q.trampa ? h('span', { class: 'chip', text: t('forja.trampa') }) : null, ' ', q.comp.map(compName).join(' · ')),
+        q.guia ? h('details', null, h('summary', { text: t('forja.guia') }), h('p', { class: 'small', text: L(q.guia) })) : null),
+      q.guia ? null : h('button', { class: 'btn sm', type: 'button', 'aria-label': t('forja.responderAria', { q: L(q) }), onclick: () => { renderEditor.prefill = { competencias: q.comp.slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id }; go('forja/nueva'); } }, icon('plus', 'ic sm'), t('forja.responder')))));
+  }
+  box.append(h('div', { class: 'row spread' }, h('h2', { text: t('forja.bancoTitulo') }), h('div', { class: 'field' }, h('label', { for: 'banco-filtro', class: 'sr-only', text: t('forja.bancoFiltro') }), sel)), count, list);
+  draw();
+  view.append(box);
+}
+
+function questionById(id) {
+  if (!id) return null;
+  return [...allQuestions(), ...COMUNES].find(q => q.id === id) || null;
+}
 
 function renderEditor(view, id) {
   const existing = UI.state.historias.find(x => x.id === id);
@@ -2101,6 +2932,9 @@ function renderEditor(view, id) {
   if (!existing && prefill) Object.assign(draft, prefill);
 
   viewHead(view, { eyebrow: t('nav.forja'), title: existing ? t('forja.editar') : t('forja.nueva'), lede: t('forja.editorLede') });
+  const pq = questionById(draft._pregunta);
+  delete draft._pregunta;
+  if (pq) view.append(h('div', { class: 'callout', id: 'pregunta-guia' }, icon('message-square-quote'), h('p', null, h('b', { text: t('forja.preguntaGuia') + ' ' }), L(pq))));
   const form = h('form', { class: 'stack', id: 'story-form', 'aria-label': t('forja.formulario') });
   const panel = h('aside', { class: 'card panel stack', 'aria-labelledby': 'score-h' });
   const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'score-live' });
@@ -2204,6 +3038,416 @@ function tipText(c) {
   return t(c.clave, p);
 }
 
+// ---- src/ui/constelacion.js ----
+// Constelación: cada competencia es una constelación en una posición fija; cada historia, una estrella.
+// Se acompaña siempre de una tabla equivalente.
+
+const STAR_SLOTS = [[0.5, 0.42], [0.24, 0.58], [0.74, 0.62], [0.38, 0.8], [0.64, 0.86], [0.16, 0.86], [0.86, 0.4], [0.3, 0.36]];
+const STAR_SIZE = { borrador: 7, lista: 10, brillante: 14 };
+
+function sparklePath(cx, cy, r) {
+  const k = r * 0.28;
+  return `M${cx} ${cy - r}C${cx + k * 0.4} ${cy - k} ${cx + k} ${cy - k * 0.4} ${cx + r} ${cy}C${cx + k} ${cy + k * 0.4} ${cx + k * 0.4} ${cy + k} ${cx} ${cy + r}C${cx - k * 0.4} ${cy + k} ${cx - k} ${cy + k * 0.4} ${cx - r} ${cy}C${cx - k} ${cy - k * 0.4} ${cx - k * 0.4} ${cy - k} ${cx} ${cy - r}Z`;
+}
+function svgEl(tag, attrs, ...kids) {
+  const el = document.createElementNS(SVGNS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) if (v !== null && v !== undefined) el.setAttribute(k, String(v));
+  for (const c of kids.flat()) if (c) el.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  return el;
+}
+
+function coverage() {
+  const hs = UI.state.historias.map(s => ({ s, sc: scoreOf(s) }));
+  return COMPETENCIAS.map(c => {
+    const list = hs.filter(x => x.s.competencias.includes(c.id)).sort((a, b) => b.sc.total - a.sc.total);
+    return { c, list, best: list.length ? list[0].sc.total : null };
+  });
+}
+
+VIEWS.constelacion = (view) => {
+  const cov = coverage();
+  const covered = cov.filter(x => x.list.length).length;
+  const missing = cov.filter(x => !x.list.length);
+  viewHead(view, { eyebrow: t('nav.constelacion'), title: t('const.titulo'), lede: t('const.lede', { n: covered, total: COMPETENCIAS.length }),
+    action: h('a', { class: 'btn primary', href: '#forja/nueva' }, icon('plus'), t('forja.nueva')) });
+
+  const mobile = matchMedia('(max-width: 767px)').matches;
+  const cols = mobile ? 2 : 4, rows = Math.ceil(COMPETENCIAS.length / cols);
+  const ZW = 300, ZH = mobile ? 250 : 230;
+  const W = cols * ZW, H = rows * ZH;
+  const summary = missing.length
+    ? t('const.aria', { n: covered, total: COMPETENCIAS.length, faltan: missing.map(m => compName(m.c.id)).join(', ') })
+    : t('const.ariaCompleta', { total: COMPETENCIAS.length });
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, class: 'sky', role: 'group', 'aria-label': summary });
+  const tip = h('div', { class: 'star-tip', role: 'tooltip', id: 'star-tip', hidden: true });
+  const stars = [];
+  const fresh = UI.lastSaved;
+  UI.lastSaved = null;
+
+  cov.forEach((zone, i) => {
+    const x0 = (i % cols) * ZW, y0 = Math.floor(i / cols) * ZH;
+    const g = svgEl('g', { class: 'zone' + (zone.list.length ? '' : ' empty') });
+    g.append(svgEl('text', { x: x0 + 20, y: y0 + 34, class: 'zone-label' }, compName(zone.c.id)));
+    g.append(svgEl('text', { x: x0 + 20, y: y0 + 54, class: 'zone-meta' }, zone.list.length ? t('const.zoneMeta', { n: zone.list.length, best: zone.best }) : t('const.vacia')));
+    const pts = STAR_SLOTS.map(([fx, fy]) => [x0 + 20 + fx * (ZW - 40), y0 + 40 + fy * (ZH - 70)]);
+    if (!zone.list.length) {
+      const d = pts.slice(0, 4).map((p, k) => (k ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
+      g.append(svgEl('path', { d, class: 'ghost-line' }));
+      pts.slice(0, 4).forEach(p => g.append(svgEl('path', { d: sparklePath(p[0], p[1], 6), class: 'ghost-star' })));
+    } else {
+      const used = zone.list.slice(0, STAR_SLOTS.length);
+      if (used.length > 1) {
+        const d = used.map((_, k) => (k ? 'L' : 'M') + pts[k][0].toFixed(1) + ' ' + pts[k][1].toFixed(1)).join('');
+        const line = svgEl('path', { d, class: 'const-line' + (used.some(u => u.s.id === fresh) ? ' draw' : '') });
+        g.append(line);
+      }
+      used.forEach((u, k) => {
+        const [cx, cy] = pts[k];
+        const r = STAR_SIZE[u.sc.estado];
+        const label = t('const.estrella', { titulo: u.s.titulo || t('forja.sinTitulo'), nota: u.sc.total, estado: t('estado.' + u.sc.estado), comp: compName(zone.c.id) });
+        const a = svgEl('a', { href: '#forja/' + u.s.id, class: 'star st-' + u.sc.estado + (u.s.id === fresh ? ' nueva' : ''), 'aria-label': label, tabindex: '-1', 'aria-describedby': 'star-tip' },
+          svgEl('rect', { x: cx - 16, y: cy - 16, width: 32, height: 32, class: 'hit', rx: 8 }),
+          u.sc.estado === 'brillante' ? svgEl('path', { d: sparklePath(cx, cy, r * 1.9), class: 'glow' }) : null,
+          svgEl('path', { d: sparklePath(cx, cy, r), class: 'core' }));
+        a.dataset.id = u.s.id;
+        a.dataset.x = cx / W;
+        a.dataset.y = cy / H;
+        a._info = { titulo: u.s.titulo || t('forja.sinTitulo'), nota: u.sc.total, estado: u.sc.estado, comps: u.s.competencias };
+        g.append(a);
+        stars.push(a);
+      });
+    }
+    svg.append(g);
+  });
+  if (stars.length) stars[0].setAttribute('tabindex', '0');
+
+  const stage = h('div', { class: 'sky-wrap' + (mobile ? ' tall' : '') }, svg, tip);
+  const showTip = a => {
+    const inf = a._info;
+    tip.replaceChildren(h('b', { text: inf.titulo }), h('span', { class: 'row' }, stateChip(inf.estado), h('span', { class: 'score', text: inf.nota + '/100' })), h('span', { class: 'tiny', text: inf.comps.map(compName).join(' · ') }));
+    tip.hidden = false;
+    const fx = Number(a.dataset.x), fy = Number(a.dataset.y);
+    tip.style.left = Math.min(78, Math.max(2, fx * 100 - 10)) + '%';
+    tip.style.top = (fy * 100 + 4) + '%';
+  };
+  const hideTip = () => { tip.hidden = true; };
+  stars.forEach((a, i) => {
+    a.addEventListener('mouseenter', () => showTip(a));
+    a.addEventListener('mouseleave', hideTip);
+    a.addEventListener('focus', () => showTip(a));
+    a.addEventListener('blur', hideTip);
+    a.addEventListener('keydown', e => {
+      let n = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % stars.length;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i + stars.length - 1) % stars.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = stars.length - 1;
+      if (e.key === 'Escape') { hideTip(); return; }
+      if (n !== null) { e.preventDefault(); a.setAttribute('tabindex', '-1'); stars[n].setAttribute('tabindex', '0'); stars[n].focus(); }
+    });
+  });
+
+  view.append(h('div', { class: 'card sky-card' }, stage,
+    h('p', { class: 'small muted', text: stars.length ? t('const.teclado') : t('const.sinEstrellas') }),
+    h('div', { class: 'legend' }, ['borrador', 'lista', 'brillante'].map(e => stateChip(e)))));
+
+  if (missing.length) {
+    view.append(h('h2', { text: t('const.faltanTitulo') }), stagger(h('div', { class: 'grid' }, missing.map(m => {
+      const q = suggestQuestion(m.c.id);
+      return h('div', { class: 'card stack' }, h('div', { class: 'row' }, icon(m.c.icono), h('h3', { text: compName(m.c.id) })),
+        h('p', { class: 'muted small', text: t('const.teFalta', { comp: compName(m.c.id).toLowerCase() }) }),
+        q ? h('p', { class: 'small' }, h('span', { class: 'faint', text: t('const.prueba') + ' ' }), L(q)) : null,
+        h('button', { class: 'btn sm', type: 'button', onclick: () => { renderEditor.prefill = { competencias: [m.c.id], titulo: '' }; go('forja/nueva'); } }, icon('plus', 'ic sm'), t('const.escribir')));
+    }))));
+  }
+
+  const rows2 = cov.map(z => h('tr', null,
+    h('th', { scope: 'row' }, compName(z.c.id)),
+    h('td', { class: 'num', text: String(z.list.length) }),
+    h('td', { class: 'num', text: z.best === null ? '—' : String(z.best) }),
+    h('td', { class: 'small muted', text: PRINCIPIOS.filter(p => p.comp.includes(z.c.id)).map(p => p.nombre).join(' · ') })));
+  view.append(h('div', { class: 'card stack' },
+    h('h2', { id: 'tabla-h', text: t('const.tabla') }),
+    h('div', { class: 'table-wrap', role: 'region', 'aria-labelledby': 'tabla-h', tabindex: '0' }, h('table', null,
+      h('caption', { class: 'sr-only', text: t('const.tablaCaption') }),
+      h('thead', null, h('tr', null, h('th', { scope: 'col', text: t('const.col.comp') }), h('th', { scope: 'col', text: t('const.col.n') }), h('th', { scope: 'col', text: t('const.col.best') }), h('th', { scope: 'col', text: t('const.col.principios') }))),
+      h('tbody', null, rows2))),
+    h('p', { class: 'tiny muted', text: t('aviso.independencia') })));
+};
+
+function suggestQuestion(compId) {
+  const rol = UI.state.perfil ? UI.state.perfil.rol : 'red';
+  const qs = [...ROLE_CONTENT[rol].preguntas, ...COMUNES.filter(q => !q.trampa)];
+  return qs.find(q => q.comp[0] === compId) || qs.find(q => q.comp.includes(compId)) || null;
+}
+
+// ---- src/ui/arena.js ----
+// Arena: duelos contra recruiters que repreguntan según lo que le falta a tu historia.
+
+const ARENA_SHORTCUTS = [
+  ['Ctrl Enter', 'atajo.arena.enviar'],
+  ['Alt R', 'atajo.arena.aleatoria'],
+  ['Alt N', 'atajo.arena.otro'],
+];
+const MODO_IC = { escrito: 'pen-line', voz: 'mic', contrarreloj: 'timer', sorpresa: 'shuffle' };
+const ARENA = { recruiter: 'rita', modo: 'escrito', pregunta: null, historia: '', duel: null, story: null, score: null, timer: null, marcas: {} };
+
+function arenaQuestions() {
+  const rol = UI.state.perfil.rol;
+  return [...ROLE_CONTENT[rol].preguntas, ...COMUNES.filter(q => !q.guia)];
+}
+function arenaRecruiter(id) { return RECRUITERS.find(r => r.id === id) || RECRUITERS[0]; }
+function arenaQuestion(id) { return arenaQuestions().find(q => q.id === id) || allQuestions().find(q => q.id === id) || COMUNES.find(q => q.id === id && !q.guia) || null; }
+function stopTimer() { if (ARENA.timer) { clearInterval(ARENA.timer.id); ARENA.timer = null; } }
+
+VIEWS.arena = (view, arg) => {
+  stopTimer();
+  if (arg && arg.startsWith('pregunta/')) {
+    const q = arenaQuestion(arg.slice('pregunta/'.length));
+    if (q) { ARENA.pregunta = q.id; ARENA.duel = null; }
+  }
+  if (!ARENA.pregunta || !arenaQuestion(ARENA.pregunta)) ARENA.pregunta = arenaQuestions()[0].id;
+  if (ARENA.duel) { renderDuel(view); return; }
+  renderLobby(view);
+};
+
+function renderLobby(view) {
+  viewHead(view, { eyebrow: t('nav.arena'), title: t('arena.titulo'), lede: t('arena.lede') });
+  const form = h('form', { class: 'stack', id: 'arena-form', 'aria-label': t('arena.preparar') });
+
+  form.append(h('fieldset', null, h('legend', { text: t('arena.elige.recruiter') }),
+    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') },
+      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, onchange: () => { ARENA.recruiter = r.id; } }),
+      h('span', { class: 'rec-av', 'aria-hidden': 'true' }, icon(r.icono)),
+      h('span', { class: 'stack tight' },
+        h('b', { text: L(r.nombre) }),
+        h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) }),
+        h('span', { class: 'small muted', text: L(r.estilo) }))))))));
+
+  form.append(h('fieldset', null, h('legend', { text: t('arena.elige.modo') }),
+    h('div', { class: 'checks' }, DUELO.modos.map(m => h('label', { class: 'check' },
+      h('input', { type: 'radio', name: 'modo', value: m, checked: ARENA.modo === m, 'aria-describedby': 'modo-d-' + m, onchange: () => { ARENA.modo = m; } }),
+      icon(MODO_IC[m], 'ic sm'), t('arena.modo.' + m)))),
+    h('ul', { class: 'small muted stack tight' }, DUELO.modos.map(m => h('li', { id: 'modo-d-' + m }, h('b', { text: t('arena.modo.' + m) + ': ' }), t('arena.modo.' + m + '.d', { s: DUELO.contrarreloj }))))));
+
+  const qs = arenaQuestions();
+  const rol = UI.state.perfil.rol;
+  const sel = h('select', { id: 'arena-q', onchange: e => { ARENA.pregunta = e.target.value; ARENA.historia = ''; drawRec(); } },
+    h('optgroup', { label: t('rol.' + rol) }, qs.filter(q => q.rol).map(q => h('option', { value: q.id, selected: q.id === ARENA.pregunta || null, text: L(q) }))),
+    h('optgroup', { label: t('arena.comunes') }, qs.filter(q => !q.rol).map(q => h('option', { value: q.id, selected: q.id === ARENA.pregunta || null, text: L(q) }))));
+  const rnd = h('button', { class: 'btn', type: 'button', id: 'arena-random', onclick: randomQuestion }, icon('shuffle'), t('arena.aleatoria'));
+  form.append(h('div', { class: 'field' }, h('label', { for: 'arena-q', text: t('arena.elige.pregunta') }), h('div', { class: 'row wrap' }, sel, rnd)));
+
+  const recBox = h('fieldset', { id: 'arena-rec' });
+  form.append(recBox);
+  function randomQuestion() {
+    ARENA.pregunta = pick(qs).id;
+    sel.value = ARENA.pregunta;
+    ARENA.historia = '';
+    drawRec();
+    toast(t('arena.aleatoriaToast'), { ic: 'shuffle' });
+  }
+  renderLobby.random = randomQuestion;
+  function drawRec() {
+    const q = arenaQuestion(ARENA.pregunta);
+    const rec = recommendStories(q, UI.state.historias, scoreOf);
+    if (!ARENA.historia && rec.length) ARENA.historia = rec[0].historia.id;
+    const opt = (value, title, extra) => h('label', { class: 'check block-check' },
+      h('input', { type: 'radio', name: 'historia', value, checked: ARENA.historia === value, onchange: () => { ARENA.historia = value; } }),
+      h('span', { class: 'stack tight' }, h('b', { text: title }), extra ? h('span', { class: 'small muted', text: extra }) : null));
+    recBox.replaceChildren(h('legend', { text: t('arena.elige.historia') }),
+      rec.length ? h('p', { class: 'hint small muted', text: t('arena.recomendadaHint') }) : h('p', { class: 'hint small muted', text: t('arena.sinHistorias') }),
+      h('div', { class: 'stack tight' },
+        rec.map((r, i) => opt(r.historia.id, r.historia.titulo || t('forja.sinTitulo'),
+          (i === 0 ? t('arena.recomendada') + ' · ' : '') + t('arena.encaje', { n: r.match, total: r.total }))),
+        opt('', t('arena.desdeCero'), t('arena.desdeCero.d'))));
+  }
+  drawRec();
+
+  form.append(h('div', { class: 'row' }, h('button', { class: 'btn primary', type: 'submit', id: 'arena-start' }, icon('swords'), t('arena.empezar'))));
+  form.addEventListener('submit', e => { e.preventDefault(); startDuel(); });
+  view.append(h('div', { class: 'card' }, form));
+
+  const ds = UI.state.duelos.slice(-5).reverse();
+  if (ds.length) {
+    view.append(h('h2', { text: t('arena.ultimos') }), h('ul', { class: 'qlist', id: 'arena-hist' }, ds.map(d => h('li', null,
+      icon(d.superado ? 'trophy' : 'circle-x', 'ic sm'),
+      h('span', { text: L(arenaRecruiter(d.recruiter).nombre) + ' · ' + t('arena.modo.' + (DUELO.modos.includes(d.modo) ? d.modo : 'escrito')) }),
+      h('span', { class: 'spacer' }),
+      h('span', { class: 'mono small', text: t('arena.conviccionN', { n: d.conviccion }) }), ' ',
+      h('span', { class: 'chip' + (d.superado ? ' ok' : ''), text: t(d.superado ? 'arena.ganado' : 'arena.perdido') })))));
+  }
+}
+
+function startDuel() {
+  let rec = arenaRecruiter(ARENA.recruiter);
+  let q = arenaQuestion(ARENA.pregunta);
+  if (ARENA.modo === 'sorpresa') {
+    rec = pick(RECRUITERS.filter(r => !r.jefe));
+    q = pick(arenaQuestions());
+    const best = recommendStories(q, UI.state.historias, scoreOf, 1)[0];
+    ARENA.historia = best ? best.historia.id : '';
+  }
+  const base = UI.state.historias.find(x => x.id === ARENA.historia);
+  ARENA.story = base ? { ...base } : { id: 'arena', titulo: '', tipo: 'ensayo', s: '', t: '', a: '', r: '', l: '', competencias: [] };
+  ARENA.duel = newDuel(rec, q, ARENA.modo);
+  ARENA.marcas = {};
+  ARENA.score = null;
+  ARENA.ultima = null;
+  playSound('tick');
+  render();
+}
+
+function meter(conv) {
+  const i = h('i');
+  i.style.width = conv + '%';
+  return h('div', { class: 'conv' },
+    h('div', { class: 'row spread small' }, h('span', { text: t('arena.conviccion') }), h('b', { class: 'mono', id: 'arena-conv', text: conv + ' / 100' })),
+    h('div', { class: 'bar conv-bar' + (conv >= DUELO.victoria ? ' gold' : ''), role: 'meter', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(conv), 'aria-label': t('arena.conviccion') }, i, (() => { const m = h('span', { class: 'goal', 'aria-hidden': 'true' }); m.style.left = DUELO.victoria + '%'; return m; })()),
+    h('p', { class: 'tiny muted', text: t('arena.meta', { n: DUELO.victoria }) }));
+}
+
+function renderDuel(view) {
+  const d = ARENA.duel;
+  const rec = arenaRecruiter(d.recruiter);
+  const q = arenaQuestion(d.pregunta);
+  if (d.fin) { renderReport(view, rec, q); return; }
+  const ronda = d.rondas.length;
+  const criterio = ronda ? nextFollowUp(rec, ARENA.score, d.preguntadas) : null;
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.modo.' + d.modo), title: L(rec.nombre), lede: t('arena.ronda', { n: ronda + 1, total: rec.repreguntas + 1 }) });
+
+  const said = ronda ? (ARENA.ultima >= 0 ? rec.frases.bien : rec.frases.mal) : rec.frases.inicio;
+  const bubble = h('div', { class: 'card rec-say', id: 'arena-say' },
+    h('span', { class: 'rec-av' + (rec.jefe ? ' boss' : ''), 'aria-hidden': 'true' }, icon(rec.icono)),
+    h('div', { class: 'stack tight' },
+      h('p', { text: L(said) }),
+      ronda ? h('p', { class: 'small mono ' + (ARENA.ultima >= 0 ? 'up' : 'down'), id: 'arena-delta', text: t('arena.delta', { n: (ARENA.ultima >= 0 ? '+' : '') + ARENA.ultima }) }) : null));
+  const ask = h('div', { class: 'callout', id: 'arena-pregunta' }, icon('message-square-quote'),
+    h('p', null, h('b', { text: (ronda ? t('arena.repregunta') : t('arena.pregunta')) + ' ' }), ronda ? t('arena.rep.' + criterio) : L(q)));
+  view.append(h('div', { class: 'duel-top' }, bubble, h('div', { class: 'card' }, meter(d.conviccion))), ask);
+  const live = h('p', { class: 'sr-only', 'aria-live': 'polite', id: 'arena-live', text: ronda ? L(said) + ' ' + t('arena.conviccionN', { n: d.conviccion }) : '' });
+  view.append(live);
+
+  const form = h('form', { class: 'card stack', id: 'arena-answer', 'aria-label': t('arena.respuesta') });
+  const voz = d.modo === 'voz';
+  if (voz) {
+    if (ARENA.story.a || ARENA.story.s) {
+      form.append(h('details', null, h('summary', { text: t('arena.verHistoria') }),
+        h('div', { class: 'stack small' }, [...BLOQUES, 'l'].filter(b => ARENA.story[b]).map(b => h('p', null, h('b', { text: t('bloque.' + b) + ': ' }), ARENA.story[b])))));
+    }
+    form.append(h('p', { text: t('arena.voz.instr') }),
+      h('fieldset', null, h('legend', { text: t('arena.voz.check') }),
+        h('div', { class: 'stack tight' }, Object.keys(PESOS).map(id => h('label', { class: 'check' },
+          h('input', { type: 'checkbox', name: 'marca', value: id, checked: !!ARENA.marcas[id], onchange: e => { ARENA.marcas[id] = e.target.checked; } }),
+          t('arena.voz.' + id))))));
+  } else if (!ronda) {
+    for (const b of [...BLOQUES, 'l']) {
+      const fid = 'a-' + b;
+      form.append(h('div', { class: 'field' }, h('label', { for: fid }, t('bloque.' + b), b === 'l' ? h('span', { class: 'chip', text: t('ui.opcional') }) : null),
+        h('textarea', { id: fid, rows: b === 'a' ? 5 : 2, maxlength: LIMITES.bloque, value: ARENA.story[b], placeholder: t('forja.ph.' + b), oninput: e => { ARENA.story[b] = e.target.value; } })));
+    }
+  } else {
+    form.append(h('div', { class: 'field' }, h('label', { for: 'arena-follow', text: t('arena.tuRespuesta') }),
+      h('p', { class: 'hint', id: 'arena-follow-hint', text: t('arena.seAnade', { bloque: t('bloque.' + REPREGUNTA_BLOQUE[criterio]) }) }),
+      h('textarea', { id: 'arena-follow', rows: 4, maxlength: LIMITES.bloque, 'aria-describedby': 'arena-follow-hint' })));
+  }
+
+  let timerBox = null;
+  if (d.modo === 'contrarreloj') {
+    timerBox = h('div', { class: 'row timer', id: 'arena-timer' },
+      icon('timer'), h('span', { class: 'mono', id: 'arena-secs', text: fmtDuration(DUELO.contrarreloj) }),
+      h('span', { class: 'spacer' }),
+      h('button', { class: 'btn sm', type: 'button', id: 'arena-stop-timer', onclick: () => { stopTimer(); ARENA.duel = { ...ARENA.duel, modo: 'escrito' }; toast(t('arena.relojParado'), { ic: 'timer' }); render(); } }, t('arena.pararReloj')));
+    form.prepend(timerBox);
+  }
+  form.append(h('div', { class: 'row' },
+    h('button', { class: 'btn primary', type: 'submit', id: 'arena-send' }, icon('send'), t('arena.enviar')),
+    h('span', { class: 'small muted', text: t('arena.enviarHint') }),
+    h('span', { class: 'spacer' }),
+    h('button', { class: 'btn', type: 'button', id: 'arena-quit', onclick: () => { stopTimer(); ARENA.duel = null; render(); } }, t('arena.abandonar'))));
+  form.addEventListener('submit', e => { e.preventDefault(); submit(false); });
+  view.append(form);
+
+  function submit(tiempoAgotado) {
+    stopTimer();
+    if (!voz && ronda) {
+      const extra = $('#arena-follow').value;
+      ARENA.story = applyFollowUp(ARENA.story, criterio, extra);
+    }
+    const sc = voz ? selfScore(ARENA.marcas) : scoreOf(ARENA.story);
+    const before = ARENA.duel.conviccion;
+    ARENA.duel = playRound(ARENA.duel, rec, sc, { criterio, tiempoAgotado });
+    ARENA.score = sc;
+    ARENA.ultima = ARENA.duel.conviccion - before;
+    playSound(ARENA.ultima >= 0 ? 'ok' : 'fail');
+    if (ARENA.duel.fin) finishDuel(rec);
+    render();
+    const f = $('#arena-follow') || $('#arena-again');
+    if (f) f.focus();
+  }
+  renderDuel.submit = () => submit(false);
+
+  if (d.modo === 'contrarreloj') {
+    let left = DUELO.contrarreloj;
+    ARENA.timer = { id: setInterval(() => {
+      left -= 1;
+      const s = $('#arena-secs');
+      if (s) s.textContent = fmtDuration(Math.max(0, left));
+      if (left === 15) toast(t('arena.quedan', { s: 15 }), { ic: 'timer' });
+      if (left <= 0) { toast(t('arena.tiempo'), { ic: 'timer' }); submit(true); }
+    }, 1000) };
+  }
+}
+
+function finishDuel(rec) {
+  const d = ARENA.duel;
+  const rec0 = { fecha: today(), recruiter: rec.id, ruta: UI.state.perfil.rol, conviccion: d.conviccion, superado: d.fin === 'ganado', modo: d.modo };
+  UI.state.duelos.push(rec0);
+  if (UI.state.duelos.length > LIMITES.duelos) UI.state.duelos = UI.state.duelos.slice(-LIMITES.duelos);
+  if (typeof onDuelEnd === 'function') onDuelEnd(rec0, rec, d, ARENA.score);
+  saveState();
+  playSound(d.fin === 'ganado' ? 'star' : 'fail');
+}
+
+function renderReport(view, rec, q) {
+  const d = ARENA.duel;
+  const won = d.fin === 'ganado';
+  viewHead(view, { eyebrow: t('nav.arena') + ' · ' + t('arena.informe'), title: t(won ? 'arena.ganadoTitulo' : 'arena.perdidoTitulo'), lede: L(won ? rec.frases.gana : rec.frases.pierde) });
+  view.append(h('div', { class: 'callout ' + (won ? 'ok' : 'warn'), id: 'arena-veredicto', role: 'status' }, icon(won ? 'trophy' : 'circle-x'),
+    h('p', null, h('b', { text: t(won ? 'arena.ganado' : 'arena.perdido') + '. ' }), t('arena.veredicto', { rec: L(rec.nombre), n: d.conviccion, meta: DUELO.victoria }))));
+  view.append(h('div', { class: 'grid two' },
+    h('div', { class: 'card stack' }, meter(d.conviccion), h('p', { class: 'small' }, h('b', { text: t('arena.pregunta') + ' ' }), L(q))),
+    h('div', { class: 'card stack' }, h('h2', { text: t('arena.rondas') }),
+      h('table', { id: 'arena-rondas' }, h('thead', null, h('tr', null, ['arena.col.ronda', 'arena.col.tema', 'arena.col.nota', 'arena.col.cambio'].map(k => h('th', { scope: 'col', text: t(k) })))),
+        h('tbody', null, d.rondas.map((r, i) => h('tr', null,
+          h('td', { text: String(i + 1) }),
+          h('td', { text: r.criterio ? t('crit.' + r.criterio) : t('arena.inicial') }),
+          h('td', { class: 'mono', text: String(r.total) }),
+          h('td', { class: 'mono', text: (r.delta >= 0 ? '+' : '') + r.delta + (r.tiempoAgotado ? ' ⏱' : '') }))))))));
+  const sc = ARENA.score;
+  const tips = sc && sc.consejos ? sc.consejos.slice(0, 3) : [];
+  const flojos = sc ? gaps(rec, sc).slice(0, 3) : [];
+  view.append(h('div', { class: 'card stack' }, h('h2', { text: t('arena.mejorar') }),
+    tips.length ? h('ul', { class: 'tips' }, tips.map(c => h('li', null, icon('lightbulb'), h('span', { text: tipText(c) }))))
+      : flojos.length ? h('ul', { class: 'tips' }, flojos.map(id => h('li', null, icon('lightbulb'), h('span', { text: t('arena.rep.' + id) }))))
+        : h('p', { class: 'small muted', text: t('arena.nadaQueMejorar') })));
+  const base = UI.state.historias.find(x => x.id === ARENA.historia);
+  view.append(h('div', { class: 'row wrap' },
+    h('button', { class: 'btn primary', type: 'button', id: 'arena-again', onclick: () => { ARENA.duel = null; render(); } }, icon('rotate-ccw'), t('arena.otro')),
+    !base && ARENA.duel.modo !== 'voz' ? h('button', { class: 'btn', type: 'button', id: 'arena-save', onclick: () => {
+      renderEditor.prefill = { titulo: '', s: ARENA.story.s, t: ARENA.story.t, a: ARENA.story.a, r: ARENA.story.r, l: ARENA.story.l, competencias: (q.comp || []).slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id };
+      ARENA.duel = null; go('forja/nueva');
+    } }, icon('hammer'), t('arena.guardarComo')) : null,
+    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null));
+}
+
+document.addEventListener('keydown', e => {
+  if (!String(document.body.dataset.route || '').startsWith('arena') || document.querySelector('dialog[open]')) return;
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && $('#arena-send')) { e.preventDefault(); $('#arena-answer').requestSubmit(); }
+  else if (e.altKey && e.code === 'KeyR' && $('#arena-random')) { e.preventDefault(); renderLobby.random(); }
+  else if (e.altKey && e.code === 'KeyN' && ARENA.duel && ARENA.duel.fin) { e.preventDefault(); ARENA.duel = null; render(); }
+});
+
 // ---- src/ui/ayuda.js ----
 // Centro de ayuda con seis pestañas. «Método STAR» se genera desde engine/constants.js.
 
@@ -2272,6 +3516,7 @@ const HELP_BUILD = {
   },
   recruiters: () => [
     h('p', { text: t('ayuda.recruiters.intro') }),
+    h('div', { class: 'callout', id: 'ayuda-duelo' }, icon('swords'), h('p', null, h('b', { text: t('ayuda.arena.titulo') + '. ' }), t('ayuda.arena.reglas', { ini: DUELO.conviccionInicial, max: DUELO.maxDelta, derrota: DUELO.derrotaInmediata, meta: DUELO.victoria, pen: DUELO.penalizacionTiempo }))),
     ...RECRUITERS.map(r => h('div', { class: 'card stack' }, h('div', { class: 'row' }, icon(r.icono), h('h3', { text: L(r.nombre) }), h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) })), h('p', { class: 'muted', text: L(r.estilo) }))),
   ],
   atajos: () => {

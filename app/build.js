@@ -34,6 +34,15 @@ function stripModule(code, file) {
     .replace(/^/, `// ---- ${file} ----\n`);
 }
 
+// Todo comparte un ámbito: un nombre repetido en dos módulos rompería el otro en silencio.
+{
+  const seen = new Map();
+  for (const f of JS) for (const m of stripModule(read(f), f).matchAll(/^(?:async\s+)?(?:const|let|function|class)\s+([A-Za-z_$][\w$]*)/gm)) {
+    if (seen.has(m[1])) throw new Error(`Nombre repetido en el ámbito común: ${m[1]} (${seen.get(m[1])} y ${f})`);
+    seen.set(m[1], f);
+  }
+}
+
 const b64 = f => fs.readFileSync(path.join(app, 'vendor', f)).toString('base64');
 const fonts = `
 @font-face{font-family:"Geist";font-style:normal;font-display:swap;font-weight:100 900;src:url(data:font/woff2;base64,${b64('geist-latin-wght-normal.woff2')}) format("woff2")}
