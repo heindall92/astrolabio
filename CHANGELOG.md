@@ -2,6 +2,18 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.3.1] · 2026-10-21 · Móvil estrecho
+
+### Corregido
+- **La barra superior no cabía en el móvil.** Con cifras reales (racha de tres dígitos y XP de cinco) necesitaba unos 410 px: a 390 px la búsqueda se aplastaba y la ayuda se salía, y a 320 px la página medía 435 px de ancho. Ahora, por debajo de 768 px, la búsqueda es un botón de icono de 38 px, los botones miden 36 px, el interruptor es más estrecho, la unidad «XP» queda solo para el lector de pantalla y **el idioma pasa al menú «Más»**, junto a los acentos. Por debajo de 360 px la racha se ve en Inicio y Progreso.
+- **Rejillas con mínimo fijo** (`minmax(320px, 1fr)` y similares) que desbordaban el contenido a 320 px en Inicio y Perfil: ahora usan `minmax(min(…, 100%), 1fr)`.
+- **Tarjetas huérfanas:** las cuatro cifras del inicio van en una fila (2 × 2 en pantallas medianas) y el jefe final de la Arena ocupa su propia fila.
+- `node --test tests/` fallaba en Node 22 o superior: ahora `node --test tests/*.test.js` en `run_tests.sh` y en `npm test`.
+- El README decía que el repositorio era privado y que la demo llegaría con la 1.0: ya es público y la demo está en GitHub Pages.
+
+### Añadido
+- Prueba e2e del móvil estrecho: a 320, 360 y 390 px, con cifras grandes y en todas las vistas, nada se desborda, ningún control sale de la barra y la búsqueda no se deforma. También cubre el idioma desde «Más». Falla con la 0.3.0.
+
 ## [0.3.0] · 2026-10-21 · Arena
 
 ### Añadido

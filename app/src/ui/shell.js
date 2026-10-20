@@ -80,7 +80,7 @@ function renderChrome(current) {
   $('#stat-racha').setAttribute('title', t('stat.racha', { n: st.racha }));
   $('#stat-racha').setAttribute('aria-label', t('stat.racha', { n: st.racha }));
   $('#stat-racha').setAttribute('role', 'img');
-  $('#stat-xp').replaceChildren(icon('zap', 'ic sm'), h('span', { text: fmtNum(st.xp) + ' XP' }));
+  $('#stat-xp').replaceChildren(icon('zap', 'ic sm'), h('span', { text: fmtNum(st.xp) }), h('span', { class: 'xp-u', text: ' XP' }));
   $('#stat-xp').setAttribute('aria-label', t('stat.xp', { n: st.xp }));
   $('#stat-xp').setAttribute('role', 'img');
   $('#foot').replaceChildren(
@@ -183,7 +183,14 @@ function accountItems() {
 }
 
 function openMore(btn) {
+  fillMore();
+  openDialog($('#dlg-more'), btn);
+}
+// En el móvil, «Más» lleva también el idioma (en la barra superior no cabe con cifras grandes).
+function fillMore() {
   const dlg = $('#dlg-more');
+  const langBtn = l => h('button', { type: 'button', lang: l, dataset: { langM: l }, 'aria-pressed': String(UI.lang === l),
+    onclick: () => { setLang(l); fillMore(); const b = dlg.querySelector(`[data-lang-m="${l}"]`); if (b) b.focus(); } }, l.toUpperCase());
   const link = (href, ic, label) => h('a', { href, onclick: () => closeDialog(dlg) }, icon(ic), h('span', { text: label }));
   dlg.replaceChildren(h('div', { class: 'dlg' },
     dlgHead('more-h', t('nav.mas'), dlg),
@@ -195,9 +202,10 @@ function openMore(btn) {
         link('#privacidad', 'lock', t('nav.privacidad')),
         h('button', { type: 'button', onclick: () => { closeDialog(dlg); openHelp(); } }, icon('circle-question-mark'), h('span', { text: t('ui.ayuda') })),
         h('button', { type: 'button', onclick: () => { closeDialog(dlg); exportData(); } }, icon('download'), h('span', { text: t('cuenta.exportar') }))),
+      h('h3', { id: 'more-lang', text: t('ui.idiomaInterfaz') }),
+      h('div', { class: 'seg', role: 'group', 'aria-labelledby': 'more-lang' }, langBtn('es'), langBtn('en')),
       h('h3', { id: 'more-acc', text: t('ui.acento') }),
       accentPicker())));
-  openDialog(dlg, btn);
 }
 
 // ---------- Datos ----------
