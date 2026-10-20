@@ -8,7 +8,7 @@ const ROUTES = [
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta'];
 const VIEWS = {};
 
 function parseHash() {
@@ -76,9 +76,10 @@ function renderChrome(current) {
   pill.replaceChildren(h('span', { class: 'sr-only', text: t('perfil.cambiar') + ':' }), icon(p ? roleIcon(p.rol) : 'user-round'), h('span', { class: 't' }, h('b', { text: p ? t('rol.' + p.rol) : t('perfil.sinPerfil') }), h('span', { text: p ? t('nivel.' + p.nivel) + ' · ' + t('empresa.' + p.empresa) : t('perfil.crear') })), h('span', { class: 'spacer' }), icon('chevron-right', 'ic sm'));
   $('#avatar').textContent = initials(p && p.nombre);
   const st = UI.state;
-  $('#stat-racha').replaceChildren(icon('flame', 'ic sm'), h('span', { text: fmtNum(st.racha) }));
-  $('#stat-racha').setAttribute('title', t('stat.racha', { n: st.racha }));
-  $('#stat-racha').setAttribute('aria-label', t('stat.racha', { n: st.racha }));
+  const racha = currentStreak(st, today());
+  $('#stat-racha').replaceChildren(icon('flame', 'ic sm'), h('span', { text: fmtNum(racha) }));
+  $('#stat-racha').setAttribute('title', t('stat.racha', { n: racha }));
+  $('#stat-racha').setAttribute('aria-label', t('stat.racha', { n: racha }));
   $('#stat-racha').setAttribute('role', 'img');
   $('#stat-xp').replaceChildren(icon('zap', 'ic sm'), h('span', { text: fmtNum(st.xp) + ' XP' }));
   $('#stat-xp').setAttribute('aria-label', t('stat.xp', { n: st.xp }));

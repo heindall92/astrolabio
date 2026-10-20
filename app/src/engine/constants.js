@@ -69,3 +69,29 @@ export const NIVELES = ['sin-experiencia', 'junior', 'mid', 'senior'];
 export const EMPRESAS = ['consultora', 'banca', 'tecnologica', 'startup', 'publica', 'industria'];
 export const IDIOMAS = ['es', 'en'];
 export const TIPOS = ['real', 'ensayo'];
+
+// ---------- Juego ----------
+/** XP por cada logro. */
+export const XP = {
+  historia: 10,
+  lista: 25,
+  brillante: 50,
+  dueloIntento: 5,
+  duelo: 30,
+  dueloJefe: 100,
+  constelacion: 150,
+  insignia: 20,
+};
+/** XP que hay que sumar en un día para cumplir la meta diaria. */
+export const META_DIARIA = 60;
+/** Rangos y XP mínima de cada uno. */
+export const RANGOS = [
+  { id: 'candidato', xp: 0 },
+  { id: 'preseleccionado', xp: 150 },
+  { id: 'entrevistado', xp: 400 },
+  { id: 'finalista', xp: 900 },
+  { id: 'contratado', xp: 1800 },
+  { id: 'estrella', xp: 3500 },
+];
+/** Para retar al jefe final de una ruta hay que superar antes a este número de recruiters distintos en ella. */
+export const JEFE_DESBLOQUEO = 2;

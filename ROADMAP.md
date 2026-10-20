@@ -411,9 +411,9 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - **Hecho cuando:** e2e de un duelo completo ganado y otro perdido; atajos de teclado en la Arena; axe en cada paso del duelo.
 
 ### v0.4.0 · Juego completo
-- [ ] XP, meta diaria, rachas, rangos, unas 30 insignias (4 secretas), sonidos y celebraciones.
-- [ ] Jefe final por ruta (el Subelistón) y carta de oferta en PDF marcada como juego.
-- [ ] Vista Progreso (XP por día y evolución de la puntuación media) y vista Insignias.
+- [x] XP, meta diaria, rachas, rangos, unas 30 insignias (4 secretas), sonidos y celebraciones.
+- [x] Jefe final por ruta (el Subelistón) y carta de oferta en PDF marcada como juego.
+- [x] Vista Progreso (XP por día y evolución de la puntuación media) y vista Insignias.
 - **Hecho cuando:** las reglas de XP e insignias están probadas en el motor y la ayuda «Método» se genera desde las constantes.
 
 ### v0.5.0 · Inglés, exportación y ecosistema

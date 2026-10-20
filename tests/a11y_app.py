@@ -45,8 +45,28 @@ def _arena_reloj(pg):
     pg.wait_for_selector('#arena-timer')
 
 
+def _oferta(pg):
+    pg.evaluate("""() => { const s = JSON.parse(localStorage.getItem('astrolabio-estado'));
+        s.duelos.push({fecha: '2026-10-21', recruiter: 'subeliston', ruta: s.perfil.rol, conviccion: 77, superado: true, modo: 'escrito'});
+        s.historialXp = {'2026-10-20': 40}; s.historialMedia = {'2026-10-19': 50, '2026-10-20': 72};
+        localStorage.setItem('astrolabio-estado', JSON.stringify(s)); }""")
+    pg.reload()
+    goto(pg, 'oferta/' + pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).perfil.rol"))
+
+
+def _progreso(pg):
+    goto(pg, 'progreso')
+    for el in pg.locator('details').all():
+        el.locator('summary').click()
+
+
+def _insignias(pg):
+    goto(pg, 'insignias')
+
+
 EXTRA_STEPS = [('arena', _arena_lobby), ('arena-duelo', _arena_duelo), ('arena-repregunta', _arena_repregunta),
-               ('arena-informe', _arena_informe), ('arena-voz', _arena_voz), ('arena-contrarreloj', _arena_reloj)]
+               ('arena-informe', _arena_informe), ('arena-voz', _arena_voz), ('arena-contrarreloj', _arena_reloj),
+               ('oferta', _oferta), ('progreso-datos', _progreso), ('insignias', _insignias)]
 
 
 def sweep(theme, width):

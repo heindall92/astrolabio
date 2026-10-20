@@ -2,7 +2,7 @@
 <html lang="es" data-accent="azul">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-lC6SLEHwk6DOaORNiXzsJoB0ePhLly2iCpr7nwWpxwM='; style-src 'sha256-7WHYliMgUdQNor2a8idKBQKxGeG0sHfkyFQONuAEAIU='; font-src data:; img-src data:; media-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-6y4Zr7BcVMyBrS4POZWyIeRs3m9Vel8M8Ev17EV/MnY='; style-src 'sha256-cQh15Yexv7CjGOj9HzZ2iBoaJI1qVdqL1tKRlfcJbB8='; font-src data:; img-src data:; media-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
@@ -428,6 +428,47 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .conv-bar i { transition: none; } }
 .rec-card .chip { align-self: flex-start; }
 .duel-top { margin-bottom: 0; }
+
+/* ============ Juego ============ */
+.btn.gold { background: var(--star); color: var(--star-ink); border-color: transparent; }
+.rec-card.locked { opacity: .62; cursor: not-allowed; }
+.rec-card.locked input { cursor: not-allowed; }
+.celebra { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; pointer-events: none; animation: cel-fade 1.6s var(--ease-out) forwards; }
+.celebra-t { font: 700 clamp(1.6rem, 5vw, 2.6rem) var(--f-display, var(--f)); color: var(--star-ink); background: var(--star); padding: 12px 24px; border-radius: 999px; box-shadow: var(--shadow-2, 0 10px 30px rgb(0 0 0 / .2)); animation: cel-pop .5s var(--ease-out); }
+.spark { position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; background: var(--star); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: cel-spark .9s var(--ease-out) var(--d) both; }
+@keyframes cel-spark { from { transform: translate(-50%, -50%) scale(.4); opacity: 1; } to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1); opacity: 0; } }
+@keyframes cel-pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes cel-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .celebra-t { animation: none; } .spark { display: none; } }
+.chart { width: 100%; height: auto; display: block; }
+.chart .b { fill: var(--accent); }
+.chart .b.gold { fill: var(--star); }
+.chart .goal-line { stroke: var(--ink-2); stroke-dasharray: 4 4; stroke-width: 1.5; }
+.chart .ln { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; }
+.chart .pt { fill: var(--s1); stroke: var(--accent); stroke-width: 2; }
+.chart .ax { font: 500 11px var(--f-mono); fill: var(--ink-2); }
+.chart rect ~ .ax { text-anchor: middle; }
+.ranks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.ranks li { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--s1); }
+.ranks li .ic { color: var(--ink-3); }
+.ranks li.done .ic { color: var(--star-ink); fill: var(--star); }
+.ranks li[aria-current] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.badges { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.badge { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--s1); }
+.badge .b-ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--s2); color: var(--ink-2); }
+.badge.got .b-ic { background: var(--star); color: var(--star-ink); }
+.badge.secret { border-style: dashed; }
+.letter { position: relative; max-width: 720px; margin: 16px auto 0; padding: 40px 44px; border-radius: 18px; background: var(--s1); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; line-height: 1.6; }
+.letter .stamp { position: absolute; top: 24px; right: 24px; margin: 0; padding: 6px 12px; border: 2px solid var(--crit); color: var(--crit); border-radius: 8px; font: 700 .8rem var(--f-mono); text-transform: uppercase; letter-spacing: .06em; transform: rotate(4deg); }
+.letter-mark { width: 40px; height: 40px; }
+.letter .firma { margin-top: 12px; }
+@media (max-width: 600px) { .letter { padding: 56px 20px 24px; } .letter .stamp { top: 14px; right: 14px; } }
+@media print {
+  .view > :not(.letter) { display: none !important; }
+  .letter { border: 0; box-shadow: none; margin: 0; max-width: none; background: #fff; color: #000; }
+  .letter .stamp { color: #b3141a; border-color: #b3141a; }
+  .toasts, .celebra { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -479,8 +520,8 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 <input type="file" id="import-file" accept="application/json,.json" hidden>
 
 <script>(()=>{'use strict';
-const APP_VERSION="0.3.0";
-const ICONS={"arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
+const APP_VERSION="0.4.0";
+const ICONS={"archive":"<rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\" /> <path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\" /> <path d=\"M10 12h4\" />","arrow-right":"<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />","award":"<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\" /> <circle cx=\"12\" cy=\"8\" r=\"6\" />","badge":"<path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\" />","book-open":"<path d=\"M12 5v16\" /> <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\" />","briefcase-business":"<path d=\"M12 12h.01\" /> <path d=\"M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2\" /> <path d=\"M22 13a18.15 18.15 0 0 1-20 0\" /> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\" />","calendar-check":"<path d=\"M8 2v3\" /> <path d=\"M16 2v3\" /> <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"m9 15 2 2 4-4\" />","chart-column":"<path d=\"M3 3v16a2 2 0 0 0 2 2h16\" /> <path d=\"M18 17V9\" /> <path d=\"M13 17V5\" /> <path d=\"M8 17v-3\" />","chart-no-axes-column-increasing":"<path d=\"M5 21v-6\" /> <path d=\"M12 21V9\" /> <path d=\"M19 21V3\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","chevron-left":"<path d=\"m15 18-6-6 6-6\" />","chevron-right":"<path d=\"m9 18 6-6-6-6\" />","circle":"<circle cx=\"12\" cy=\"12\" r=\"10\" />","circle-question-mark":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />","circle-x":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m15 9-6 6\" /> <path d=\"m9 9 6 6\" />","coffee":"<path d=\"M10 2v2\" /> <path d=\"M14 2v2\" /> <path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /> <path d=\"M6 2v2\" />","crown":"<path d=\"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z\" /> <path d=\"M5 21h14\" />","download":"<path d=\"M12 15V3\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <path d=\"m7 10 5 5 5-5\" />","drama":"<path d=\"M10 11h.01\" /> <path d=\"M14 6h.01\" /> <path d=\"M18 6h.01\" /> <path d=\"M6.5 13.1h.01\" /> <path d=\"M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3\" /> <path d=\"M17.4 9.9c-.8.8-2 .8-2.8 0\" /> <path d=\"M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7\" /> <path d=\"M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4\" />","ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"1\" /> <circle cx=\"19\" cy=\"12\" r=\"1\" /> <circle cx=\"5\" cy=\"12\" r=\"1\" />","eye-off":"<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\" /> <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\" /> <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\" /> <path d=\"m2 2 20 20\" />","feather":"<path d=\"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z\" /> <path d=\"M16 8 2 22\" /> <path d=\"M17.488 15H9\" />","file":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" />","file-text":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\" /> <path d=\"M14 2v5a1 1 0 0 0 1 1h5\" /> <path d=\"M10 9H8\" /> <path d=\"M16 13H8\" /> <path d=\"M16 17H8\" />","flame":"<path d=\"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4\" />","flame-kindling":"<path d=\"M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 1 1-10 0c0-.3 0-.6.1-.9a2 2 0 1 0 3.3-2C8 4.5 11 2 12 2Z\" /> <path d=\"m5 22 14-4\" /> <path d=\"m5 18 14 4\" />","focus":"<circle cx=\"12\" cy=\"12\" r=\"3\" /> <path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" />","form":"<path d=\"M4 14h6\" /> <path d=\"M4 2h10\" /> <rect x=\"4\" y=\"18\" width=\"16\" height=\"4\" rx=\"1\" /> <rect x=\"4\" y=\"6\" width=\"16\" height=\"4\" rx=\"1\" />","gem":"<path d=\"M10.5 3 8 9l4 13 4-13-2.5-6\" /> <path d=\"M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z\" /> <path d=\"M2 9h20\" />","goal":"<path d=\"M12 13V2l8 4-8 4\" /> <path d=\"M20.561 10.222a9 9 0 1 1-12.55-5.29\" /> <path d=\"M8.002 9.997a5 5 0 1 0 8.9 2.02\" />","graduation-cap":"<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\" /> <path d=\"M22 10v6\" /> <path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\" />","grid":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" /> <path d=\"M9 3v18\" /> <path d=\"M15 3v18\" />","group":"<path d=\"M3 7V5c0-1.1.9-2 2-2h2\" /> <path d=\"M17 3h2c1.1 0 2 .9 2 2v2\" /> <path d=\"M21 17v2c0 1.1-.9 2-2 2h-2\" /> <path d=\"M7 21H5c-1.1 0-2-.9-2-2v-2\" /> <rect width=\"7\" height=\"5\" x=\"7\" y=\"7\" rx=\"1\" /> <rect width=\"7\" height=\"5\" x=\"10\" y=\"12\" rx=\"1\" />","hammer":"<path d=\"m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9\" /> <path d=\"m18 15 4-4\" /> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\" />","heart-handshake":"<path d=\"M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762\" />","hourglass":"<path d=\"M5 22h14\" /> <path d=\"M5 2h14\" /> <path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\" /> <path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M12 16v-4\" /> <path d=\"M12 8h.01\" />","keyboard":"<path d=\"M10 8h.01\" /> <path d=\"M12 12h.01\" /> <path d=\"M14 8h.01\" /> <path d=\"M16 12h.01\" /> <path d=\"M18 8h.01\" /> <path d=\"M6 8h.01\" /> <path d=\"M7 16h10\" /> <path d=\"M8 12h.01\" /> <rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\" />","landmark":"<path d=\"M10 18v-7\" /> <path d=\"M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z\" /> <path d=\"M14 18v-7\" /> <path d=\"M18 18v-7\" /> <path d=\"M3 22h18\" /> <path d=\"M6 18v-7\" />","languages":"<path d=\"m5 8 6 6\" /> <path d=\"m4 14 6-6 2-3\" /> <path d=\"M2 5h12\" /> <path d=\"M7 2h1\" /> <path d=\"m22 22-5-10-5 10\" /> <path d=\"M14 18h6\" />","library":"<path d=\"m16 6 4 14\" /> <path d=\"M12 6v14\" /> <path d=\"M8 8v12\" /> <path d=\"M4 4v16\" />","lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\" /> <path d=\"M9 18h6\" /> <path d=\"M10 22h4\" />","list":"<path d=\"M3 5h.01\" /> <path d=\"M3 12h.01\" /> <path d=\"M3 19h.01\" /> <path d=\"M8 5h13\" /> <path d=\"M8 12h13\" /> <path d=\"M8 19h13\" />","list-checks":"<path d=\"M13 5h8\" /> <path d=\"M13 12h8\" /> <path d=\"M13 19h8\" /> <path d=\"m3 17 2 2 4-4\" /> <path d=\"m3 7 2 2 4-4\" />","lock":"<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\" /> <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" />","menu":"<path d=\"M4 5h16\" /> <path d=\"M4 12h16\" /> <path d=\"M4 19h16\" />","message-circle":"<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />","message-square-quote":"<path d=\"M14 14a2 2 0 0 0 2-2V8h-2\" /> <path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\" /> <path d=\"M8 14a2 2 0 0 0 2-2V8H8\" />","mic":"<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />","moon":"<path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","moon-star":"<path d=\"M18 5h4\" /> <path d=\"M20 3v4\" /> <path d=\"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401\" />","option":"<path d=\"M14 3h7\" /> <path d=\"M3 3h5.28a1 1 0 0 1 .948.684l5.544 16.632a1 1 0 0 0 .949.684H21\" />","orbit":"<path d=\"M20.341 6.484A10 10 0 0 1 10.266 21.85\" /> <path d=\"M3.659 17.516A10 10 0 0 1 13.74 2.152\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" /> <circle cx=\"19\" cy=\"5\" r=\"2\" /> <circle cx=\"5\" cy=\"19\" r=\"2\" />","palette":"<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\" /> <circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\" /> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\" />","panel-left-close":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M9 3v18\" /> <path d=\"m16 15-3-3 3-3\" />","pen-line":"<path d=\"M13 21h8\" /> <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" />","pencil":"<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />","percent":"<line x1=\"19\" x2=\"5\" y1=\"5\" y2=\"19\" /> <circle cx=\"6.5\" cy=\"6.5\" r=\"2.5\" /> <circle cx=\"17.5\" cy=\"17.5\" r=\"2.5\" />","plus":"<path d=\"M5 12h14\" /> <path d=\"M12 5v14\" />","printer":"<path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\" /> <path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\" /> <rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\" />","radio":"<path d=\"M16.247 7.761a6 6 0 0 1 0 8.478\" /> <path d=\"M19.075 4.933a10 10 0 0 1 0 14.134\" /> <path d=\"M4.925 19.067a10 10 0 0 1 0-14.134\" /> <path d=\"M7.753 16.239a6 6 0 0 1 0-8.478\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" />","scale":"<path d=\"M12 3v18\" /> <path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\" /> <path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\" /> <path d=\"M7 21h10\" />","search":"<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />","section":"<path d=\"M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0\" /> <path d=\"M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0\" />","send":"<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\" /> <path d=\"m21.854 2.147-10.94 10.939\" />","sheet":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <line x1=\"3\" x2=\"21\" y1=\"9\" y2=\"9\" /> <line x1=\"3\" x2=\"21\" y1=\"15\" y2=\"15\" /> <line x1=\"9\" x2=\"9\" y1=\"9\" y2=\"21\" /> <line x1=\"15\" x2=\"15\" y1=\"9\" y2=\"21\" />","shield":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" />","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"m9 12 2 2 4-4\" />","shield-half":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\" /> <path d=\"M12 22V2\" />","shuffle":"<path d=\"m18 14 4 4-4 4\" /> <path d=\"m18 2 4 4-4 4\" /> <path d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22\" /> <path d=\"M2 6h1.972a4 4 0 0 1 3.6 2.2\" /> <path d=\"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\" />","sparkles":"<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />","split":"<path d=\"M16 3h5v5\" /> <path d=\"M8 3H3v5\" /> <path d=\"M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3\" /> <path d=\"m15 9 6-6\" />","stamp":"<path d=\"M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13\" /> <path d=\"M20 15.5a2.5 2.5 0 0 0-2.5-2.5h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1z\" /> <path d=\"M5 22h14\" />","star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\" />","summary":"<path d=\"M15 4H7\" /> <path d=\"m18 16 3 3-3 3\" /> <path d=\"M3 4v13a2 2 0 0 0 2 2h16\" /> <path d=\"M7 14h7\" /> <path d=\"M7 9h12\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /> <path d=\"M12 2v2\" /> <path d=\"M12 20v2\" /> <path d=\"m4.93 4.93 1.41 1.41\" /> <path d=\"m17.66 17.66 1.41 1.41\" /> <path d=\"M2 12h2\" /> <path d=\"M20 12h2\" /> <path d=\"m6.34 17.66-1.41 1.41\" /> <path d=\"m19.07 4.93-1.41 1.41\" />","sunrise":"<path d=\"M12 2v8\" /> <path d=\"m4.93 10.93 1.41 1.41\" /> <path d=\"M2 18h2\" /> <path d=\"M20 18h2\" /> <path d=\"m19.07 10.93-1.41 1.41\" /> <path d=\"M22 22H2\" /> <path d=\"m8 6 4-4 4 4\" /> <path d=\"M16 18a4 4 0 0 0-8 0\" />","swords":"<path d=\"m13 19 6-6\" /> <path d=\"M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5\" /> <path d=\"m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586\" /> <path d=\"m16 16 4 4\" /> <path d=\"m19 21 2-2\" /> <path d=\"m5 14 4 4\" /> <path d=\"m5 21-2-2\" /> <path d=\"M7.5 16.5 4 20\" />","table":"<path d=\"M12 3v18\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> <path d=\"M3 9h18\" /> <path d=\"M3 15h18\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />","text":"<path d=\"M21 5H3\" /> <path d=\"M15 12H3\" /> <path d=\"M17 19H3\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /> <line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /> <circle cx=\"12\" cy=\"14\" r=\"8\" />","trash-2":"<path d=\"M10 11v6\" /> <path d=\"M14 11v6\" /> <path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\" /> <path d=\"M3 6h18\" /> <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\" />","trending-up":"<path d=\"M16 7h6v6\" /> <path d=\"m22 7-8.5 8.5-5-5L2 17\" />","triangle-alert":"<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\" /> <path d=\"M12 9v4\" /> <path d=\"M12 17h.01\" />","trophy":"<path d=\"M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2\" /> <path d=\"M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2\" /> <path d=\"M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3\" /> <path d=\"M4 22h16\" /> <path d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\" /> <path d=\"M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3\" />","upload":"<path d=\"M12 3v12\" /> <path d=\"m17 8-5-5-5 5\" /> <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" />","user-round":"<circle cx=\"12\" cy=\"8\" r=\"5\" /> <path d=\"M20 21a8 8 0 0 0-16 0\" />","user-round-check":"<path d=\"M2 21a8 8 0 0 1 13.292-6\" /> <circle cx=\"10\" cy=\"8\" r=\"5\" /> <path d=\"m16 19 2 2 4-4\" />","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />","view":"<path d=\"M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2\" /> <circle cx=\"12\" cy=\"12\" r=\"1\" /> <path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\" />","volume-2":"<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\" /> <path d=\"M16 9a5 5 0 0 1 0 6\" /> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\" />","volume-x":"<path d=\"M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z\" /> <path d=\"m16.5 14.5 5-5\" /> <path d=\"m16.5 9.5 5 5\" />","x":"<path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" />","zap":"<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\" />"};
 const MARK_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" role=\"img\" aria-label=\"Astrolabio\"><defs><radialGradient id=\"am-g\" cx=\"50%\" cy=\"50%\" r=\"55%\"><stop offset=\"0\" stop-color=\"#FFF7E0\"/><stop offset=\".35\" stop-color=\"#FFDB7A\"/><stop offset=\"1\" stop-color=\"#FFC233\"/></radialGradient></defs><path fill=\"#0B1024\" d=\"M18 5h28c7.7 0 14 6.3 14 14v18c0 7.7-6.3 14-14 14H30.5c-3.4 3.9-8.4 6.6-14.2 7.3-1 .1-1.5-1.1-.8-1.7 2.3-1.9 3.6-3.7 4-5.6H18C10.3 51 4 44.7 4 37V19C4 11.3 10.3 5 18 5Z\"/><path fill=\"url(#am-g)\" d=\"M32 9.5c1.3 9.6 4.4 14.9 16.5 18.5C36.4 31.6 33.3 36.9 32 46.5 30.7 36.9 27.6 31.6 15.5 28 27.6 24.4 30.7 19.1 32 9.5Z\"/></svg>";
 // ---- src/i18n/es.js ----
 // Diccionario de la interfaz en español (idioma principal).
@@ -759,6 +800,78 @@ const ES = {
   "atajo.arena.otro": "Arena: otro duelo al terminar",
   "ayuda.arena.titulo": "Reglas del duelo",
   "ayuda.arena.reglas": "Empiezas con {ini} de convicción. Cada respuesta suma o resta según lo que valora el recruiter (como mucho {max} puntos). Si baja a {derrota} o menos, el duelo acaba. Tras las repreguntas, superas el duelo con {meta} o más. En contrarreloj, agotar el tiempo resta {pen}.",
+  "ui.volver": "Volver",
+  "arena.jefeBloqueado": "Supera antes a {n} recruiters distintos en esta ruta.",
+  "arena.verOferta": "Ver tu carta de oferta",
+  "juego.insignia": "Insignia nueva: {nombre}",
+  "juego.meta": "Meta diaria cumplida: {n} XP",
+  "juego.rango": "¡Nuevo rango: {rango}!",
+  "rango.candidato": "Candidato",
+  "rango.preseleccionado": "Preseleccionado",
+  "rango.entrevistado": "Entrevistado",
+  "rango.finalista": "Finalista",
+  "rango.contratado": "Contratado",
+  "rango.estrella": "Estrella",
+  "xp.historia": "Escribir una historia nueva",
+  "xp.lista": "Una historia pasa a «Lista»",
+  "xp.brillante": "Una historia pasa a «Brillante»",
+  "xp.dueloIntento": "Terminar un duelo",
+  "xp.duelo": "Superar un duelo",
+  "xp.dueloJefe": "Vencer al jefe final",
+  "xp.constelacion": "Completar la constelación (además de la insignia)",
+  "xp.insignia": "Cada insignia",
+  "ayuda.juego": "XP, rangos e insignias",
+  "ayuda.juego.logro": "Logro",
+  "ayuda.juego.desde": "Desde (XP)",
+  "ayuda.juego.meta": "La meta diaria es de {meta} XP. La racha suma un día cada día que ganas XP y se pierde si pasa un día entero sin practicar. Para retar al Subelistón en tu ruta hay que superar antes a {jefe} recruiters distintos. Hay {n} insignias y {s} son secretas.",
+  "progreso.titulo": "Tu progreso",
+  "progreso.lede": "XP, racha, rango y cómo evoluciona la nota media de tus historias.",
+  "progreso.rango": "Rango",
+  "progreso.siguiente": "Te faltan {n} XP para {rango}.",
+  "progreso.maximo": "Has llegado al rango máximo.",
+  "progreso.meta": "Meta de hoy",
+  "progreso.metaOk": "Meta cumplida. ¡Bien!",
+  "progreso.metaFalta": "Te faltan {n} XP para la meta de hoy.",
+  "progreso.racha": "Racha",
+  "progreso.dias": "{n} días",
+  "progreso.rachaD": "Días seguidos con práctica.",
+  "progreso.duelos": "Duelos superados",
+  "progreso.duelosD": "Superados del total terminados.",
+  "progreso.xpDia": "XP por día",
+  "progreso.xpDiaAria": "XP de los últimos 14 días: {total} en total; la línea marca la meta de {meta}.",
+  "progreso.lineaMeta": "La línea marca la meta diaria de {n} XP.",
+  "progreso.media": "Nota media de tus historias",
+  "progreso.mediaAria": "Nota media: de {a} a {b}.",
+  "progreso.sinMedia": "Guarda una historia para empezar a ver su evolución.",
+  "progreso.verTabla": "Ver como tabla",
+  "progreso.col.dia": "Día",
+  "progreso.col.media": "Nota media",
+  "progreso.rangos": "Rangos",
+  "insignias.titulo": "Insignias",
+  "insignias.lede": "Llevas {n} de {total}. {s} son secretas: se revelan al conseguirlas.",
+  "insignias.secreta": "Insignia secreta",
+  "insignias.secretaD": "Sigue practicando para descubrirla.",
+  "insignias.conseguida": "Conseguida",
+  "insignias.pendiente": "Pendiente",
+  "oferta.eyebrow": "Juego · carta de oferta",
+  "oferta.titulo": "Tu carta de oferta",
+  "oferta.lede": "Has vencido al jefe final. Es un juego: no es una oferta real de ninguna empresa.",
+  "oferta.bloqueada": "Carta bloqueada",
+  "oferta.bloqueadaD": "Vence al Subelistón en esta ruta para conseguirla.",
+  "oferta.ver": "Carta de oferta · {rol}",
+  "oferta.anon": "candidata o candidato",
+  "oferta.pdf": "Descargar en PDF",
+  "oferta.sello": "Juego · no es una oferta real",
+  "oferta.asunto": "Oferta de puesto (ficticia): {rol}",
+  "oferta.saludo": "Estimada persona: {nombre},",
+  "oferta.p1": "Tras un duelo intenso, el Subelistón ha terminado con una convicción de {n} sobre 100. Pocas personas lo consiguen, así que nos complace ofrecerte el puesto imaginario de {rol} en Astrolabio Interview Lab.",
+  "oferta.p2": "Las condiciones, igual de imaginarias, incluyen:",
+  "oferta.b1": "Café ilimitado durante las guardias.",
+  "oferta.b2": "Un «nosotros» al año, solo para emergencias.",
+  "oferta.b3": "Una constelación con tu nombre.",
+  "oferta.p3": "Ahora toca lo importante: llevar estas historias a una entrevista de verdad. Mucha suerte.",
+  "oferta.cargo": "Jefe final de la Arena",
+  "oferta.aviso": "Documento generado en tu navegador por Astrolabio. Es parte de un juego y no tiene validez.",
 };
 
 // ---- src/i18n/en.js ----
@@ -1038,6 +1151,78 @@ const EN = {
   "atajo.arena.otro": "Arena: another duel when finished",
   "ayuda.arena.titulo": "Duel rules",
   "ayuda.arena.reglas": "You start at {ini} conviction. Each answer adds or subtracts according to what the recruiter values (at most {max} points). If it drops to {derrota} or lower, the duel ends. After the follow-ups, you pass with {meta} or more. In timed mode, running out of time costs {pen}.",
+  "ui.volver": "Back",
+  "arena.jefeBloqueado": "First pass {n} different recruiters on this path.",
+  "arena.verOferta": "See your offer letter",
+  "juego.insignia": "New badge: {nombre}",
+  "juego.meta": "Daily goal reached: {n} XP",
+  "juego.rango": "New rank: {rango}!",
+  "rango.candidato": "Candidate",
+  "rango.preseleccionado": "Shortlisted",
+  "rango.entrevistado": "Interviewed",
+  "rango.finalista": "Finalist",
+  "rango.contratado": "Hired",
+  "rango.estrella": "Star",
+  "xp.historia": "Write a new story",
+  "xp.lista": "A story becomes “Ready”",
+  "xp.brillante": "A story becomes “Brilliant”",
+  "xp.dueloIntento": "Finish a duel",
+  "xp.duelo": "Pass a duel",
+  "xp.dueloJefe": "Beat the final boss",
+  "xp.constelacion": "Complete the constellation (on top of the badge)",
+  "xp.insignia": "Each badge",
+  "ayuda.juego": "XP, ranks and badges",
+  "ayuda.juego.logro": "Achievement",
+  "ayuda.juego.desde": "From (XP)",
+  "ayuda.juego.meta": "The daily goal is {meta} XP. Your streak grows each day you earn XP and is lost after a whole day without practice. To challenge the Bar-Raiser Boss on your path you must first pass {jefe} different recruiters. There are {n} badges and {s} are secret.",
+  "progreso.titulo": "Your progress",
+  "progreso.lede": "XP, streak, rank and how the average score of your stories evolves.",
+  "progreso.rango": "Rank",
+  "progreso.siguiente": "{n} XP to go until {rango}.",
+  "progreso.maximo": "You have reached the top rank.",
+  "progreso.meta": "Today’s goal",
+  "progreso.metaOk": "Goal reached. Well done!",
+  "progreso.metaFalta": "{n} XP to go for today’s goal.",
+  "progreso.racha": "Streak",
+  "progreso.dias": "{n} days",
+  "progreso.rachaD": "Days in a row with practice.",
+  "progreso.duelos": "Duels passed",
+  "progreso.duelosD": "Passed out of all finished duels.",
+  "progreso.xpDia": "XP per day",
+  "progreso.xpDiaAria": "XP over the last 14 days: {total} in total; the line marks the goal of {meta}.",
+  "progreso.lineaMeta": "The line marks the daily goal of {n} XP.",
+  "progreso.media": "Average score of your stories",
+  "progreso.mediaAria": "Average score: from {a} to {b}.",
+  "progreso.sinMedia": "Save a story to start seeing how it evolves.",
+  "progreso.verTabla": "View as a table",
+  "progreso.col.dia": "Day",
+  "progreso.col.media": "Average score",
+  "progreso.rangos": "Ranks",
+  "insignias.titulo": "Badges",
+  "insignias.lede": "You have {n} of {total}. {s} are secret: they are revealed when you earn them.",
+  "insignias.secreta": "Secret badge",
+  "insignias.secretaD": "Keep practising to discover it.",
+  "insignias.conseguida": "Earned",
+  "insignias.pendiente": "Pending",
+  "oferta.eyebrow": "Game · offer letter",
+  "oferta.titulo": "Your offer letter",
+  "oferta.lede": "You beat the final boss. This is a game: it is not a real offer from any company.",
+  "oferta.bloqueada": "Letter locked",
+  "oferta.bloqueadaD": "Beat the Bar-Raiser Boss on this path to get it.",
+  "oferta.ver": "Offer letter · {rol}",
+  "oferta.anon": "candidate",
+  "oferta.pdf": "Download as PDF",
+  "oferta.sello": "Game · not a real offer",
+  "oferta.asunto": "Job offer (fictional): {rol}",
+  "oferta.saludo": "Dear {nombre},",
+  "oferta.p1": "After an intense duel, the Bar-Raiser Boss ended with a conviction of {n} out of 100. Few people manage it, so we are pleased to offer you the imaginary role of {rol} at Astrolabio Interview Lab.",
+  "oferta.p2": "The equally imaginary terms include:",
+  "oferta.b1": "Unlimited coffee during on-call shifts.",
+  "oferta.b2": "One “we” per year, for emergencies only.",
+  "oferta.b3": "A constellation with your name.",
+  "oferta.p3": "Now for what matters: taking these stories to a real interview. Good luck.",
+  "oferta.cargo": "Final boss of the Arena",
+  "oferta.aviso": "Document generated in your browser by Astrolabio. It is part of a game and has no validity.",
 };
 
 // ---- src/content/lexico/es.js ----
@@ -1615,6 +1800,52 @@ function allQuestions() {
   return Object.values(ROLE_CONTENT).flatMap(r => r.preguntas);
 }
 
+// ---- src/content/insignias.js ----
+// Insignias de Astrolabio. Las secretas no se muestran hasta conseguirlas.
+// check(ctx): ctx = { state, scores, duel, lang, hour, competencias }. duel = { registro, detalle } solo al terminar un duelo.
+
+const B = (id, icono, es, en, des, den, check, secreta = false) => ({ id, icono, secreta, nombre: { es, en }, desc: { es: des, en: den }, check });
+const n = (ctx, f) => ctx.scores.filter(f).length;
+const ganados = ctx => ctx.state.duelos.filter(d => d.superado);
+const HOSTELERIA = /\b(bar|restaurante|camarer[oa]s?|hosteler[ií]a|cocina|terraza|barra|waiter|waitress|kitchen|hospitality)\b/i;
+
+const INSIGNIAS = [
+  B('primera-historia', 'feather', 'Primer trazo', 'First stroke', 'Guarda tu primera historia.', 'Save your first story.', c => c.state.historias.length >= 1),
+  B('primera-estrella', 'star', 'Primera estrella', 'First star', 'Una historia llega a «Lista».', 'A story reaches “Ready”.', c => n(c, s => s.estado !== 'borrador') >= 1),
+  B('brillante', 'sparkles', 'Brillo propio', 'Shining', 'Una historia llega a «Brillante».', 'A story reaches “Brilliant”.', c => n(c, s => s.estado === 'brillante') >= 1),
+  B('cinco-historias', 'library', 'Repertorio', 'Repertoire', 'Cinco historias guardadas.', 'Five stories saved.', c => c.state.historias.length >= 5),
+  B('diez-historias', 'book-open', 'Biblioteca', 'Library', 'Diez historias guardadas.', 'Ten stories saved.', c => c.state.historias.length >= 10),
+  B('veinte-historias', 'archive', 'Archivo vivo', 'Living archive', 'Veinte historias guardadas.', 'Twenty stories saved.', c => c.state.historias.length >= 20),
+  B('cinco-listas', 'list-checks', 'Banco listo', 'Bank ready', 'Cinco historias en «Lista» o mejor.', 'Five stories “Ready” or better.', c => n(c, s => s.estado !== 'borrador') >= 5),
+  B('sin-nosotros', 'user-round-check', 'Sin «nosotros»', 'No “we”', 'Una acción entera en primera persona, sin ningún «nosotros».', 'A whole action in the first person, with no “we”.', c => c.scores.some(s => !s.analisis.yo.vacio && s.analisis.yo.plural === 0 && s.analisis.duracion.words >= 100)),
+  B('cifra-en-mano', 'chart-no-axes-column-increasing', 'Cifra en mano', 'Numbers in hand', 'Cinco historias con un resultado medible.', 'Five stories with a measurable result.', c => n(c, s => s.analisis.cifra.ok) >= 5),
+  B('aprendiz', 'graduation-cap', 'Siempre aprendiendo', 'Always learning', 'Tres historias que cierran con un aprendizaje.', 'Three stories that close with a lesson.', c => n(c, s => s.analisis.aprendizaje.ok) >= 3),
+  B('sin-muletillas', 'message-circle', 'Al grano', 'Straight to the point', 'Una historia completa sin una sola muletilla.', 'A full story without a single filler word.', c => c.scores.some(s => s.analisis.muletillas.total === 0 && s.analisis.duracion.words >= 150)),
+  B('equilibrio', 'scale', 'Equilibrio', 'Balance', 'Una historia con el reparto S/T/A/R perfecto.', 'A story with a perfect S/T/A/R balance.', c => c.scores.some(s => s.criterios.find(x => x.id === 'reparto').ok && s.analisis.duracion.words >= 150)),
+  B('media-constelacion', 'moon-star', 'Media constelación', 'Half a constellation', 'Seis competencias cubiertas.', 'Six competencies covered.', c => c.competencias >= 6),
+  B('constelacion-completa', 'orbit', 'Constelación completa', 'Full constellation', 'Las doce competencias cubiertas con historias listas.', 'All twelve competencies covered with ready stories.', c => c.competencias >= 12),
+  B('primer-duelo', 'swords', 'Primer duelo', 'First duel', 'Termina tu primer duelo en la Arena.', 'Finish your first duel in the Arena.', c => c.state.duelos.length >= 1),
+  B('primera-victoria', 'trophy', 'Primera victoria', 'First win', 'Supera tu primer duelo.', 'Pass your first duel.', c => ganados(c).length >= 1),
+  B('diez-duelos', 'shield', 'Curtido', 'Seasoned', 'Diez duelos terminados.', 'Ten duels finished.', c => c.state.duelos.length >= 10),
+  B('todos-convencidos', 'users', 'Todos convencidos', 'Everyone convinced', 'Supera a los cuatro recruiters antes del jefe.', 'Pass all four recruiters before the boss.', c => ['rita', 'manager', 'banca', 'startup'].every(r => ganados(c).some(d => d.recruiter === r))),
+  B('panel-banca', 'landmark', 'Unanimidad', 'Unanimous', 'Convence al Panel de Banca.', 'Convince the Banking Panel.', c => ganados(c).some(d => d.recruiter === 'banca')),
+  B('subeliston', 'crown', 'Sobreviviste al Subelistón', 'You survived the Bar-Raiser Boss', 'Vence al jefe final en una ruta.', 'Beat the final boss on one path.', c => ganados(c).some(d => d.recruiter === 'subeliston')),
+  B('subeliston-todas', 'gem', 'Leyenda de las cuatro rutas', 'Legend of the four paths', 'Vence al jefe final en Red, Blue, GRC y Data.', 'Beat the final boss on Red, Blue, GRC and Data.', c => ['red', 'blue', 'grc', 'data'].every(r => ganados(c).some(d => d.recruiter === 'subeliston' && d.ruta === r))),
+  B('contrarreloj', 'timer', 'Contra el reloj', 'Against the clock', 'Supera un duelo en contrarreloj.', 'Pass a timed duel.', c => ganados(c).some(d => d.modo === 'contrarreloj')),
+  B('voz-alta', 'mic', 'En voz alta', 'Out loud', 'Termina un duelo contándolo en voz alta.', 'Finish a duel telling it aloud.', c => c.state.duelos.some(d => d.modo === 'voz')),
+  B('sorpresa', 'shuffle', 'Sin red', 'No safety net', 'Supera un duelo sorpresa.', 'Pass a surprise duel.', c => ganados(c).some(d => d.modo === 'sorpresa')),
+  B('racha-3', 'flame', 'Tres días seguidos', 'Three days in a row', 'Racha de 3 días.', 'A 3-day streak.', c => c.state.racha >= 3),
+  B('racha-7', 'flame-kindling', 'Una semana', 'One week', 'Racha de 7 días.', 'A 7-day streak.', c => c.state.racha >= 7),
+  B('racha-30', 'calendar-check', 'Un mes de constancia', 'A month of consistency', 'Racha de 30 días.', 'A 30-day streak.', c => c.state.racha >= 30),
+  B('meta-diaria', 'target', 'Meta cumplida', 'Goal reached', 'Cumple la meta diaria de XP.', 'Reach the daily XP goal.', c => Object.values(c.state.historialXp).some(v => v >= c.meta)),
+  B('bilingue', 'languages', 'Bilingüe', 'Bilingual', 'Termina un duelo con la interfaz en inglés.', 'Finish a duel with the interface in English.', c => !!c.duel && c.lang === 'en'),
+  B('ensayo-general', 'drama', 'Ensayo general', 'Dress rehearsal', 'Tres historias de ensayo para practicar.', 'Three rehearsal stories for practice.', c => c.state.historias.filter(h => h.tipo === 'ensayo').length >= 3),
+  B('madrugador', 'sunrise', 'Madrugador', 'Early bird', 'Practicar antes de las 7:00.', 'Practise before 7 a.m.', c => c.hour < 7, true),
+  B('hosteleria', 'coffee', 'De la hostelería al SOC', 'From hospitality to the SOC', 'Una historia lista que nace en la hostelería.', 'A ready story born in hospitality.', c => c.state.historias.some((h, i) => c.scores[i] && c.scores[i].estado !== 'borrador' && HOSTELERIA.test([h.s, h.t, h.a, h.r].join(' '))), true),
+  B('remontada', 'trending-up', 'Remontada', 'Comeback', 'Gana un duelo después de bajar de 30 de convicción.', 'Win a duel after dropping below 30 conviction.', c => !!c.duel && c.duel.registro.superado && c.duel.detalle.rondas.some(r => r.conviccion < 30), true),
+  B('por-los-pelos', 'hourglass', 'Por los pelos', 'By a whisker', 'Supera un duelo con la convicción justa.', 'Pass a duel with just enough conviction.', c => !!c.duel && c.duel.registro.superado && c.duel.registro.conviccion <= 72, true),
+];
+
 // ---- src/engine/constants.js ----
 // Constantes del analizador STAR, de la puntuación y del juego.
 // La ayuda «Método STAR» se genera a partir de este archivo: no escribas cifras a mano en otro sitio.
@@ -1687,6 +1918,32 @@ const NIVELES = ['sin-experiencia', 'junior', 'mid', 'senior'];
 const EMPRESAS = ['consultora', 'banca', 'tecnologica', 'startup', 'publica', 'industria'];
 const IDIOMAS = ['es', 'en'];
 const TIPOS = ['real', 'ensayo'];
+
+// ---------- Juego ----------
+/** XP por cada logro. */
+const XP = {
+  historia: 10,
+  lista: 25,
+  brillante: 50,
+  dueloIntento: 5,
+  duelo: 30,
+  dueloJefe: 100,
+  constelacion: 150,
+  insignia: 20,
+};
+/** XP que hay que sumar en un día para cumplir la meta diaria. */
+const META_DIARIA = 60;
+/** Rangos y XP mínima de cada uno. */
+const RANGOS = [
+  { id: 'candidato', xp: 0 },
+  { id: 'preseleccionado', xp: 150 },
+  { id: 'entrevistado', xp: 400 },
+  { id: 'finalista', xp: 900 },
+  { id: 'contratado', xp: 1800 },
+  { id: 'estrella', xp: 3500 },
+];
+/** Para retar al jefe final de una ruta hay que superar antes a este número de recruiters distintos en ella. */
+const JEFE_DESBLOQUEO = 2;
 
 // ---- src/engine/analyzer.js ----
 // Analizador STAR: reglas explicables, deterministas y sin DOM.
@@ -2004,6 +2261,7 @@ function emptyState() {
     ultimoDia: '',
     insignias: [],
     historialXp: {},
+    historialMedia: {},
     ajustes: { sensibles: [] },
   };
 }
@@ -2071,6 +2329,10 @@ function sanitizeState(raw, { competencias } = {}) {
   if (raw.historialXp && typeof raw.historialXp === 'object' && !Array.isArray(raw.historialXp)) {
     const keys = Object.keys(raw.historialXp).filter(k => FECHA.test(k)).sort().slice(-LIMITES.diasHistorial);
     for (const k of keys) out.historialXp[k] = int(raw.historialXp[k], 0, 1_000_000);
+  }
+  if (raw.historialMedia && typeof raw.historialMedia === 'object' && !Array.isArray(raw.historialMedia)) {
+    const keys = Object.keys(raw.historialMedia).filter(k => FECHA.test(k)).sort().slice(-LIMITES.diasHistorial);
+    for (const k of keys) out.historialMedia[k] = int(raw.historialMedia[k], 0, 100);
   }
   if (raw.ajustes && typeof raw.ajustes === 'object' && Array.isArray(raw.ajustes.sensibles)) {
     out.ajustes.sensibles = raw.ajustes.sensibles.filter(s => typeof s === 'string').map(s => s.slice(0, LIMITES.sensible)).slice(0, LIMITES.sensibles);
@@ -2187,6 +2449,98 @@ function recommendStories(pregunta, historias, scoreFn, n = 3) {
 /** Elige un elemento con un número aleatorio inyectable (para pruebas). */
 function pick(list, rnd = Math.random) {
   return list[Math.floor(rnd() * list.length) % list.length];
+}
+
+// ---- src/engine/progress.js ----
+// Progreso: XP, meta diaria, rachas, rangos, desbloqueo del jefe e insignias. Puro y probado.
+
+function dayNum(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return Math.round(Date.UTC(y, m - 1, d) / 86400000);
+}
+/** Días entre dos fechas AAAA-MM-DD (b − a). */
+function daysBetween(a, b) { return dayNum(b) - dayNum(a); }
+function addDays(iso, n) {
+  const d = new Date((dayNum(iso) + n) * 86400000);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Suma XP en un día y actualiza la racha. Devuelve { state, metaCumplida, rangoAntes, rangoDespues }. */
+function addXp(state, amount, day) {
+  const n = Math.max(0, Math.round(amount || 0));
+  const s = { ...state, historialXp: { ...state.historialXp } };
+  const antes = s.historialXp[day] || 0;
+  const rangoAntes = rankFor(s.xp).id;
+  s.xp += n;
+  s.historialXp[day] = antes + n;
+  if (n > 0 && s.ultimoDia !== day) {
+    s.racha = s.ultimoDia && daysBetween(s.ultimoDia, day) === 1 ? s.racha + 1 : 1;
+    s.ultimoDia = day;
+  }
+  return { state: s, metaCumplida: antes < META_DIARIA && antes + n >= META_DIARIA, rangoAntes, rangoDespues: rankFor(s.xp).id };
+}
+
+/** Racha que se muestra hoy: se pierde si ayer no hubo actividad. */
+function currentStreak(state, day) {
+  if (!state.ultimoDia) return 0;
+  return daysBetween(state.ultimoDia, day) <= 1 ? state.racha : 0;
+}
+
+function rankFor(xp) {
+  let i = 0;
+  for (let k = 0; k < RANGOS.length; k++) if (xp >= RANGOS[k].xp) i = k;
+  const next = RANGOS[i + 1] || null;
+  const progress = next ? (xp - RANGOS[i].xp) / (next.xp - RANGOS[i].xp) : 1;
+  return { id: RANGOS[i].id, idx: i, next, progress: Math.max(0, Math.min(1, progress)) };
+}
+
+/** XP de guardar una historia: por escribirla y por cada estado nuevo alcanzado. */
+function storyXp(prevEstado, estado, esNueva) {
+  const orden = { borrador: 0, lista: 1, brillante: 2 };
+  let xp = esNueva ? XP.historia : 0;
+  const p = prevEstado ? orden[prevEstado] : 0, n = orden[estado] || 0;
+  if (n >= 1 && p < 1) xp += XP.lista;
+  if (n >= 2 && p < 2) xp += XP.brillante;
+  return xp;
+}
+
+/** XP de un duelo. */
+function duelXp(duelo, esJefe) {
+  if (!duelo.superado) return XP.dueloIntento;
+  return esJefe ? XP.dueloJefe : XP.duelo;
+}
+
+/** ¿Puede retar al jefe final de esta ruta? */
+function bossUnlocked(duelos, rol, jefeId = 'subeliston') {
+  const ok = new Set(duelos.filter(d => d.ruta === rol && d.superado && d.recruiter !== jefeId).map(d => d.recruiter));
+  return ok.size >= JEFE_DESBLOQUEO;
+}
+function bossBeaten(duelos, rol, jefeId = 'subeliston') {
+  return duelos.some(d => d.ruta === rol && d.superado && d.recruiter === jefeId);
+}
+
+/** Competencias cubiertas por historias que no son borrador. */
+function coveredCompetencies(historias, scores) {
+  const set = new Set();
+  historias.forEach((h, i) => { if (scores[i] && scores[i].estado !== 'borrador') h.competencias.forEach(c => set.add(c)); });
+  return set;
+}
+
+/**
+ * Insignias nuevas. defs: [{ id, check(ctx) }]. ctx = { state, scores, duel?, lang, hour, competencias }.
+ * Devuelve los ids que se cumplen y aún no estaban.
+ */
+function newBadges(defs, ctx) {
+  const have = new Set(ctx.state.insignias);
+  return defs.filter(d => !have.has(d.id) && safeCheck(d, ctx)).map(d => d.id);
+}
+function safeCheck(d, ctx) { try { return !!d.check(ctx); } catch { return false; } }
+
+/** Serie de XP por día de los últimos n días (incluido hoy). */
+function xpSeries(historialXp, day, n = 14) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) { const d = addDays(day, -i); out.push({ dia: d, xp: historialXp[d] || 0 }); }
+  return out;
 }
 
 // ---- src/ui/core.js ----
@@ -2436,7 +2790,7 @@ const ROUTES = [
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta'];
 const VIEWS = {};
 
 function parseHash() {
@@ -2504,9 +2858,10 @@ function renderChrome(current) {
   pill.replaceChildren(h('span', { class: 'sr-only', text: t('perfil.cambiar') + ':' }), icon(p ? roleIcon(p.rol) : 'user-round'), h('span', { class: 't' }, h('b', { text: p ? t('rol.' + p.rol) : t('perfil.sinPerfil') }), h('span', { text: p ? t('nivel.' + p.nivel) + ' · ' + t('empresa.' + p.empresa) : t('perfil.crear') })), h('span', { class: 'spacer' }), icon('chevron-right', 'ic sm'));
   $('#avatar').textContent = initials(p && p.nombre);
   const st = UI.state;
-  $('#stat-racha').replaceChildren(icon('flame', 'ic sm'), h('span', { text: fmtNum(st.racha) }));
-  $('#stat-racha').setAttribute('title', t('stat.racha', { n: st.racha }));
-  $('#stat-racha').setAttribute('aria-label', t('stat.racha', { n: st.racha }));
+  const racha = currentStreak(st, today());
+  $('#stat-racha').replaceChildren(icon('flame', 'ic sm'), h('span', { text: fmtNum(racha) }));
+  $('#stat-racha').setAttribute('title', t('stat.racha', { n: racha }));
+  $('#stat-racha').setAttribute('aria-label', t('stat.racha', { n: racha }));
   $('#stat-racha').setAttribute('role', 'img');
   $('#stat-xp').replaceChildren(icon('zap', 'ic sm'), h('span', { text: fmtNum(st.xp) + ' XP' }));
   $('#stat-xp').setAttribute('aria-label', t('stat.xp', { n: st.xp }));
@@ -3229,14 +3584,17 @@ function renderLobby(view) {
   viewHead(view, { eyebrow: t('nav.arena'), title: t('arena.titulo'), lede: t('arena.lede') });
   const form = h('form', { class: 'stack', id: 'arena-form', 'aria-label': t('arena.preparar') });
 
+  const jefeOk = bossUnlocked(UI.state.duelos, UI.state.perfil.rol);
+  if (!jefeOk && arenaRecruiter(ARENA.recruiter).jefe) ARENA.recruiter = 'rita';
   form.append(h('fieldset', null, h('legend', { text: t('arena.elige.recruiter') }),
-    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') },
-      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, onchange: () => { ARENA.recruiter = r.id; } }),
+    stagger(h('div', { class: 'rec-grid' }, RECRUITERS.map(r => h('label', { class: 'rec-card' + (r.jefe ? ' boss' : '') + (r.jefe && !jefeOk ? ' locked' : '') },
+      h('input', { type: 'radio', name: 'recruiter', value: r.id, checked: ARENA.recruiter === r.id, disabled: r.jefe && !jefeOk, 'aria-describedby': r.jefe && !jefeOk ? 'jefe-lock' : null, onchange: () => { ARENA.recruiter = r.id; } }),
       h('span', { class: 'rec-av', 'aria-hidden': 'true' }, icon(r.icono)),
       h('span', { class: 'stack tight' },
         h('b', { text: L(r.nombre) }),
         h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) }),
-        h('span', { class: 'small muted', text: L(r.estilo) }))))))));
+        h('span', { class: 'small muted', text: L(r.estilo) }),
+        r.jefe && !jefeOk ? h('span', { class: 'small', id: 'jefe-lock' }, icon('lock', 'ic sm'), ' ', t('arena.jefeBloqueado', { n: JEFE_DESBLOQUEO })) : null)))))));
 
   form.append(h('fieldset', null, h('legend', { text: t('arena.elige.modo') }),
     h('div', { class: 'checks' }, DUELO.modos.map(m => h('label', { class: 'check' },
@@ -3452,7 +3810,8 @@ function renderReport(view, rec, q) {
       renderEditor.prefill = { titulo: '', s: ARENA.story.s, t: ARENA.story.t, a: ARENA.story.a, r: ARENA.story.r, l: ARENA.story.l, competencias: (q.comp || []).slice(0, LIMITES.competenciasPorHistoria), _pregunta: q.id };
       ARENA.duel = null; go('forja/nueva');
     } }, icon('hammer'), t('arena.guardarComo')) : null,
-    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null));
+    base ? h('a', { class: 'btn', href: '#forja/' + base.id }, icon('pencil'), t('arena.pulir')) : null,
+    won && rec.jefe ? h('a', { class: 'btn gold', href: '#oferta/' + UI.state.perfil.rol, id: 'arena-oferta' }, icon('file-text'), t('arena.verOferta')) : null));
 }
 
 document.addEventListener('keydown', e => {
@@ -3461,6 +3820,205 @@ document.addEventListener('keydown', e => {
   else if (e.altKey && e.code === 'KeyR' && $('#arena-random')) { e.preventDefault(); renderLobby.random(); }
   else if (e.altKey && e.code === 'KeyN' && ARENA.duel && ARENA.duel.fin) { e.preventDefault(); ARENA.duel = null; render(); }
 });
+
+// ---- src/ui/progreso.js ----
+// Juego: XP, rachas, rangos, insignias y celebraciones; vista Progreso, carta de oferta y reglas en la ayuda.
+
+function gameCtx(extra = {}) {
+  const scores = UI.state.historias.map(scoreOf);
+  return { state: UI.state, scores, lang: UI.lang, hour: new Date().getHours(), meta: META_DIARIA, competencias: coveredCompetencies(UI.state.historias, scores).size, ...extra };
+}
+
+/** Suma XP, comprueba insignias y celebra. extra: contexto del evento (p. ej., el duelo). */
+function grantXp(xp, extra = {}) {
+  const day = today();
+  const rangoAntes = rankFor(UI.state.xp).id;
+  let meta = false;
+  const add = n => { const r = addXp(UI.state, n, day); UI.state = r.state; meta = meta || r.metaCumplida; };
+  if (xp > 0) add(xp);
+  const scores = UI.state.historias.map(scoreOf);
+  if (scores.length) UI.state.historialMedia = { ...UI.state.historialMedia, [day]: Math.round(scores.reduce((n, s) => n + s.total, 0) / scores.length) };
+  // Las insignias pueden encadenarse (la XP de una puede cumplir la meta diaria).
+  for (let vuelta = 0; vuelta < 3; vuelta++) {
+    const nuevas = newBadges(INSIGNIAS, gameCtx(extra));
+    if (!nuevas.length) break;
+    for (const id of nuevas) {
+      const b = INSIGNIAS.find(x => x.id === id);
+      UI.state.insignias = [...UI.state.insignias, id];
+      add(XP.insignia + (id === 'constelacion-completa' ? XP.constelacion : 0));
+      toast(t('juego.insignia', { nombre: L(b.nombre) }), { gold: true, ic: b.icono });
+    }
+    playSound('star');
+  }
+  if (meta) toast(t('juego.meta', { n: META_DIARIA }), { gold: true, ic: 'target' });
+  const rangoDespues = rankFor(UI.state.xp).id;
+  if (rangoDespues !== rangoAntes) celebrate(t('rango.' + rangoDespues));
+  renderChrome(document.body.dataset.route ? document.body.dataset.route.split('/')[0] : '');
+}
+
+function onStorySaved(story, sc, prevEstado, esNueva) {
+  grantXp(storyXp(prevEstado, sc.estado, esNueva));
+}
+function onDuelEnd(registro, rec, detalle) {
+  grantXp(duelXp(registro, !!rec.jefe), { duel: { registro, detalle } });
+}
+
+/** Partículas de estrella al subir de rango; con movimiento reducido, un fundido. */
+function celebrate(rango) {
+  playSound('rank');
+  toast(t('juego.rango', { rango }), { gold: true, ic: 'crown' });
+  const box = h('div', { class: 'celebra', 'aria-hidden': 'true' }, h('div', { class: 'celebra-t', text: rango }));
+  if (!reducedMotion()) {
+    for (let i = 0; i < 16; i++) {
+      const s = h('span', { class: 'spark' });
+      const ang = (i / 16) * Math.PI * 2;
+      const dist = 120 + (i % 3) * 50;
+      s.style.setProperty('--x', Math.round(Math.cos(ang) * dist) + 'px');
+      s.style.setProperty('--y', Math.round(Math.sin(ang) * dist) + 'px');
+      s.style.setProperty('--d', (i % 4) * 40 + 'ms');
+      box.append(s);
+    }
+  }
+  document.body.append(box);
+  setTimeout(() => box.remove(), 1600);
+}
+
+// ---------- Vista Progreso ----------
+function chartBars(series, label) {
+  const W = 560, H = 160, max = Math.max(META_DIARIA, ...series.map(d => d.xp)), bw = W / series.length;
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H + 22}`);
+  svg.setAttribute('class', 'chart');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', label);
+  const el = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v)); return e; };
+  const gy = H - (META_DIARIA / max) * H;
+  svg.append(el('line', { x1: 0, x2: W, y1: gy, y2: gy, class: 'goal-line' }));
+  series.forEach((d, i) => {
+    const bh = Math.max(d.xp ? 3 : 0, (d.xp / max) * H);
+    svg.append(el('rect', { x: i * bw + 4, y: H - bh, width: bw - 8, height: bh, rx: 4, class: d.xp >= META_DIARIA ? 'b gold' : 'b' }));
+    if (i % 2 === series.length % 2 || i === series.length - 1) { const tx = el('text', { x: i * bw + bw / 2, y: H + 16, class: 'ax' }); tx.textContent = d.dia.slice(8); svg.append(tx); }
+  });
+  return svg;
+}
+function chartLine(points, label) {
+  const W = 560, H = 160;
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H + 22}`);
+  svg.setAttribute('class', 'chart');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', label);
+  const el = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v)); return e; };
+  const step = points.length > 1 ? (W - 24) / (points.length - 1) : 0;
+  const xy = points.map((p, i) => [12 + i * step, H - (p.v / 100) * H]);
+  svg.append(el('polyline', { points: xy.map(p => p.join(',')).join(' '), class: 'ln' }));
+  xy.forEach(([x, y], i) => {
+    svg.append(el('circle', { cx: x, cy: y, r: 4, class: 'pt' }));
+    if (i === 0 || i === xy.length - 1) { const tx = el('text', { x, y: H + 16, class: 'ax', 'text-anchor': i === 0 ? 'start' : 'end' }); tx.textContent = points[i].dia.slice(5); svg.append(tx); }
+  });
+  return svg;
+}
+function dataTable(id, cols, rows) {
+  return h('details', { class: 'small' }, h('summary', { text: t('progreso.verTabla') }),
+    h('table', { id }, h('thead', null, h('tr', null, cols.map(c => h('th', { scope: 'col', text: c })))),
+      h('tbody', null, rows.map(r => h('tr', null, r.map(c => h('td', { class: 'mono', text: String(c) })))))));
+}
+
+VIEWS.progreso = view => {
+  const st = UI.state;
+  const day = today();
+  const rk = rankFor(st.xp);
+  const hoy = st.historialXp[day] || 0;
+  viewHead(view, { eyebrow: t('nav.progreso'), title: t('progreso.titulo'), lede: t('progreso.lede') });
+  const pct = Math.round(rk.progress * 100);
+  const bar = (w, gold) => { const i = h('i'); i.style.width = w + '%'; return h('div', { class: 'bar' + (gold ? ' gold' : '') }, i); };
+  view.append(stagger(h('div', { class: 'grid', id: 'prog-kpis' },
+    h('div', { class: 'card stack', id: 'prog-rango' }, h('p', { class: 'eyebrow', text: t('progreso.rango') }), h('div', { class: 'row' }, icon('crown', 'ic lg'), h('h2', { text: t('rango.' + rk.id) })),
+      bar(pct, true), h('p', { class: 'small muted', text: rk.next ? t('progreso.siguiente', { n: fmtNum(rk.next.xp - st.xp), rango: t('rango.' + rk.next.id) }) : t('progreso.maximo') })),
+    h('div', { class: 'card stack', id: 'prog-meta' }, h('p', { class: 'eyebrow', text: t('progreso.meta') }), h('div', { class: 'row' }, icon('target', 'ic lg'), h('h2', { text: `${fmtNum(hoy)} / ${META_DIARIA} XP` })),
+      bar(Math.min(100, Math.round((hoy / META_DIARIA) * 100)), hoy >= META_DIARIA), h('p', { class: 'small muted', text: hoy >= META_DIARIA ? t('progreso.metaOk') : t('progreso.metaFalta', { n: META_DIARIA - hoy }) })),
+    h('div', { class: 'card stack' }, h('p', { class: 'eyebrow', text: t('progreso.racha') }), h('div', { class: 'row' }, icon('flame', 'ic lg'), h('h2', { text: t('progreso.dias', { n: currentStreak(st, day) }) })), h('p', { class: 'small muted', text: t('progreso.rachaD') })),
+    h('div', { class: 'card stack' }, h('p', { class: 'eyebrow', text: t('progreso.duelos') }), h('div', { class: 'row' }, icon('swords', 'ic lg'), h('h2', { text: `${st.duelos.filter(d => d.superado).length} / ${st.duelos.length}` })), h('p', { class: 'small muted', text: t('progreso.duelosD') })))));
+
+  const series = xpSeries(st.historialXp, day, 14);
+  view.append(h('div', { class: 'grid two' },
+    h('section', { class: 'card stack', 'aria-labelledby': 'xp-h' }, h('h2', { id: 'xp-h', text: t('progreso.xpDia') }),
+      chartBars(series, t('progreso.xpDiaAria', { total: series.reduce((n, d) => n + d.xp, 0), meta: META_DIARIA })),
+      h('p', { class: 'tiny muted', text: t('progreso.lineaMeta', { n: META_DIARIA }) }),
+      dataTable('tabla-xp', [t('progreso.col.dia'), 'XP'], series.map(d => [fmtDate(d.dia), d.xp]))),
+    (() => {
+      const pts = Object.entries(st.historialMedia).sort().slice(-14).map(([dia, v]) => ({ dia, v }));
+      return h('section', { class: 'card stack', 'aria-labelledby': 'media-h' }, h('h2', { id: 'media-h', text: t('progreso.media') }),
+        pts.length ? [chartLine(pts, t('progreso.mediaAria', { a: pts[0].v, b: pts[pts.length - 1].v })), dataTable('tabla-media', [t('progreso.col.dia'), t('progreso.col.media')], pts.map(p => [fmtDate(p.dia), p.v]))]
+          : h('p', { class: 'small muted', text: t('progreso.sinMedia') }));
+    })()));
+
+  view.append(h('section', { class: 'card stack', 'aria-labelledby': 'rangos-h' }, h('h2', { id: 'rangos-h', text: t('progreso.rangos') }),
+    h('ol', { class: 'ranks' }, RANGOS.map((r, i) => h('li', { class: i <= rk.idx ? 'done' : '', 'aria-current': i === rk.idx ? 'step' : null },
+      icon(i <= rk.idx ? 'star' : 'circle', 'ic sm'), h('b', { text: t('rango.' + r.id) }), h('span', { class: 'mono small muted', text: fmtNum(r.xp) + ' XP' }))))));
+
+  const jefes = ROLES.filter(r => bossBeaten(st.duelos, r));
+  if (jefes.length) view.append(h('div', { class: 'row wrap', id: 'ofertas' }, jefes.map(r => h('a', { class: 'btn', href: '#oferta/' + r }, icon('file-text'), t('oferta.ver', { rol: t('rol.' + r) })))));
+};
+
+// ---------- Carta de oferta (juego) ----------
+VIEWS.oferta = (view, rol) => {
+  if (!ROLES.includes(rol) || !bossBeaten(UI.state.duelos, rol)) {
+    viewHead(view, { eyebrow: t('oferta.eyebrow'), title: t('oferta.bloqueada'), lede: t('oferta.bloqueadaD') });
+    view.append(h('a', { class: 'btn primary', href: '#arena' }, icon('swords'), t('nav.arena')));
+    return;
+  }
+  const d = UI.state.duelos.filter(x => x.ruta === rol && x.superado && x.recruiter === 'subeliston').pop();
+  const nombre = (UI.state.perfil.nombre || '').trim() || t('oferta.anon');
+  viewHead(view, { eyebrow: t('oferta.eyebrow'), title: t('oferta.titulo'), lede: t('oferta.lede') });
+  view.append(h('div', { class: 'row no-print' },
+    h('button', { class: 'btn primary', type: 'button', id: 'oferta-print', onclick: () => window.print() }, icon('printer'), t('oferta.pdf')),
+    h('a', { class: 'btn', href: '#progreso' }, t('ui.volver'))));
+  view.append(h('article', { class: 'letter', id: 'oferta', 'aria-labelledby': 'oferta-h' },
+    h('p', { class: 'stamp', text: t('oferta.sello') }),
+    h('div', { class: 'row' }, markSvg('letter-mark'), h('div', null, h('b', { text: 'Astrolabio Interview Lab' }), h('p', { class: 'tiny muted', text: fmtDate(d.fecha || today()) }))),
+    h('h2', { id: 'oferta-h', text: t('oferta.asunto', { rol: t('rol.' + rol) }) }),
+    h('p', { text: t('oferta.saludo', { nombre }) }),
+    h('p', { text: t('oferta.p1', { rol: t('rol.' + rol), n: d.conviccion }) }),
+    h('p', { text: t('oferta.p2') }),
+    h('ul', null, ['b1', 'b2', 'b3'].map(k => h('li', { text: t('oferta.' + k) }))),
+    h('p', { text: t('oferta.p3') }),
+    h('p', { class: 'firma' }, h('b', { text: L(RECRUITERS.find(r => r.jefe).nombre) }), h('br'), t('oferta.cargo')),
+    h('p', { class: 'tiny muted', text: t('oferta.aviso') })));
+};
+
+// ---------- Ayuda «Método»: reglas del juego desde las constantes ----------
+function helpGameRules() {
+  const xpRows = Object.entries(XP).map(([k, v]) => h('tr', null, h('th', { scope: 'row', text: t('xp.' + k) }), h('td', { class: 'num', text: '+' + v })));
+  const rk = RANGOS.map(r => h('tr', null, h('th', { scope: 'row', text: t('rango.' + r.id) }), h('td', { class: 'num', text: fmtNum(r.xp) })));
+  return [
+    h('h3', { id: 'ayuda-juego', text: t('ayuda.juego') }),
+    h('table', null, h('thead', null, h('tr', null, h('th', { scope: 'col', text: t('ayuda.juego.logro') }), h('th', { scope: 'col', text: 'XP' }))), h('tbody', null, xpRows)),
+    h('table', null, h('thead', null, h('tr', null, h('th', { scope: 'col', text: t('progreso.rango') }), h('th', { scope: 'col', text: t('ayuda.juego.desde') }))), h('tbody', null, rk)),
+    h('p', { text: t('ayuda.juego.meta', { meta: META_DIARIA, jefe: JEFE_DESBLOQUEO, n: INSIGNIAS.length, s: INSIGNIAS.filter(b => b.secreta).length }) }),
+  ];
+}
+
+// ---- src/ui/insignias.js ----
+// Vista Insignias: las conseguidas en oro; las secretas no se revelan hasta conseguirlas.
+
+VIEWS.insignias = view => {
+  const have = new Set(UI.state.insignias);
+  const got = INSIGNIAS.filter(b => have.has(b.id)).length;
+  viewHead(view, { eyebrow: t('nav.insignias'), title: t('insignias.titulo'), lede: t('insignias.lede', { n: got, total: INSIGNIAS.length, s: INSIGNIAS.filter(b => b.secreta).length }) });
+  const i = h('i');
+  i.style.width = Math.round((got / INSIGNIAS.length) * 100) + '%';
+  view.append(h('div', { class: 'bar gold', id: 'ins-bar' }, i));
+  view.append(stagger(h('ul', { class: 'badges', id: 'badges' }, INSIGNIAS.map(b => {
+    const ok = have.has(b.id);
+    const oculta = b.secreta && !ok;
+    return h('li', { class: 'badge' + (ok ? ' got' : '') + (oculta ? ' secret' : ''), id: 'ins-' + b.id },
+      h('span', { class: 'b-ic', 'aria-hidden': 'true' }, icon(oculta ? 'lock' : b.icono, 'ic lg')),
+      h('b', { text: oculta ? t('insignias.secreta') : L(b.nombre) }),
+      h('span', { class: 'small muted', text: oculta ? t('insignias.secretaD') : L(b.desc) }),
+      h('span', { class: 'chip' + (ok ? ' gold' : ''), text: ok ? t('insignias.conseguida') : t('insignias.pendiente') }));
+  }))));
+};
 
 // ---- src/ui/ayuda.js ----
 // Centro de ayuda con seis pestañas. «Método STAR» se genera desde engine/constants.js.
