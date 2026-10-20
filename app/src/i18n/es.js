@@ -41,7 +41,7 @@ export const ES = {
   'wizard.titulo1': '¿Para qué rol te preparas?', 'wizard.lede1': 'Cada ruta tiene sus preguntas, sus historias de ejemplo y sus recruiters.',
   'wizard.titulo2': '¿Cuál es tu nivel?', 'wizard.lede2': 'El nivel cambia las preguntas y lo que espera quien te entrevista.',
   'wizard.titulo3': '¿Dónde quieres entrar?', 'wizard.lede3': 'El tipo de empresa cambia el tono del recruiter y las competencias que más pesan.',
-  'wizard.empezar': 'Empezar', 'wizard.masRutas': 'Más rutas en camino: Sistemas y Cloud, Desarrollo, AppSec e IA.',
+  'wizard.empezar': 'Empezar', 'wizard.masRutas': 'Más rutas en camino: soporte IT, gestión de proyectos, UX/UI, preventa y cambio de carrera.',
   'wizard.noEstasSolo': 'No estás solo. Tu experiencia vale aunque venga de unas prácticas, un CTF, un máster, un voluntariado o un trabajo de hostelería. Aquí aprendes a contarla.',
 
   'priv.titulo': 'Tus historias no salen de aquí', 'priv.lede': 'Astrolabio funciona entero en tu navegador. Sin servidor, sin cuentas y sin analítica.',
@@ -358,4 +358,12 @@ export const ES = {
   "chuleta.lede": "Tus mejores historias en una hoja: la primera frase de cada bloque para repasar antes de la entrevista.",
   "chuleta.imprimir": "Imprimir o guardar en PDF",
   "chuleta.vacia": "Aún no tienes historias en «Lista». Pule alguna en la Forja y vuelve.",
+  "rol.cloud": "Sistemas y Cloud",
+  "rol.cloud.des": "Administración de sistemas, nube, guardias y automatización.",
+  "rol.dev": "Desarrollo",
+  "rol.dev.des": "Programación, revisiones de código, pruebas y entregas.",
+  "rol.appsec": "AppSec y DevSecOps",
+  "rol.appsec.des": "Seguridad del software, análisis de código y del ciclo de desarrollo.",
+  "rol.ia": "IA y ML",
+  "rol.ia.des": "Modelos, datos de entrenamiento, evaluación y uso responsable.",
 };

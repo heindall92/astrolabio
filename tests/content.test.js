@@ -6,7 +6,7 @@ import { COMPETENCIAS, COMPETENCIA_IDS, PRINCIPIOS } from '../app/src/content/co
 import { RECRUITERS } from '../app/src/content/recruiters.js';
 import { scoreStory } from '../app/src/engine/score.js';
 
-const RUTAS = ['red', 'blue', 'grc', 'data'];
+import { ROLES as RUTAS } from '../app/src/engine/constants.js';
 const todas = [...allQuestions(), ...COMUNES];
 const texts = o => JSON.stringify(o);
 

@@ -516,6 +516,25 @@ def t_chuleta_vacia(browser):
     no_errors(pg, 'chuleta vacía')
 
 
+
+def t_rutas_nuevas(browser):
+    for rol, q in (('cloud', 'certificado'), ('dev', 'revisión de código'), ('appsec', 'vulnerabilidad'), ('ia', 'modelo')):
+        pg = new_page(browser, state=state(perfil=dict(PERFIL, rol=rol)))
+        goto(pg, 'forja')
+        check(pg.locator('#banco li').count() >= 26, rol + ': banco de preguntas')
+        check(q in pg.inner_text('#banco').lower(), rol + ': preguntas propias de la ruta')
+        check(pg.locator('#modelos .story-card, #modelos > *').count() >= 1, rol + ': historias modelo')
+        goto(pg, 'arena')
+        check(pg.locator('#arena-q optgroup').first.get_attribute('label') == pg.evaluate("() => document.querySelector('#pill-profile b').textContent"), rol + ': preguntas de la ruta en la Arena')
+        no_errors(pg, rol)
+        pg.context.close()
+    pg = new_page(browser)
+    goto(pg)
+    check(pg.locator('label.choice:has(input[name=rol])').count() == 8, 'el asistente ofrece las ocho rutas')
+    pg.click('label.choice:has(input[value=ia])')
+    no_errors(pg, 'asistente')
+
+
 TESTS = [
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
@@ -535,6 +554,7 @@ TESTS = [
     ('jefe final por ruta y carta de oferta imprimible', t_jefe),
     ('entrevista en inglés, chuleta y ecosistema', t_ingles_chuleta),
     ('chuleta vacía', t_chuleta_vacia),
+    ('rutas Sistemas y Cloud, Desarrollo, AppSec e IA', t_rutas_nuevas),
 ]
 
 if __name__ == '__main__':

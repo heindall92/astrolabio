@@ -41,7 +41,7 @@ export const EN = {
   'wizard.titulo1': 'Which role are you preparing for?', 'wizard.lede1': 'Each path has its own questions, sample stories and recruiters.',
   'wizard.titulo2': 'What is your level?', 'wizard.lede2': 'Your level changes the questions and what the interviewer expects.',
   'wizard.titulo3': 'Where do you want to work?', 'wizard.lede3': 'The company type changes the recruiter’s tone and which competencies matter most.',
-  'wizard.empezar': 'Start', 'wizard.masRutas': 'More paths on the way: Systems and Cloud, Development, AppSec and AI.',
+  'wizard.empezar': 'Start', 'wizard.masRutas': 'More paths on the way: IT support, project management, UX/UI, presales and career change.',
   'wizard.noEstasSolo': 'You are not alone. Your experience counts even if it comes from an internship, a CTF, a master’s degree, volunteering or a hospitality job. Here you learn to tell it.',
 
   'priv.titulo': 'Your stories stay here', 'priv.lede': 'Astrolabio runs entirely in your browser. No server, no accounts and no analytics.',
@@ -358,4 +358,12 @@ export const EN = {
   "chuleta.lede": "Your best stories on one page: the first sentence of each block to review before the interview.",
   "chuleta.imprimir": "Print or save as PDF",
   "chuleta.vacia": "You have no “Ready” stories yet. Polish one in the Forge and come back.",
+  "rol.cloud": "Systems and Cloud",
+  "rol.cloud.des": "Systems administration, cloud, on-call and automation.",
+  "rol.dev": "Development",
+  "rol.dev.des": "Programming, code reviews, testing and delivery.",
+  "rol.appsec": "AppSec and DevSecOps",
+  "rol.appsec.des": "Software security, code analysis and the development lifecycle.",
+  "rol.ia": "AI and ML",
+  "rol.ia.des": "Models, training data, evaluation and responsible use.",
 };

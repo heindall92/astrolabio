@@ -64,7 +64,7 @@ export const LIMITES = {
 };
 
 /** Valores admitidos en el perfil. */
-export const ROLES = ['red', 'blue', 'grc', 'data'];
+export const ROLES = ['red', 'blue', 'grc', 'data', 'cloud', 'dev', 'appsec', 'ia'];
 export const NIVELES = ['sin-experiencia', 'junior', 'mid', 'senior'];
 export const EMPRESAS = ['consultora', 'banca', 'tecnologica', 'startup', 'publica', 'industria'];
 export const IDIOMAS = ['es', 'en'];
