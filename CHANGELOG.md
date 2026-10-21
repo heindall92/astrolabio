@@ -2,6 +2,12 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.7.2] · 2026-10-21 · Logo
+
+### Corregido
+- **La estrella del logo no se veía** en el asistente de perfil, «Acerca de» y la carta de oferta: solo aparecía el bocadillo oscuro. Todas las copias del logo compartían el id del degradado (`am-g`), así que `url(#am-g)` apuntaba a la copia del lateral, y en el móvil el lateral está oculto (`display: none`), con lo que el degradado no se pintaba. Ahora cada copia lleva su propio id.
+- Nueva prueba: comprueba que no hay ids repetidos y mide los píxeles dorados del logo en claro, oscuro, escritorio y móvil.
+
 ## [0.7.1] · 2026-10-21 · Móvil estrecho
 
 ### Corregido

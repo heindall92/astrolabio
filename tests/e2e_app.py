@@ -561,7 +561,43 @@ def t_mobile_estrecho(browser):
     no_errors(pg, 'mobile estrecho')
 
 
+def gold_ratio(pg, selector):
+    """Fracción de píxeles dorados (estrella) en la captura real del logo."""
+    import base64
+    b64 = base64.b64encode(pg.locator(selector).first.screenshot(animations='disabled')).decode()
+    return pg.evaluate("""async b64 => {
+        const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+        const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+        const x = c.getContext('2d'); x.drawImage(img, 0, 0);
+        const d = x.getImageData(0, 0, c.width, c.height).data; let g = 0;
+        for (let i = 0; i < d.length; i += 4) if (d[i] > 200 && d[i + 1] > 150 && d[i + 2] < 170) g++;
+        return g / (d.length / 4); }""", b64)
+
+
+def t_logo(browser):
+    """La estrella dorada del logo se ve en todas sus copias (asistente, lateral, Acerca de, carta), claro y oscuro, escritorio y móvil."""
+    for theme in ('light', 'dark'):
+        for w in (1280, 390):
+            pg = new_page(browser, width=w, height=860, theme=theme)
+            goto(pg)
+            ids = pg.evaluate("() => [...document.querySelectorAll('[id]')].map(e => e.id)")
+            check(len(ids) == len(set(ids)), 'ids repetidos: %s' % sorted({i for i in ids if ids.count(i) > 1}))
+            r = gold_ratio(pg, '#vh .hero-mark, main .hero-mark')
+            check(r > 0.03, 'estrella visible en el asistente (%s, %d px): %.3f' % (theme, w, r))
+            if w == 1280:
+                r = gold_ratio(pg, '.brand svg')
+                check(r > 0.03, 'estrella visible en el lateral (%s): %.3f' % (theme, r))
+            pg.click('#help-btn')
+            pg.click('#tab-acerca')
+            pg.wait_for_timeout(400)
+            if pg.locator('dialog .hero-mark, [role=dialog] .hero-mark').count():
+                r = gold_ratio(pg, 'dialog .hero-mark, [role=dialog] .hero-mark')
+                check(r > 0.03, 'estrella visible en Acerca de (%s, %d px): %.3f' % (theme, w, r))
+            no_errors(pg, 'logo')
+
+
 TESTS = [
+    ('logo con la estrella visible', t_logo),
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
     ('crear, puntuar, editar, recargar y borrar historia', t_story_crud),
