@@ -491,3 +491,6 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
   .cheat-card { border: 1px solid #999; background: #fff; color: #000; padding: 10px; }
   .cheat-card dt { color: #000; }
 }
+
+/* Logo: en oscuro, el bocadillo (#0B1024) se perdía sobre el fondo casi negro; borde fino y discreto. */
+:root[data-theme="dark"] .am-b { stroke: rgb(255 255 255 / .28); stroke-width: 1.25px; vector-effect: non-scaling-stroke; }

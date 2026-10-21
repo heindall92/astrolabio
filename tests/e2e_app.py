@@ -582,6 +582,9 @@ def t_logo(browser):
             goto(pg)
             ids = pg.evaluate("() => [...document.querySelectorAll('[id]')].map(e => e.id)")
             check(len(ids) == len(set(ids)), 'ids repetidos: %s' % sorted({i for i in ids if ids.count(i) > 1}))
+            trazos = pg.evaluate("() => [...document.querySelectorAll('svg .am-b')].map(p => getComputedStyle(p).stroke)")
+            check(len(trazos) >= 1 and all((t != 'none') == (theme == 'dark') for t in trazos),
+                  'borde del bocadillo solo en oscuro (%s): %s' % (theme, trazos))
             r = gold_ratio(pg, '#vh .hero-mark, main .hero-mark')
             check(r > 0.03, 'estrella visible en el asistente (%s, %d px): %.3f' % (theme, w, r))
             if w == 1280:
