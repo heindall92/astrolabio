@@ -1,6 +1,6 @@
 {
   "name": "astrolabio",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Astrolabio: laboratorio-juego para preparar entrevistas con el método STAR. Local, sin cuentas y sin servidor.",
   "private": true,
   "type": "module",

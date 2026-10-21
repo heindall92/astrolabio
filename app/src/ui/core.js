@@ -121,9 +121,13 @@ function icon(name, cls = 'ic') {
   svg.setAttribute('class', cls);
   return svg;
 }
+let markSeq = 0;
+/** Logo en línea. Cada copia lleva su propio id de degradado: si dos copias comparten id,
+ *  url(#…) apunta a la primera del documento y, si esa está oculta (lateral en móvil), la estrella no se pinta. */
 function markSvg(cls) {
   const tpl = document.createElement('template');
-  tpl.innerHTML = MARK_SVG;
+  const id = 'am-g' + (++markSeq);
+  tpl.innerHTML = MARK_SVG.replace(/am-g/g, id);
   const svg = tpl.content.firstElementChild;
   if (cls) svg.setAttribute('class', cls);
   svg.setAttribute('aria-hidden', 'true');

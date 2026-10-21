@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.7.1" src="https://img.shields.io/badge/versi%C3%B3n-0.7.1-1a4fe0?style=flat"/>
+  <img alt="Versión 0.7.2" src="https://img.shields.io/badge/versi%C3%B3n-0.7.2-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -27,7 +27,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.7.1 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.7.2 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Índice
 
@@ -167,7 +167,7 @@ flowchart LR
 | Prueba | Cifra |
 |---|---|
 | Motor, contenido e i18n (`node --test`) | 138 pruebas |
-| Extremo a extremo (Playwright) | 21 flujos |
+| Extremo a extremo (Playwright) | 22 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -184,6 +184,7 @@ flowchart LR
 ## Historial de versiones
 
 - **0.7.1** · Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes
+- **0.7.2** · Logo: la estrella vuelve a verse en todas las copias, también en el móvil
 - **0.7.0** · Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera
 - **0.6.0** · Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML
 - **0.5.0** · Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»
