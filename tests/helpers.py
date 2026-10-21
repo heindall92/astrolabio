@@ -1,10 +1,26 @@
 """Utilidades comunes para las pruebas de navegador (Playwright, Chromium)."""
 import json
 import pathlib
+import functools
+import http.server
 import re
+import threading
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-URL = (ROOT / 'dist' / 'index.html').as_uri()
+
+
+def _serve():
+    """Sirve dist/ por HTTP local: localStorage en file:// no es fiable entre recargas en CI."""
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+    srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(ROOT / 'dist')))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return 'http://127.0.0.1:%d' % srv.server_address[1]
+
+
+ORIGIN = _serve()
+URL = ORIGIN + '/index.html'
 AXE = (ROOT / 'tests' / 'vendor' / 'axe.min.js').read_text(encoding='utf-8')
 
 PERFIL = {'nombre': 'Ana', 'rol': 'blue', 'nivel': 'junior', 'empresa': 'banca', 'idioma': 'es'}
@@ -33,7 +49,7 @@ def new_page(browser, width=1280, height=860, theme='light', state=None, lang=No
         init['astrolabio-estado'] = json.dumps(state)
     if lang:
         init['astrolabio-idioma'] = lang
-    page.add_init_script('(() => { const d = %s; if (!sessionStorage.getItem("__init")) { for (const k in d) localStorage.setItem(k, d[k]); sessionStorage.setItem("__init", "1"); } })()' % json.dumps(init))
+    page.add_init_script('(() => { try { const d = %s; if (!localStorage.getItem("__seed")) { for (const k in d) localStorage.setItem(k, d[k]); localStorage.setItem("__seed", "1"); } } catch (e) {} })()' % json.dumps(init))
     return page
 
 
@@ -77,7 +93,7 @@ def axe(page, label):
 def no_errors(page, label):
     errs = [e for e in page.errors if 'favicon' not in e]
     check(not errs, f'{label}: errores en consola: {errs}')
-    ext = [u for u in page.requests if not (u.startswith('file:') or u.startswith('data:') or u.startswith('blob:'))]
+    ext = [u for u in page.requests if not (u.startswith(ORIGIN + '/') or u.startswith('file:') or u.startswith('data:') or u.startswith('blob:'))]
     check(not ext, f'{label}: peticiones de red: {ext}')
 
 
