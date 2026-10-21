@@ -49,7 +49,7 @@
 
 ## Cómo se usa
 
-1. **Perfil.** Un asistente de tres pasos: una de las 13 rutas profesionales, desde Red Team, GRC y Cloud hasta Desarrollo, Soporte IT o Cambio de carrera, nivel (sin experiencia, junior, mid o senior) y tipo de empresa e idioma de la entrevista.
+1. **Perfil.** Un asistente de tres pasos: ruta (13 rutas profesionales, desde Red Team, GRC y Cloud hasta Desarrollo, Soporte IT o Cambio de carrera), nivel (sin experiencia, junior, mid o senior) y tipo de empresa e idioma de la entrevista.
 2. **Forja.** Escribe una vivencia real en cuatro bloques (y un quinto opcional, lo aprendido). El analizador la puntúa de 0 a 100 mientras escribes y explica cada corrección.
 3. **Constelación.** Cada historia es una estrella y cada competencia, una constelación: se ve al momento qué te falta.
 4. **Arena.** Duelos contra recruiters con carácter que repreguntan según lo que falte en tu respuesta.
