@@ -2,6 +2,12 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.7.3] · 2026-10-21 · Logo en oscuro
+
+### Cambiado
+- **En el tema oscuro el bocadillo del logo lleva un borde fino** (1,25 px, blanco al 28 %) para que no se pierda sobre el fondo casi negro. Se aplica en todas las copias (lateral, asistente, «Acerca de» y carta de oferta). El tema claro no cambia.
+- La prueba del logo comprueba también que el borde solo aparece en oscuro.
+
 ## [0.7.2] · 2026-10-21 · Logo
 
 ### Corregido

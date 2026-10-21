@@ -66,6 +66,7 @@ HIST = [
     ('0.5.0', 'Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»'),
     ('0.6.0', 'Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML'),
     ('0.7.0', 'Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera'),
+    ('0.7.3', 'Logo: borde fino del bocadillo en el tema oscuro'),
     ('0.7.2', 'Logo: la estrella vuelve a verse en todas las copias, también en el móvil'),
     ('0.7.1', 'Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes'),
 ]
