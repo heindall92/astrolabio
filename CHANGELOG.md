@@ -2,6 +2,17 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.7.4] · 2026-10-22 · Base para crecer
+
+### Corregido
+- **`npm test` fallaba en Node 22 o superior** (`Cannot find module …/tests`): desde Node 21, `node --test` ya no acepta una carpeta. La 0.7.1 lo arregló en `run_tests.sh`, pero `package.json` seguía con `node --test tests/`. La CI no lo veía porque usa Node 20. Ahora `npm test` ejecuta `node --test tests/*.test.js`, igual que `run_tests.sh`.
+- **El enlace de la demo se compartía sin imagen ni descripción.** La página raíz solo redirigía a `dist/`, así que LinkedIn, WhatsApp y otras redes mostraban un enlace vacío. Ahora lleva título, descripción, Open Graph y `twitter:card`, con una imagen propia de 1200 × 630.
+
+### Añadido
+- `docs/social.py` genera `docs/img/social.png` con el logo y las fuentes del repositorio.
+- `tests/site.test.js`: la raíz lleva los metadatos completos, la imagen existe y mide 1200 × 630, y la redirección a la app no cambia.
+- **ROADMAP:** fases 0.8 a 2.0 (lector de ofertas y viñetas de CV, «Háblame de ti», preguntas difíciles para quien cambia de etapa, grabadora local, plan para una entrevista concreta, PWA, modo orientador, Latinoamérica e IA opcional) y un plan de crecimiento sin analítica (§ 17).
+
 ## [0.7.3] · 2026-10-21 · Logo en oscuro
 
 ### Cambiado

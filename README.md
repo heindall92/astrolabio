@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.7.3" src="https://img.shields.io/badge/versi%C3%B3n-0.7.3-1a4fe0?style=flat"/>
+  <img alt="Versión 0.7.4" src="https://img.shields.io/badge/versi%C3%B3n-0.7.4-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -31,7 +31,7 @@
   <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.7.3 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.7.4 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Índice
 
@@ -185,11 +185,18 @@ flowchart LR
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
 - Detalle en [SECURITY.md](SECURITY.md).
 
+## Lo siguiente
+
+- **0.8 · Del filtro a la entrevista:** lector de ofertas que cruza lo que pide un puesto con tus historias, viñetas de CV a partir de cada historia, la presentación «Háblame de ti» y preguntas difíciles para quien cambia de sector o tiene más de 50 años.
+- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha y repaso de las cifras clave.
+- **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
+
 ## Historial de versiones
 
 - **0.7.1** · Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes
 - **0.7.2** · Logo: la estrella vuelve a verse en todas las copias, también en el móvil
 - **0.7.3** · Logo: borde fino del bocadillo en el tema oscuro
+- **0.7.4** · `npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento
 - **0.7.0** · Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera
 - **0.6.0** · Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML
 - **0.5.0** · Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»
