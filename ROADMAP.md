@@ -422,17 +422,55 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 - [x] «Acerca de» con el ecosistema completo y los enlaces comprobados.
 - [ ] Intro de vídeo (si hay vídeo de la marca). *Pendiente: no hay vídeo de la marca todavía.*
 
-### v1.0.0 · Lanzamiento
-- [ ] Cifras del README verdaderas (pruebas, preguntas, insignias), capturas en claro, oscuro y móvil, y GIF del duelo.
-- [ ] Revisión con usuarios reales: 3 juniors de rutas distintas y 1 recruiter de verdad.
-- [ ] Publicación en LinkedIn (ver § 14).
+### v0.6.0 – v0.7.3 · Rutas ampliadas y pulido
+- [x] Nueve rutas más (Sistemas/Cloud, Desarrollo, AppSec, IA, Soporte IT, PM, UX, preventa y Cambio de carrera): 13 rutas, 338 preguntas y 39 historias modelo.
+- [x] Móvil estrecho, logo con id de degradado único y borde en oscuro, pruebas servidas por HTTP local.
 
-### Después de la 1.0
-- [x] v1.1: rutas Sistemas/Cloud, Desarrollo, AppSec e IA. *Adelantadas en la 0.6.0 para reservar la 1.0 al lanzamiento.*
-- v1.2: IA opcional con la clave propia de la persona, desactivada por defecto y avisando de que el texto sale del dispositivo.
-- v1.3: modo «coach» para profesores y mentores (exportar un paquete de preguntas para una clase).
-- [x] v2.x (rutas): Soporte IT, PM, UX, preventa y Cambio de carrera. *Adelantadas en la 0.7.0.*
-- [ ] v2.x: versiones para LATAM (vocabulario y tipos de empresa por país).
+### v0.7.4 · Base para crecer
+- [x] `npm test` funciona en Node 22 o superior (`node --test tests/*.test.js`).
+- [x] Vista previa al compartir: título, descripción y Open Graph en la página raíz, con imagen propia de 1200 × 630 (`docs/social.py`). Hasta ahora LinkedIn y WhatsApp mostraban el enlace sin imagen.
+- [x] Este plan: fases 0.8 a 2.0 y plan de crecimiento (§ 17).
+
+### v0.8.0 · Del filtro a la entrevista
+Responde a lo que más se ha comentado del lanzamiento: el CV que no pasa el filtro automático y la persona que no sabe traducir su experiencia.
+- [ ] **Lector de ofertas.** Se pega el texto de una oferta y Astrolabio, con un léxico local por ruta y sin IA, extrae competencias, tecnologías y requisitos; los cruza con las historias propias (cubiertas, a medias o sin historia) y propone las cinco preguntas más probables. El texto de la oferta no se guarda salvo que se pida.
+- [ ] **De la historia al CV.** Cada historia genera dos o tres viñetas de CV (verbo de acción, qué hiciste y cifra) y se comprueba qué palabras clave de la oferta faltan en el CV pegado. El aviso es explícito: ayuda a no quedar fuera por una palabra, no garantiza pasar ningún filtro.
+- [ ] **«Háblame de ti».** Constructor de la presentación de 60 a 90 segundos (presente, pasado y por qué este puesto) con su propio analizador: duración, una cifra, el vínculo con la oferta y sin repetir el CV línea a línea. Es la primera pregunta de casi todas las entrevistas y hoy no está.
+- [ ] **Preguntas difíciles para quien cambia de etapa**, con guía de respuesta como las trampa actuales: «¿no estás sobrecualificado?», «¿por qué cambias de sector ahora?», «¿por qué dejaste tu último trabajo?», un periodo dedicado a cuidados, «¿dónde te ves en cinco años?» y «¿tienes alguna pregunta para nosotros?» (con un banco de preguntas para hacer al entrevistador).
+- [ ] **Traductor de experiencia** en la ruta Cambio de carrera: de hostelería, comercio, docencia, logística o sanidad a las 12 competencias, con ejemplos de cómo contarlo en una entrevista técnica.
+- **Hecho cuando:** pruebas del léxico (cada término con su competencia, sin duplicados, ES y EN), e2e de oferta → cobertura → preguntas → viñetas, axe en las vistas nuevas y una oferta real anonimizada por ruta en `tests/fixtures/`.
+
+### v0.9.0 · Ensayar como en la entrevista real
+- [ ] **Grabadora local** en el modo en voz alta: el audio se graba con el micrófono, se queda en memoria y se puede escuchar y borrar; nunca se sube ni se guarda sin pedirlo. Cronómetro, ritmo estimado y la autoevaluación actual sobre la grabación.
+- [ ] **Plan para una entrevista concreta:** fecha, empresa, tipo y ruta generan un plan de 3, 5 o 7 días con sesiones cortas (historias que faltan, duelos con el recruiter adecuado y repaso), y un recordatorio `.ics` que se descarga.
+- [ ] **Repaso espaciado** de las cifras y frases clave de cada historia, para llegar a la entrevista sin leer.
+- [ ] Dos recruiters nuevos para los tipos de empresa que aún no tienen personaje: **sector público** (tribunal y procedimiento) e **industria** (seguridad y procesos). Cada uno con su carácter, pesos y repreguntas.
+- **Hecho cuando:** e2e de grabar, escuchar y borrar sin ninguna petición de red; prueba de que la CSP solo admite `blob:` para el audio; reglas del plan probadas en el motor.
+
+### v1.0.0 · Lanzamiento con personas reales
+- [ ] **Revisión con usuarios reales:** 3 juniors de rutas distintas, 1 persona mayor de 50 en búsqueda, 1 persona que cambia de sector, 1 recruiter y 1 orientador de carrera. Lo que salga se corrige antes de etiquetar la 1.0.
+- [ ] **Instalable y sin conexión** (PWA): manifiesto e iconos, y un service worker que guarda la app para usarla sin red. Las historias siguen en el dispositivo.
+- [ ] **Canal de opinión sin analítica:** plantillas de issue en GitHub (opinión de uso, pregunta real que te hicieron, error) enlazadas desde la ayuda, y GitHub Discussions abierto.
+- [ ] Cifras del README verdaderas (pruebas, preguntas, insignias), capturas en claro, oscuro y móvil, y GIF de un duelo.
+- [ ] Publicación de la 1.0 en LinkedIn (ver § 14).
+
+### v1.1 · Modo orientador
+Para orientadores de carrera, docentes de másteres y bootcamps, y mentores.
+- [ ] **Paquetes de clase:** el orientador elige preguntas, rutas y recruiters y exporta un paquete (`yrd-ecosistema`, tipo `paquete-clase`) que cada alumno importa con un clic.
+- [ ] **Simulacro guiado:** el orientador hace de recruiter con un guion, las repreguntas sugeridas y una rúbrica imprimible con los mismos criterios del analizador.
+- [ ] **Informe del alumno** que la persona decide exportar y compartir: historias, cobertura de competencias y evolución. Nada se envía solo.
+
+### v1.2 · Latinoamérica
+- [ ] Variantes de contenido para México, Argentina, Colombia, Chile y Perú: vocabulario de empleo (hoja de vida, pasantía, aguinaldo, entrevista por competencias), tipos de empresa y preguntas frecuentes de cada mercado. La interfaz sigue en español neutro.
+- [ ] Guía salarial que enlaza a fuentes públicas de cada país, sin cifras inventadas.
+
+### v1.3 · IA opcional
+- [ ] IA con la clave propia de la persona, desactivada por defecto, con aviso claro de que el texto sale del dispositivo y a qué proveedor. Sirve para repreguntas más variadas; el analizador local sigue siendo la referencia de la puntuación.
+
+### v2.x
+- [ ] Portugués de Brasil.
+- [ ] Banco de preguntas de la comunidad: preguntas reales de entrevistas, anonimizadas y revisadas, enviadas por issue y validadas con las mismas pruebas de contenido.
+- [ ] Rutas nuevas según las peticiones que lleguen por el canal de opinión.
 
 ---
 
@@ -440,7 +478,7 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 
 ```bash
 node app/build.js                 # genera dist/
-node --test tests/                # motor, contenido, i18n
+node --test tests/*.test.js       # motor, contenido, i18n (o npm test)
 python3 tests/e2e_app.py          # Playwright en Chromium
 python3 tests/a11y_app.py         # axe-core, 0 infracciones
 ./run_tests.sh                    # todo lo anterior; falla si algo falla
@@ -470,10 +508,10 @@ Lecciones de LemonByte que no se pueden repetir:
 
 ## 14. Lanzamiento en LinkedIn
 
-- **Gancho:** «Hice 94 máquinas en HTB y aun así me quedaba en blanco en las entrevistas. Por eso he creado Astrolabio: un juego gratuito para preparar entrevistas con el método STAR, por rol (Red, Blue, GRC, Data), que no saca tus datos del navegador».
-- **Formato:** carrusel (Forja → Constelación → duelo con el Subelistón → carta de oferta) más un enlace a la demo. Mencionar **LATAM** y **banca** (el Panel de Banca).
-- **Espaciar los lanzamientos** al menos 3 o 4 días respecto a otros. Después, un artículo práctico: «Cómo convertir tu primer CTF en una respuesta STAR que convence».
-- Invitar a recruiters reales a «enfrentarse» a la herramienta y opinar: genera conversación.
+- [x] **Primer post (octubre de 2026, versión 0.7.2):** el filtro automático que deja fuera a gente válida, perfiles junior y mayores de 50, el método STAR y cómo funciona por dentro. Comentarios de Evolve, de su Career Advisor y de perfiles de tecnología destacaron lo mismo: un problema real convertido en herramienta, probada y gratuita.
+- **Siguiente publicación (con la 0.8.0, al menos 3 o 4 días después de cualquier otro lanzamiento):** «Del filtro a la entrevista». Carrusel con una oferta real anonimizada → competencias que pide → historias que las cubren → viñetas para el CV → la presentación de 60 segundos. Enlace a la demo, que ya se ve con imagen al compartirlo.
+- **Artículos prácticos**, uno cada dos o tres semanas: «Cómo convertir tu primer CTF en una respuesta STAR», «Veinte años de hostelería contados en una entrevista de soporte IT», «Mayor de 50 y en búsqueda: las cinco preguntas difíciles y cómo responderlas», «Lo que pregunta un panel de banca». Mencionar LATAM y banca.
+- Invitar a recruiters y orientadores a enfrentarse a la herramienta y opinar en público.
 
 ---
 
@@ -487,6 +525,9 @@ Lecciones de LemonByte que no se pueden repetir:
 | Que el analizador parezca arbitrario | Reglas explicables, constantes visibles en la ayuda y sugerencias con el porqué |
 | Demasiado alcance | Cuatro rutas en la 1.0 y el resto después, sin hervir el océano |
 | Nombre ocupado | Comprobar GitHub, dominios y tiendas antes de la v0.1 |
+| Prometer que se supera un filtro automático | El lector de ofertas y las viñetas avisan de lo que hacen y de lo que no; ninguna cifra de «aprobados» |
+| Que el texto de una oferta o el audio se filtren | Todo en local; la oferta y la grabación no se guardan salvo que se pida, y una prueba e2e exige cero peticiones de red |
+| Crecer sin saber si ayuda | Revisión con personas reales antes de la 1.0 y canal de opinión público, sin analítica |
 
 ---
 
@@ -500,3 +541,39 @@ Lecciones de LemonByte que no se pueden repetir:
 6. Montar el asistente de perfil y la Forja (v0.1.0) y abrir la primera PR `version/0.1.0`.
 
 *Cada versión se revisa contra este documento antes de fusionarla: pruebas, axe y diseño pulido.*
+
+---
+
+## 17. Plan de crecimiento
+
+### A quién ayuda primero
+| Grupo | Qué necesita | Qué le da Astrolabio |
+|---|---|---|
+| Juniors técnicos (máster, bootcamp, CTF, prácticas) | Traducir laboratorios y prácticas en experiencia que se pueda evaluar | Rutas por rol, historias modelo, Arena y, desde la 0.8, lector de ofertas y viñetas de CV |
+| Personas que cambian de sector | Contar una carrera anterior como valor | Ruta Cambio de carrera, traductor de experiencia y preguntas difíciles con guía |
+| Mayores de 50 en búsqueda | Responder a «sobrecualificado» o a la edad sin ponerse a la defensiva | Preguntas difíciles con guía, presentación de 60 segundos y ensayo con grabación |
+| Orientadores, docentes y mentores | Preparar a un grupo sin herramientas de pago ni datos en la nube | Modo orientador (1.1), paquetes de clase y rúbrica |
+| Latinoamérica | Vocabulario y mercado propios | Variantes por país (1.2) |
+
+### Canales
+- **LinkedIn** como canal principal, con un lanzamiento por versión relevante y artículos prácticos entre medias (§ 14). Espaciar al menos 3 o 4 días respecto a los lanzamientos de las demás herramientas del ecosistema.
+- **Programas de orientación:** proponer a Evolve, que ofreció su apoyo en público, un piloto con un grupo del máster y su Career Advisor, con la guía del orientador y una encuesta voluntaria al final. Después, el mismo formato para bootcamps, universidades y asociaciones de empleo para mayores de 50.
+- **Comunidades técnicas** en España y Latinoamérica (CTF, meetups de seguridad y datos): un taller de 45 minutos «Tu primer CTF contado en STAR» con la demo en directo.
+- **GitHub:** temas del repositorio (`interview-preparation`, `star-method`, `career`, `open-source`), plantillas de issue y Discussions; contribuciones de preguntas por PR con las pruebas de contenido como filtro.
+
+### Cómo saber si funciona, sin analítica
+Astrolabio no tiene analítica y no la va a tener. Las señales son públicas o voluntarias:
+- Opiniones e historias de uso en el canal de opinión y en Discussions.
+- Estrellas, forks y visitas del repositorio en GitHub Insights.
+- Pilotos con programas de orientación y la encuesta voluntaria de cada uno.
+- Interacciones y comentarios de cada publicación.
+- Preguntas reales aportadas por la comunidad.
+
+### Objetivos
+| Hito | Objetivo |
+|---|---|
+| 0.8.0 | Lector de ofertas, viñetas de CV y «Háblame de ti» publicados; segundo post |
+| 1.0.0 | 7 personas reales han revisado la herramienta y sus correcciones están dentro; un piloto con un programa de orientación |
+| 1.1 | El modo orientador se usa en al menos un grupo real |
+| 1.2 | Variantes de al menos tres países revisadas por personas de esos países |
+

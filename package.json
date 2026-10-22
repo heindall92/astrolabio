@@ -1,6 +1,6 @@
 {
   "name": "astrolabio",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Astrolabio: laboratorio-juego para preparar entrevistas con el método STAR. Local, sin cuentas y sin servidor.",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "build": "node app/build.js",
     "check": "node app/build.js --check",
     "icons": "node scripts/icons.js",
-    "test": "node --test tests/",
+    "test": "node --test tests/*.test.js",
     "test:all": "./run_tests.sh"
   },
   "devDependencies": {
