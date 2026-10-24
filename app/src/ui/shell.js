@@ -67,10 +67,12 @@ function initials(name) {
 function renderChrome(current) {
   const nav = $('#nav');
   nav.replaceChildren(...ROUTES.map(r => h('a', { href: '#' + r.id, 'aria-current': r.id === current ? 'page' : null }, icon(r.ic), h('span', { text: t('nav.' + r.id) }))));
+  animateNavIcons('#nav > a', current, 20, 'side');
   const mob = ['inicio', 'forja', 'arena', 'constelacion'];
   $('#bnav').replaceChildren(
     ...mob.map(id => { const r = ROUTES.find(x => x.id === id); return h('a', { href: '#' + id, 'aria-current': id === current ? 'page' : null }, icon(r.ic), h('span', { text: t('nav.' + id) })); }),
     h('button', { type: 'button', id: 'more-btn', 'aria-haspopup': 'dialog', onclick: e => openMore(e.currentTarget) }, icon('ellipsis'), h('span', { text: t('nav.mas') })));
+  animateNavIcons('#bnav > a, #bnav > button', current, 22, 'tab');
   const p = UI.state.perfil;
   const pill = $('#pill-profile');
   pill.replaceChildren(h('span', { class: 'sr-only', text: t('perfil.cambiar') + ':' }), icon(p ? roleIcon(p.rol) : 'user-round'), h('span', { class: 't' }, h('b', { text: p ? t('rol.' + p.rol) : t('perfil.sinPerfil') }), h('span', { text: p ? t('nivel.' + p.nivel) + ' · ' + t('empresa.' + p.empresa) : t('perfil.crear') })), h('span', { class: 'spacer' }), icon('chevron-right', 'ic sm'));
@@ -87,6 +89,31 @@ function renderChrome(current) {
   $('#foot').replaceChildren(
     h('p', null, 'Astrolabio ' + APP_VERSION + ' · GPLv2 · ', h('a', { href: '#privacidad', text: t('nav.privacidad') }), ' · ' + t('foot.local')),
     h('p', { text: t('aviso.independencia') }));
+}
+
+/* Barra inferior y lateral: iconos animados (AnimateIcons, MIT).
+ * Una sola vez al pasar el puntero, al tocar y cuando la pestaña pasa a estar activa; nunca en bucle.
+ * Con movimiento reducido no se anima nada. */
+const TAB_MOTION = matchMedia('(prefers-reduced-motion: reduce)');
+const NAV_ICONS = { ...Object.fromEntries(ROUTES.map(r => [r.id, r.ic])), mas: 'ellipsis' };
+const navActive = {};
+function animateNavIcons(sel, current, size, group) {
+  const AI = window.AstrolabioAnimateIcons;
+  if (!AI) return;
+  $$(sel).forEach(el => {
+    const key = el.id === 'more-btn' ? 'mas' : el.getAttribute('href').slice(1);
+    const def = AI.icons[NAV_ICONS[key]], old = el.querySelector('svg.ic');
+    if (!def || !old) return;
+    const ico = AI.createIcon(def, { size, isAnimated: false });
+    ico.classList.add('ic', 'ai');
+    ico.setAttribute('aria-hidden', 'true');
+    old.replaceWith(ico);
+    const play = () => { if (!TAB_MOTION.matches) ico.startAnimation(); };
+    el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') play(); });
+    el.addEventListener('pointerdown', play);
+    if (key === current && current !== navActive[group]) requestAnimationFrame(play);
+  });
+  navActive[group] = current;
 }
 
 function roleIcon(rol) {

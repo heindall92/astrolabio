@@ -54,7 +54,8 @@ const icons = JSON.parse(read('vendor/lucide-icons.json'));
 const mark = read('vendor/astrolabio-mark.svg').trim();
 const markDecor = mark.replace(' role="img" aria-label="Astrolabio"', ' aria-hidden="true" focusable="false"');
 const css = fonts + read('src/styles.css');
-const js = `(()=>{'use strict';\nconst APP_VERSION=${JSON.stringify(pkg.version)};\nconst ICONS=${JSON.stringify(icons.icons)};\nconst MARK_SVG=${JSON.stringify(mark)};\n${JS.map(f => stripModule(read(f), f)).join('\n')}\n})();`;
+const js = read('vendor/animateicons.js') + `
+(()=>{'use strict';\nconst APP_VERSION=${JSON.stringify(pkg.version)};\nconst ICONS=${JSON.stringify(icons.icons)};\nconst MARK_SVG=${JSON.stringify(mark)};\n${JS.map(f => stripModule(read(f), f)).join('\n')}\n})();`;
 
 // Iconos usados en el HTML estático se sustituyen en el build.
 function iconSvg(name, cls = 'ic') {
