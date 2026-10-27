@@ -573,7 +573,7 @@ Astrolabio no tiene analítica y no la va a tener. Las señales son públicas o 
 ### Objetivos
 | Hito | Objetivo |
 |---|---|
-| 0.8.0 | Lector de ofertas, viñetas de CV y «Háblame de ti» publicados (hecho); segundo post |
+| 0.8.0 | Lector de ofertas, viñetas de CV y «Háblame de ti» publicados (hecho); segundo post, con carrusel de 7 diapositivas, publicado el 27 de octubre (hecho) |
 | 1.0.0 | 7 personas reales han revisado la herramienta y sus correcciones están dentro; un piloto con un programa de orientación |
 | 1.1 | El modo orientador se usa en al menos un grupo real |
 | 1.2 | Variantes de al menos tres países revisadas por personas de esos países |

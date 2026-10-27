@@ -2,6 +2,17 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.8.1] · 2026-10-27 · README al día
+
+### Corregido
+- **El README no reflejaba bien la 0.8.** Decía «en desarrollo» y las novedades quedaban escondidas en mitad de «Cómo se usa». Ahora hay un apartado «Novedades de la 0.8» arriba, con su captura, y el estado dice «publicada».
+- **El generador del README borraba la 0.8.** La 0.8.0 se escribió a mano en `README.md` y no en `docs/README.template.md` ni en `docs/readme.py`. Al regenerarlo desaparecían las novedades, las capturas de Oferta, «Háblame de ti» y Traductor, el apartado «Lo siguiente» y la 0.7.4 y la 0.8.0 del historial. Todo pasa a la plantilla y al generador.
+- **Historial de versiones desordenado:** la 0.8.0 aparecía entre la 0.7.4 y la 0.7.0. El generador ordena ahora por número de versión.
+- El esquema de arquitectura decía 106 iconos Lucide; son 119 (la cifra sale del propio código).
+
+### Añadido
+- `python3 docs/readme.py --check` falla si `README.md` no coincide con lo que generaría. Se ejecuta en `run_tests.sh` y, por tanto, en la CI, para que no vuelva a desfasarse.
+
 ## [0.8.0] · 2026-10-22 · Del filtro a la entrevista
 
 ### Añadido
