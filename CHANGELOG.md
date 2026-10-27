@@ -2,6 +2,30 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.8.0] · 2026-10-22 · Del filtro a la entrevista
+
+### Añadido
+- **Oferta (lector de ofertas).** Se pega el texto de una oferta, en español o en inglés, y Astrolabio extrae:
+  - las competencias que pide, con las expresiones literales de la oferta y ordenadas por las veces que las menciona;
+  - las tecnologías, marcos y certificaciones (más de 100 de las 13 rutas);
+  - los años de experiencia, los idiomas con su nivel y la modalidad.
+
+  Cruza las competencias con tus historias (cubierta, a medias o sin historia) y propone las cinco preguntas más probables de tu ruta. Con un puesto junior que pide tres años o más, explica cómo contar la experiencia equivalente. Todo con reglas y un léxico propio (`content/vacante.js`), sin IA ni red.
+- **Tu CV frente a la oferta:** qué palabras clave de la oferta faltan en el CV pegado y **viñetas de CV** generadas a partir de la Acción y el Resultado de cada historia (verbo de acción y cifra), con botón de copiar. Aviso explícito de que no garantiza pasar ningún filtro automático.
+- **Háblame de ti:** presentación de 60 a 90 segundos puntuada en vivo (duración, ahora, antes, por qué este puesto, una cifra y sin muletillas). Si no llega a la mitad del tiempo mínimo, la nota no pasa de 50.
+- **Preguntas difíciles** con guía de respuesta: «Háblame de ti», sobrecualificación, cambio de sector, por qué dejaste tu último trabajo, dónde te ves en cinco años y «¿tienes alguna pregunta?». La guía del hueco en el CV menciona los cuidados y la salud.
+- **Preguntas para hacer al entrevistador:** diez, con el porqué de cada una y botón para copiarlas.
+- **Traductor de experiencia:** seis sectores (hostelería, comercio, docencia, logística, sanidad y administración) con cuatro situaciones cada uno, la competencia que demuestran y cómo contarlas en una entrevista técnica. Cada una se convierte en historia con un clic.
+- Inicio enlaza las tres herramientas en «Prepárate para una oferta concreta»; también están en el lateral y en «Más» del móvil. Privacidad explica qué pasa con la oferta.
+- Pruebas: 26 de motor y contenido (`tests/vacante.test.js`), dos flujos e2e (el de la 0.8 y el del tema) y las vistas nuevas en los cuatro barridos de axe, en la prueba de inglés y en la de móvil estrecho.
+
+### Cambiado
+- **La app abre siempre en tema claro.** Antes seguía el tema del sistema y en un móvil en oscuro arrancaba en oscuro. El oscuro solo se usa si se elige con el interruptor, y se recuerda. El `<meta name="color-scheme">` pasa a `light` para que no haya un fondo oscuro antes de que cargue la app.
+- La imagen principal del README es la Forja en tema claro.
+
+### Corregido
+- Los botones de las vistas nuevas tenían un nombre accesible que no empezaba por su texto visible (WCAG 2.5.3, lo detectó axe): ahora «Escribir historia: …», «Practicar: …», etc.
+
 ## [0.7.4] · 2026-10-22 · Base para crecer
 
 ### Corregido

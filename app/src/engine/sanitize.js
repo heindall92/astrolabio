@@ -40,6 +40,8 @@ export function emptyState() {
     historialXp: {},
     historialMedia: {},
     ajustes: { sensibles: [] },
+    presentacion: { texto: '', puesto: '' },
+    vacante: null,
   };
 }
 
@@ -114,6 +116,13 @@ export function sanitizeState(raw, { competencias } = {}) {
   }
   if (raw.ajustes && typeof raw.ajustes === 'object' && Array.isArray(raw.ajustes.sensibles)) {
     out.ajustes.sensibles = raw.ajustes.sensibles.filter(s => typeof s === 'string').map(s => s.slice(0, LIMITES.sensible)).slice(0, LIMITES.sensibles);
+  }
+  if (raw.presentacion && typeof raw.presentacion === 'object') {
+    out.presentacion = { texto: str(raw.presentacion.texto, LIMITES.presentacion), puesto: str(raw.presentacion.puesto, LIMITES.puesto) };
+  }
+  // La oferta solo está aquí si la persona pidió recordarla.
+  if (raw.vacante && typeof raw.vacante === 'object' && typeof raw.vacante.texto === 'string' && raw.vacante.texto.trim()) {
+    out.vacante = { texto: str(raw.vacante.texto, LIMITES.oferta), cv: str(raw.vacante.cv, LIMITES.cv), fecha: date(raw.vacante.fecha) };
   }
   return out;
 }

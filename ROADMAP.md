@@ -433,12 +433,13 @@ Una **PR por versión**: rama `version/X.Y.Z` desde `main`, con las pruebas y ax
 
 ### v0.8.0 · Del filtro a la entrevista
 Responde a lo que más se ha comentado del lanzamiento: el CV que no pasa el filtro automático y la persona que no sabe traducir su experiencia.
-- [ ] **Lector de ofertas.** Se pega el texto de una oferta y Astrolabio, con un léxico local por ruta y sin IA, extrae competencias, tecnologías y requisitos; los cruza con las historias propias (cubiertas, a medias o sin historia) y propone las cinco preguntas más probables. El texto de la oferta no se guarda salvo que se pida.
-- [ ] **De la historia al CV.** Cada historia genera dos o tres viñetas de CV (verbo de acción, qué hiciste y cifra) y se comprueba qué palabras clave de la oferta faltan en el CV pegado. El aviso es explícito: ayuda a no quedar fuera por una palabra, no garantiza pasar ningún filtro.
-- [ ] **«Háblame de ti».** Constructor de la presentación de 60 a 90 segundos (presente, pasado y por qué este puesto) con su propio analizador: duración, una cifra, el vínculo con la oferta y sin repetir el CV línea a línea. Es la primera pregunta de casi todas las entrevistas y hoy no está.
-- [ ] **Preguntas difíciles para quien cambia de etapa**, con guía de respuesta como las trampa actuales: «¿no estás sobrecualificado?», «¿por qué cambias de sector ahora?», «¿por qué dejaste tu último trabajo?», un periodo dedicado a cuidados, «¿dónde te ves en cinco años?» y «¿tienes alguna pregunta para nosotros?» (con un banco de preguntas para hacer al entrevistador).
-- [ ] **Traductor de experiencia** en la ruta Cambio de carrera: de hostelería, comercio, docencia, logística o sanidad a las 12 competencias, con ejemplos de cómo contarlo en una entrevista técnica.
-- **Hecho cuando:** pruebas del léxico (cada término con su competencia, sin duplicados, ES y EN), e2e de oferta → cobertura → preguntas → viñetas, axe en las vistas nuevas y una oferta real anonimizada por ruta en `tests/fixtures/`.
+- [x] **Lector de ofertas.** Se pega el texto de una oferta y Astrolabio, con un léxico local por ruta y sin IA, extrae competencias, tecnologías y requisitos; los cruza con las historias propias (cubiertas, a medias o sin historia) y propone las cinco preguntas más probables. El texto de la oferta no se guarda salvo que se pida.
+- [x] **De la historia al CV.** Cada historia genera dos o tres viñetas de CV (verbo de acción, qué hiciste y cifra) y se comprueba qué palabras clave de la oferta faltan en el CV pegado. El aviso es explícito: ayuda a no quedar fuera por una palabra, no garantiza pasar ningún filtro.
+- [x] **«Háblame de ti».** Constructor de la presentación de 60 a 90 segundos (presente, pasado y por qué este puesto) con su propio analizador: duración, una cifra, el vínculo con la oferta y sin repetir el CV línea a línea. Es la primera pregunta de casi todas las entrevistas y hoy no está.
+- [x] **Preguntas difíciles para quien cambia de etapa**, con guía de respuesta como las trampa actuales: «¿no estás sobrecualificado?», «¿por qué cambias de sector ahora?», «¿por qué dejaste tu último trabajo?», un periodo dedicado a cuidados, «¿dónde te ves en cinco años?» y «¿tienes alguna pregunta para nosotros?» (con un banco de preguntas para hacer al entrevistador).
+- [x] **Traductor de experiencia** en la ruta Cambio de carrera: de hostelería, comercio, docencia, logística o sanidad a las 12 competencias, con ejemplos de cómo contarlo en una entrevista técnica.
+- **Hecho cuando:** pruebas del léxico (cada término con su competencia, sin duplicados, ES y EN), e2e de oferta → cobertura → preguntas → viñetas, axe en las vistas nuevas y ofertas de ejemplo en `tests/fixtures/`. *Hecho con tres ofertas de ejemplo (SOC, GRC en banca y cloud en inglés); queda pendiente reunir una oferta real anonimizada por ruta con la revisión de la 1.0.*
+- [x] La app abre siempre en tema claro; el oscuro solo si se elige.
 
 ### v0.9.0 · Ensayar como en la entrevista real
 - [ ] **Grabadora local** en el modo en voz alta: el audio se graba con el micrófono, se queda en memoria y se puede escuchar y borrar; nunca se sube ni se guarda sin pedirlo. Cronómetro, ritmo estimado y la autoevaluación actual sobre la grabación.
@@ -572,7 +573,7 @@ Astrolabio no tiene analítica y no la va a tener. Las señales son públicas o 
 ### Objetivos
 | Hito | Objetivo |
 |---|---|
-| 0.8.0 | Lector de ofertas, viñetas de CV y «Háblame de ti» publicados; segundo post |
+| 0.8.0 | Lector de ofertas, viñetas de CV y «Háblame de ti» publicados (hecho); segundo post |
 | 1.0.0 | 7 personas reales han revisado la herramienta y sus correcciones están dentro; un piloto con un programa de orientación |
 | 1.1 | El modo orientador se usa en al menos un grupo real |
 | 1.2 | Variantes de al menos tres países revisadas por personas de esos países |

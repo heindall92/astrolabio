@@ -13,13 +13,14 @@ const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
 // Orden de concatenación: dependencias primero.
 const JS = [
   'src/i18n/es.js', 'src/i18n/en.js',
-  'src/content/lexico/es.js', 'src/content/lexico/en.js',
+  'src/content/lexico/es.js', 'src/content/lexico/en.js', 'src/content/vacante.js',
   'src/content/competencias.js', 'src/content/recruiters.js', 'src/content/comunes.js',
   'src/content/roles/red.js', 'src/content/roles/blue.js', 'src/content/roles/grc.js', 'src/content/roles/data.js', 'src/content/roles/cloud.js', 'src/content/roles/dev.js', 'src/content/roles/appsec.js', 'src/content/roles/ia.js', 'src/content/roles/soporte.js', 'src/content/roles/pm.js', 'src/content/roles/ux.js', 'src/content/roles/preventa.js', 'src/content/roles/cambio.js',
-  'src/content/roles/index.js', 'src/content/insignias.js',
+  'src/content/roles/index.js', 'src/content/insignias.js', 'src/content/traductor.js',
   'src/engine/constants.js', 'src/engine/analyzer.js', 'src/engine/score.js', 'src/engine/sanitize.js',
+  'src/engine/vacante.js', 'src/engine/cv.js', 'src/engine/presentacion.js',
   'src/engine/arena.js', 'src/engine/progress.js',
-  'src/ui/core.js', 'src/ui/sound.js', 'src/ui/shell.js', 'src/ui/perfil.js', 'src/ui/inicio.js', 'src/ui/forja.js',
+  'src/ui/core.js', 'src/ui/sound.js', 'src/ui/shell.js', 'src/ui/perfil.js', 'src/ui/inicio.js', 'src/ui/forja.js', 'src/ui/vacante.js',
   'src/ui/constelacion.js', 'src/ui/arena.js', 'src/ui/progreso.js', 'src/ui/insignias.js', 'src/ui/ayuda.js',
   'src/ui/buscar.js', 'src/ui/main.js',
 ].filter(f => fs.existsSync(path.join(app, f)));
@@ -85,7 +86,7 @@ const head = `<meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <meta name="description" content="Astrolabio: prepara entrevistas con el método STAR. Gratis, de código abierto y sin que tus historias salgan del navegador.">
 <meta name="author" content="Yoandy Ramírez Delgado">
 <title>Astrolabio · Cuenta tu historia. Gana la entrevista.</title>

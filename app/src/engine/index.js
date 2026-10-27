@@ -5,3 +5,6 @@ export * from './score.js';
 export * from './sanitize.js';
 export * from './arena.js';
 export * from './progress.js';
+export * from './vacante.js';
+export * from './cv.js';
+export * from './presentacion.js';
