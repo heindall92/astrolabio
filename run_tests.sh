@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 echo "== build" && node app/build.js
 echo "== dist al día" && node app/build.js --check
 echo "== motor, contenido e i18n" && node --test tests/*.test.js
+echo "== README al día" && python3 docs/readme.py --check
 echo "== e2e" && python3 tests/e2e_app.py
 echo "== axe" && python3 tests/a11y_app.py
 echo "Todo en verde."

@@ -28,13 +28,29 @@
 </p>
 
 <p align="center">
-  <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
+  <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión {{VERSION}} en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión {{VERSION}} publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+
+## Novedades de la 0.8 · Del filtro a la entrevista
+
+La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y preparar las preguntas que más cuestan.
+
+- **Lector de ofertas.** Pegas una oferta y ves qué competencias pide (con sus frases literales), qué tecnologías y certificaciones, cuántos años, qué idiomas y qué modalidad. Lo cruza con tus historias y te avisa si un puesto junior pide tres años o más.
+- **Tu CV frente a la oferta.** Las palabras clave que faltan en tu CV y viñetas sacadas de tus propias historias, con verbo de acción y cifra. No promete pasar ningún filtro automático.
+- **Las cinco preguntas más probables** para esa oferta, listas para practicar en la Arena o responder con una historia.
+- **«Háblame de ti».** La presentación de 60 a 90 segundos puntuada en vivo, las preguntas difíciles con su guía y diez preguntas para hacer tú al final.
+- **Traductor de experiencia.** Cómo contar en una entrevista técnica lo que aprendiste en hostelería, comercio, docencia, logística, sanidad o administración.
+- La app **abre siempre en tema claro**; el oscuro se elige con el interruptor y se recuerda.
+
+<p align="center">
+  <img src="docs/img/vacante-light.png" alt="Lector de ofertas: competencias que pide la oferta, cobertura con tus historias y años de experiencia" width="880"/>
+</p>
 
 ## Índice
 
+- [Novedades de la 0.8](#novedades-de-la-08--del-filtro-a-la-entrevista)
 - [Cómo se usa](#cómo-se-usa)
 - [Mapa mental](#mapa-mental)
 - [Capturas](#capturas)
@@ -43,6 +59,7 @@
 - [Arquitectura](#arquitectura)
 - [Calidad](#calidad)
 - [Seguridad y privacidad](#seguridad-y-privacidad)
+- [Lo siguiente](#lo-siguiente)
 - [Historial de versiones](#historial-de-versiones)
 - [Contribuidores](#contribuidores)
 - [Licencia y aviso de independencia](#licencia-y-aviso-de-independencia)
@@ -54,6 +71,12 @@
 3. **Constelación.** Cada historia es una estrella y cada competencia, una constelación: se ve al momento qué te falta.
 4. **Arena.** Duelos contra recruiters con carácter que repreguntan según lo que falte en tu respuesta.
 5. **Informe.** Qué funcionó, qué faltó, la frase que conviene reescribir y la historia que mejor encaja.
+
+Y para una oferta concreta:
+
+- **Oferta.** Pegas el texto de una oferta y Astrolabio saca las competencias, tecnologías, años de experiencia, idiomas y modalidad que pide. Lo cruza con tus historias (cubierta, a medias o sin historia), te da las cinco preguntas más probables, compara tu CV con las palabras clave de la oferta y genera viñetas de CV a partir de tus historias. Sin IA: reglas y un léxico propio en español e inglés. La oferta no se guarda salvo que lo pidas.
+- **Háblame de ti.** La presentación de 60 a 90 segundos, puntuada en vivo: ahora, antes (con una cifra) y por qué este puesto. Junto a ella, las preguntas difíciles con su guía (sobrecualificación, cambio de sector, por qué dejaste tu trabajo, dónde te ves en cinco años) y diez preguntas para hacer tú al final.
+- **Traductor.** Si vienes de hostelería, comercio, docencia, logística, sanidad o administración, cómo contar lo que ya sabes hacer en una entrevista técnica, con un botón para convertirlo en historia.
 
 > «No estás solo. Tu experiencia vale aunque venga de unas prácticas, un CTF, un máster, un voluntariado o un trabajo de hostelería. Aquí aprendes a contarla».
 
@@ -179,7 +202,13 @@ flowchart LR
 - Sin servidor, sin cuentas, sin analítica. CSP con `connect-src 'none'`: la app no puede hacer peticiones.
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
+- El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
+
+## Lo siguiente
+
+- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
+- **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
 
 ## Historial de versiones
 

@@ -1,12 +1,14 @@
 """Genera README.md con cifras reales (pruebas, preguntas, insignias…) sacadas del propio código.
-Ejecuta: python3 docs/readme.py"""
+Ejecuta: python3 docs/readme.py
+Con --check no escribe nada: falla si README.md no coincide con lo que generaría (lo usa run_tests.sh)."""
 import json
 import pathlib
 import re
 import subprocess
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXTRA_ROWS = ['constelacion', 'arena', 'progreso', 'insignias']  # secciones con capturas ya terminadas
+EXTRA_ROWS = ['constelacion', 'arena', 'progreso', 'vacante', 'presentacion', 'traductor', 'insignias']  # secciones con capturas ya terminadas
 TPL = (ROOT / 'docs' / 'README.template.md').read_text(encoding='utf-8')
 
 
@@ -69,17 +71,34 @@ HIST = [
     ('0.7.3', 'Logo: borde fino del bocadillo en el tema oscuro'),
     ('0.7.2', 'Logo: la estrella vuelve a verse en todas las copias, también en el móvil'),
     ('0.7.1', 'Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes'),
+    ('0.7.4', '`npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento'),
+    ('0.8.0', 'Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro'),
+    ('0.8.1', 'README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día'),
 ]
 FILAS = []
-for name, label in [('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('insignias', 'Insignias')]:
+ALT_CLARO = {
+    'vacante': 'Lector de ofertas: competencias, cobertura con tus historias y años que pide',
+    'presentacion': 'Presentación Háblame de ti con puntuación en vivo',
+    'traductor': 'Traductor de experiencia por sector',
+}
+for name, label in [('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('vacante', 'Oferta'),
+                    ('presentacion', 'Háblame de ti'), ('traductor', 'Traductor'), ('insignias', 'Insignias')]:
     if (ROOT / 'docs/img' / f'{name}-light.png').exists() and name in EXTRA_ROWS:
-        FILAS.append(f'| **{label}** | <img src="docs/img/{name}-light.png" width="300" alt="{label}, tema claro"/> | <img src="docs/img/{name}-dark.png" width="300" alt="{label}, tema oscuro"/> | <img src="docs/img/{name}-movil.png" width="140" alt="{label} en móvil"/> |\n')
+        alt = ALT_CLARO.get(name, label)
+        FILAS.append(f'| **{label}** | <img src="docs/img/{name}-light.png" width="300" alt="{alt}, tema claro"/> | <img src="docs/img/{name}-dark.png" width="300" alt="{label}, tema oscuro"/> | <img src="docs/img/{name}-movil.png" width="140" alt="{label} en móvil"/> |\n')
 vals['FILAS_EXTRA'] = ''.join(FILAS)
-vals['HISTORIAL'] = '\n'.join(f'- **{v}** · {d}' for v, d in reversed(HIST))
+# Orden por número de versión, de la más reciente a la más antigua (la lista puede estar desordenada).
+HIST.sort(key=lambda x: tuple(int(n) for n in x[0].split('.')), reverse=True)
+vals['HISTORIAL'] = '\n'.join(f'- **{v}** · {d}' for v, d in HIST)
 out = TPL
 for k, v in vals.items():
     out = out.replace('{{' + k + '}}', str(v))
 left = re.findall(r'\{\{\w+\}\}', out)
 assert not left, left
-(ROOT / 'README.md').write_text(out, encoding='utf-8')
-print(json.dumps(vals, ensure_ascii=False))
+if '--check' in sys.argv:
+    if (ROOT / 'README.md').read_text(encoding='utf-8') != out:
+        raise SystemExit('README.md no está al día: ejecuta python3 docs/readme.py y sube el resultado.')
+    print('README.md al día.')
+else:
+    (ROOT / 'README.md').write_text(out, encoding='utf-8')
+    print(json.dumps(vals, ensure_ascii=False))

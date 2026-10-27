@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.8.0" src="https://img.shields.io/badge/versi%C3%B3n-0.8.0-1a4fe0?style=flat"/>
+  <img alt="Versión 0.8.1" src="https://img.shields.io/badge/versi%C3%B3n-0.8.1-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -31,10 +31,26 @@
   <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.8.0 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.8.1 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+
+## Novedades de la 0.8 · Del filtro a la entrevista
+
+La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y preparar las preguntas que más cuestan.
+
+- **Lector de ofertas.** Pegas una oferta y ves qué competencias pide (con sus frases literales), qué tecnologías y certificaciones, cuántos años, qué idiomas y qué modalidad. Lo cruza con tus historias y te avisa si un puesto junior pide tres años o más.
+- **Tu CV frente a la oferta.** Las palabras clave que faltan en tu CV y viñetas sacadas de tus propias historias, con verbo de acción y cifra. No promete pasar ningún filtro automático.
+- **Las cinco preguntas más probables** para esa oferta, listas para practicar en la Arena o responder con una historia.
+- **«Háblame de ti».** La presentación de 60 a 90 segundos puntuada en vivo, las preguntas difíciles con su guía y diez preguntas para hacer tú al final.
+- **Traductor de experiencia.** Cómo contar en una entrevista técnica lo que aprendiste en hostelería, comercio, docencia, logística, sanidad o administración.
+- La app **abre siempre en tema claro**; el oscuro se elige con el interruptor y se recuerda.
+
+<p align="center">
+  <img src="docs/img/vacante-light.png" alt="Lector de ofertas: competencias que pide la oferta, cobertura con tus historias y años de experiencia" width="880"/>
+</p>
 
 ## Índice
 
+- [Novedades de la 0.8](#novedades-de-la-08--del-filtro-a-la-entrevista)
 - [Cómo se usa](#cómo-se-usa)
 - [Mapa mental](#mapa-mental)
 - [Capturas](#capturas)
@@ -43,6 +59,7 @@
 - [Arquitectura](#arquitectura)
 - [Calidad](#calidad)
 - [Seguridad y privacidad](#seguridad-y-privacidad)
+- [Lo siguiente](#lo-siguiente)
 - [Historial de versiones](#historial-de-versiones)
 - [Contribuidores](#contribuidores)
 - [Licencia y aviso de independencia](#licencia-y-aviso-de-independencia)
@@ -113,9 +130,9 @@ flowchart LR
 | **Constelación** | <img src="docs/img/constelacion-light.png" width="300" alt="Constelación, tema claro"/> | <img src="docs/img/constelacion-dark.png" width="300" alt="Constelación, tema oscuro"/> | <img src="docs/img/constelacion-movil.png" width="140" alt="Constelación en móvil"/> |
 | **Arena** | <img src="docs/img/arena-light.png" width="300" alt="Arena, tema claro"/> | <img src="docs/img/arena-dark.png" width="300" alt="Arena, tema oscuro"/> | <img src="docs/img/arena-movil.png" width="140" alt="Arena en móvil"/> |
 | **Progreso** | <img src="docs/img/progreso-light.png" width="300" alt="Progreso, tema claro"/> | <img src="docs/img/progreso-dark.png" width="300" alt="Progreso, tema oscuro"/> | <img src="docs/img/progreso-movil.png" width="140" alt="Progreso en móvil"/> |
-| **Oferta** | <img src="docs/img/vacante-light.png" width="300" alt="Lector de ofertas: competencias, cobertura con tus historias y años que pide, tema claro"/> | <img src="docs/img/vacante-dark.png" width="300" alt="Lector de ofertas, tema oscuro"/> | <img src="docs/img/vacante-movil.png" width="140" alt="Lector de ofertas en móvil"/> |
+| **Oferta** | <img src="docs/img/vacante-light.png" width="300" alt="Lector de ofertas: competencias, cobertura con tus historias y años que pide, tema claro"/> | <img src="docs/img/vacante-dark.png" width="300" alt="Oferta, tema oscuro"/> | <img src="docs/img/vacante-movil.png" width="140" alt="Oferta en móvil"/> |
 | **Háblame de ti** | <img src="docs/img/presentacion-light.png" width="300" alt="Presentación Háblame de ti con puntuación en vivo, tema claro"/> | <img src="docs/img/presentacion-dark.png" width="300" alt="Háblame de ti, tema oscuro"/> | <img src="docs/img/presentacion-movil.png" width="140" alt="Háblame de ti en móvil"/> |
-| **Traductor** | <img src="docs/img/traductor-light.png" width="300" alt="Traductor de experiencia por sector, tema claro"/> | <img src="docs/img/traductor-dark.png" width="300" alt="Traductor de experiencia, tema oscuro"/> | <img src="docs/img/traductor-movil.png" width="140" alt="Traductor en móvil"/> |
+| **Traductor** | <img src="docs/img/traductor-light.png" width="300" alt="Traductor de experiencia por sector, tema claro"/> | <img src="docs/img/traductor-dark.png" width="300" alt="Traductor, tema oscuro"/> | <img src="docs/img/traductor-movil.png" width="140" alt="Traductor en móvil"/> |
 | **Insignias** | <img src="docs/img/insignias-light.png" width="300" alt="Insignias, tema claro"/> | <img src="docs/img/insignias-dark.png" width="300" alt="Insignias, tema oscuro"/> | <img src="docs/img/insignias-movil.png" width="140" alt="Insignias en móvil"/> |
 | **Perfil** | <img src="docs/img/perfil-light.png" width="300" alt="Perfil, tema claro"/> | <img src="docs/img/perfil-dark.png" width="300" alt="Perfil, tema oscuro"/> | <img src="docs/img/perfil-movil.png" width="140" alt="Perfil en móvil"/> |
 | **Ayuda · Método** | <img src="docs/img/ayuda-light.png" width="300" alt="Centro de ayuda, pestaña Método STAR, tema claro"/> | <img src="docs/img/ayuda-dark.png" width="300" alt="Centro de ayuda, tema oscuro"/> | <img src="docs/img/ayuda-movil.png" width="140" alt="Centro de ayuda en móvil"/> |
@@ -168,7 +185,7 @@ flowchart LR
     CONT[content: competencias, recruiters, preguntas, léxico] --> ENG
     ENG[engine: analyzer, score, sanitize…<br/>puro y sin DOM] --> UI[ui: shell, perfil, forja, ayuda…]
   end
-  V[vendor: Geist, Sora, 106 iconos Lucide, logo] --> B
+  V[vendor: Geist, Sora, 119 iconos Lucide, logo] --> B
   src --> B[app/build.js]
   B --> D[dist/index.html<br/>CSP por hashes]
   B --> A[dist/artifact/astrolabio.html]
@@ -202,11 +219,12 @@ flowchart LR
 
 ## Historial de versiones
 
-- **0.7.1** · Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes
-- **0.7.2** · Logo: la estrella vuelve a verse en todas las copias, también en el móvil
-- **0.7.3** · Logo: borde fino del bocadillo en el tema oscuro
-- **0.7.4** · `npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento
+- **0.8.1** · README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día
 - **0.8.0** · Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro
+- **0.7.4** · `npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento
+- **0.7.3** · Logo: borde fino del bocadillo en el tema oscuro
+- **0.7.2** · Logo: la estrella vuelve a verse en todas las copias, también en el móvil
+- **0.7.1** · Móvil estrecho: barra superior que cabe con cifras grandes, idioma en «Más» y rejillas sin desbordes
 - **0.7.0** · Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera
 - **0.6.0** · Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML
 - **0.5.0** · Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»
