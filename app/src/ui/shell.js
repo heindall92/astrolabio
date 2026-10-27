@@ -5,10 +5,12 @@ const ROUTES = [
   { id: 'forja', ic: 'hammer' },
   { id: 'constelacion', ic: 'sparkles' },
   { id: 'arena', ic: 'swords' },
+  { id: 'vacante', ic: 'scan-search' },
+  { id: 'presentacion', ic: 'mic' },
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta', 'traductor'];
 const VIEWS = {};
 
 function parseHash() {
@@ -224,6 +226,9 @@ function fillMore() {
     dlgHead('more-h', t('nav.mas'), dlg),
     h('div', { class: 'dlg-b' },
       h('div', { class: 'more-list' },
+        link('#vacante', 'scan-search', t('nav.vacante')),
+        link('#presentacion', 'mic', t('nav.presentacion')),
+        link('#traductor', 'arrow-left-right', t('nav.traductor')),
         link('#progreso', 'chart-column', t('nav.progreso')),
         link('#insignias', 'award', t('nav.insignias')),
         link('#perfil', 'user-round', t('nav.perfil')),
@@ -288,7 +293,8 @@ function initShell() {
   wireDialog($('#dlg-more'));
   wireDialog($('#dlg-misc'));
   const savedTheme = lsGet(KEY.tema);
-  setTheme(savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'), { animate: false });
+  // Siempre en claro salvo que la persona haya elegido el oscuro con el interruptor.
+  setTheme(savedTheme === 'dark' ? 'dark' : 'light', { animate: false });
   setAccent(lsGet(KEY.acento) || 'azul');
   if (lsGet(KEY.lateral) === 'oculto') $('#app').classList.add('collapsed');
   $('#theme-btn').addEventListener('click', () => { const n = currentTheme() === 'dark' ? 'light' : 'dark'; setTheme(n); lsSet(KEY.tema, n); });

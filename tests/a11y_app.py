@@ -7,7 +7,7 @@ from helpers import axe, fresh, check, goto, new_page, run, settle  # noqa: E402
 from e2e_app import BUENA, state  # noqa: E402
 
 MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
-ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias']
+ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias', 'vacante', 'presentacion', 'traductor']
 def _arena_lobby(pg):
     goto(pg, 'arena')
 
@@ -86,6 +86,27 @@ EXTRA_STEPS = [('arena', _arena_lobby), ('arena-duelo', _arena_duelo), ('arena-r
                ('arena-informe', _arena_informe), ('arena-voz', _arena_voz), ('arena-contrarreloj', _arena_reloj),
                ('oferta', _oferta), ('progreso-datos', _progreso), ('insignias', _insignias),
                ('chuleta', _chuleta), ('arena-ingles', _arena_en), ('acerca', _acerca)]
+
+
+def _vacante(pg):
+    pg.evaluate("document.querySelectorAll('dialog[open]').forEach(d => d.close())")
+    goto(pg, 'vacante')
+    pg.click('#vac-ejemplo')
+    pg.fill('#vac-cv', 'Analista con Splunk y Linux.')
+    pg.click('#vac-comparar')
+    settle(pg)
+
+
+def _presentacion(pg):
+    pg.evaluate("document.querySelectorAll('dialog[open]').forEach(d => d.close())")
+    goto(pg, 'presentacion')
+    pg.fill('#pres-texto', 'Actualmente estudio un máster. Antes trabajé 8 años en hostelería. Busco este puesto.')
+    for el in pg.locator('#dificiles details').all()[:2]:
+        el.click()
+    settle(pg)
+
+
+EXTRA_STEPS += [('vacante-resultado', _vacante), ('presentacion-escrita', _presentacion)]
 
 
 def sweep(theme, width):

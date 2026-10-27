@@ -89,7 +89,7 @@ VIEWS.perfil = (view) => {
 
 VIEWS.privacidad = (view) => {
   viewHead(view, { eyebrow: t('nav.privacidad'), title: t('priv.titulo'), lede: t('priv.lede') });
-  const items = ['local', 'red', 'cuentas', 'csp', 'voz', 'borrar', 'export'];
-  view.append(stagger(h('div', { class: 'grid two' }, items.map(k => h('div', { class: 'card' }, h('div', { class: 'row' }, icon({ local: 'lock', red: 'shield-check', cuentas: 'user-round', csp: 'shield-half', voz: 'mic', borrar: 'trash-2', export: 'download' }[k]), h('h2', { text: t('priv.' + k + '.t') })), h('p', { class: 'muted', text: t('priv.' + k + '.d') }))))));
+  const items = ['local', 'red', 'cuentas', 'csp', 'voz', 'oferta', 'borrar', 'export'];
+  view.append(stagger(h('div', { class: 'grid two' }, items.map(k => h('div', { class: 'card' }, h('div', { class: 'row' }, icon({ local: 'lock', red: 'shield-check', cuentas: 'user-round', csp: 'shield-half', voz: 'mic', oferta: 'scan-search', borrar: 'trash-2', export: 'download' }[k]), h('h2', { text: t('priv.' + k + '.t') })), h('p', { class: 'muted', text: t('priv.' + k + '.d') }))))));
   if (!UI.state.perfil) view.append(h('div', null, h('a', { class: 'btn primary', href: '#inicio' }, t('wizard.empezar'), icon('arrow-right'))));
 };

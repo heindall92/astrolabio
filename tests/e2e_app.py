@@ -221,8 +221,11 @@ def t_export_import(browser):
 def t_english(browser):
     en_story = story('h_en', 'The night alert', 'I was on a night shift in a bank SOC.', 'I had to triage the queue.', 'I triaged, isolated and blocked the session.', 'Contained in 18 minutes.')
     pg = new_page(browser, state=state(historias=[en_story]), lang='en')
-    for route in ['inicio', 'forja', 'forja/h_en', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias']:
+    for route in ['inicio', 'forja', 'forja/h_en', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias', 'vacante', 'presentacion', 'traductor']:
         goto(pg, route)
+        if route == 'vacante':
+            pg.click('#vac-ejemplo')
+            settle(pg)
         txt = pg.inner_text('body')
         m = SPANISH.search(txt)
         check(not m, f'resto en español en #{route}: «{m.group(0) if m else ""}» … {txt[max(0, (m.start() if m else 0) - 60):(m.end() if m else 0) + 40]!r}')
@@ -538,7 +541,7 @@ def t_mobile_estrecho(browser):
     st = state(historias=[BUENA], xp=12340, racha=128)
     for w in (320, 360, 390):
         pg = new_page(browser, width=w, height=760, state=st)
-        for route in ['', 'forja', 'forja/' + BUENA['id'], 'constelacion', 'arena', 'perfil', 'progreso', 'insignias']:
+        for route in ['', 'forja', 'forja/' + BUENA['id'], 'constelacion', 'arena', 'perfil', 'progreso', 'insignias', 'vacante', 'presentacion', 'traductor']:
             goto(pg, route)
             r = pg.evaluate("""(() => { const tb = document.getElementById('topbar').getBoundingClientRect();
               const fuera = [...document.querySelectorAll('#topbar > *')].filter(e => e.offsetParent)
@@ -599,8 +602,96 @@ def t_logo(browser):
             no_errors(pg, 'logo')
 
 
+def t_tema_claro(browser):
+    """Sin elección guardada, Astrolabio abre siempre en claro, aunque el sistema esté en oscuro."""
+    ctx = browser.new_context(viewport={'width': 1280, 'height': 860}, color_scheme='dark')
+    pg = ctx.new_page()
+    pg.errors = []
+    pg.on('pageerror', lambda e: pg.errors.append(str(e)))
+    pg.add_init_script('(() => { try { if (!localStorage.getItem("__seed")) { localStorage.setItem("astrolabio-estado", %s); localStorage.setItem("__seed", "1"); } } catch (e) {} })()' % json.dumps(json.dumps(state())))
+    goto(pg)
+    check(pg.evaluate('document.documentElement.dataset.theme') == 'light', 'con el sistema en oscuro debe abrir en claro')
+    check(pg.evaluate('getComputedStyle(document.body).backgroundColor') == 'rgb(243, 245, 247)', 'fondo claro')
+    pg.click('#theme-btn')
+    check(pg.evaluate('document.documentElement.dataset.theme') == 'dark', 'el interruptor cambia a oscuro')
+    fresh(pg)
+    check(pg.evaluate('document.documentElement.dataset.theme') == 'dark', 'el oscuro elegido se recuerda')
+    pg.click('#theme-btn')
+    fresh(pg)
+    check(pg.evaluate('document.documentElement.dataset.theme') == 'light', 'y el claro elegido también')
+    check(not pg.errors, 'errores: %s' % pg.errors)
+    ctx.close()
+
+
+PITCH = ('Actualmente estoy terminando un máster en ciberseguridad y practico cada semana en laboratorios de análisis de alertas, donde he resuelto más de 40 casos. '
+         'Antes trabajé ocho años en hostelería: coordiné un equipo de seis personas en temporada alta, formé a la gente nueva y aprendí a mantener la calma con el local lleno y los clientes esperando. '
+         'Esa experiencia me dio una forma de trabajar que ahora aplico en seguridad: priorizar rápido, comunicar con claridad y no perder el detalle cuando hay presión. '
+         'En el máster monté un pequeño SOC con Wazuh, escribí reglas de detección y documenté cada incidente como si fuera para un cliente real, con su cronología, las evidencias y las recomendaciones para que no se repitiera. '
+         'También preparé una guía de respuesta para ataques de phishing que usaron mis compañeros de promoción. '
+         'Busco este puesto porque quiero aportar esa calma y esa forma de trabajar a vuestro equipo de monitorización, y seguir aprendiendo de personas con más experiencia que yo en un entorno real.')
+
+
+def t_oferta_presentacion(browser):
+    """0.8: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles y traductor, sin red."""
+    pg = new_page(browser, state=state(historias=[BUENA]))
+    goto(pg, 'vacante')
+    pg.click('#vac-analizar')
+    check(pg.locator('#vac-res li').count() == 0, 'sin texto no analiza')
+    pg.click('#vac-ejemplo')
+    settle(pg)
+    check(pg.evaluate('document.activeElement.id') == 'vac-res-h', 'el foco va al resultado')
+    comps = pg.locator('#vac-comp > li')
+    check(comps.count() >= 6, 'competencias detectadas: %d' % comps.count())
+    check(pg.locator('#vac-comp > li[data-comp="presion"][data-cov="cubierta"]').count() == 1, 'presión cubierta por la historia')
+    check(pg.locator('#vac-comp > li[data-cov="sin"]').count() >= 3, 'competencias sin historia')
+    check(pg.locator('#vac-junior').is_visible(), 'aviso de años para un puesto junior')
+    check('Splunk' in pg.inner_text('#vac-tec') and 'MITRE ATT&CK' in pg.inner_text('#vac-tec'), 'tecnologías')
+    check(pg.locator('#vac-preguntas > li').count() == 5, 'cinco preguntas probables')
+    check(pg.locator('#vac-vinetas .cv-card').count() == 1, 'viñetas de la historia que cubre la oferta')
+    check(pg.locator('#vac-vinetas .bullets li').count() == 3, 'dos acciones y un resultado')
+    pg.fill('#vac-cv', 'Analista junior con Splunk, Linux y redes. Trabajo en equipo. eJPT.')
+    pg.click('#vac-comparar')
+    check('Splunk' in pg.inner_text('#vac-presentes') and 'QRadar' in pg.inner_text('#vac-faltan'), 'palabras clave del CV')
+    # Sin «Recordar», la oferta no se guarda.
+    check(pg.evaluate('JSON.parse(localStorage.getItem("astrolabio-estado")).vacante') is None, 'la oferta no se guarda sin pedirlo')
+    fresh(pg, 'vacante')
+    check(pg.input_value('#vac-texto') == '', 'sin recordar, al volver a abrir no queda la oferta')
+    pg.click('#vac-ejemplo')
+    pg.check('#vac-recordar')
+    fresh(pg, 'vacante')
+    check('Analista SOC' in pg.input_value('#vac-texto') and pg.locator('#vac-comp > li').count() >= 6, 'oferta recordada y analizada al volver')
+    pg.uncheck('#vac-recordar')
+    check(pg.evaluate('JSON.parse(localStorage.getItem("astrolabio-estado")).vacante') is None, 'al desmarcar se borra')
+    pg.locator('#vac-comp > li[data-cov="sin"] button').first.click()
+    pg.wait_for_function('() => document.body.dataset.route === "forja/nueva"')
+    check(pg.locator('#story-form input[type=checkbox]:checked').count() == 1, 'escribir historia precarga la competencia')
+    # «Háblame de ti»
+    goto(pg, 'presentacion')
+    pg.fill('#pres-texto', 'Actualmente soy técnico. Antes estudié.')
+    check(int(pg.inner_text('#pres-total')) <= 50, 'una presentación muy corta no pasa del tope')
+    pg.fill('#pres-texto', PITCH)
+    check(pg.inner_text('#pres-total') == '100', 'presentación completa: %s' % pg.inner_text('#pres-total'))
+    pg.click('#pres-guardar')
+    fresh(pg, 'presentacion')
+    check(pg.input_value('#pres-texto') == PITCH, 'la presentación se guarda')
+    check(pg.locator('#dificiles .qlist > li').count() >= 9, 'preguntas difíciles')
+    check(pg.locator('#preguntas-tu .qlist > li').count() >= 10, 'preguntas para el entrevistador')
+    pg.locator('#dificiles details').first.click()
+    # Traductor
+    pg.click('#ir-traductor')
+    pg.wait_for_function('() => document.body.dataset.route === "traductor"')
+    check(pg.locator('#trad-sectores label.choice').count() == 6, 'seis sectores')
+    pg.click('label.choice:has(input[value=sanidad])')
+    check('Sanidad' in pg.inner_text('#trad-h'), 'cambia de sector')
+    pg.locator('#trad-lista button').first.click()
+    pg.wait_for_function('() => document.body.dataset.route === "forja/nueva"')
+    check('urgencia' in pg.input_value('#f-s'), 'la situación se precarga en la historia')
+    no_errors(pg, 'oferta y presentación')
+
+
 TESTS = [
     ('logo con la estrella visible', t_logo),
+    ('abre siempre en claro aunque el sistema esté en oscuro', t_tema_claro),
     ('CSP, fuentes y cero red', t_csp),
     ('asistente de perfil en 3 pasos', t_wizard),
     ('crear, puntuar, editar, recargar y borrar historia', t_story_crud),
@@ -621,7 +712,7 @@ TESTS = [
     ('entrevista en inglés, chuleta y ecosistema', t_ingles_chuleta),
     ('chuleta vacía', t_chuleta_vacia),
     ('rutas v1.x y v2.x con contenido propio', t_rutas_nuevas),
-    ('móvil estrecho: 320–390 px con cifras grandes, idioma en Más', t_mobile_estrecho),
+    ('0.8: lector de ofertas, CV, «Háblame de ti» y traductor', t_oferta_presentacion),
 ]
 
 if __name__ == '__main__':

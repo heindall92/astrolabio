@@ -168,8 +168,8 @@ button.navlike:hover { background: var(--s2); color: var(--ink); }
 
 /* ============ Tarjetas ============ */
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
-.grid#kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* 4 cifras en una fila; 2 × 2 en pantallas medianas */
-@media (max-width: 1100px) { .grid#kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.grid#kpis, .grid#vac-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* 4 cifras en una fila; 2 × 2 en pantallas medianas */
+@media (max-width: 1100px) { .grid#kpis, .grid#vac-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .grid.two { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
 .card { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; box-shadow: var(--shadow); min-width: 0; }
 .card.link { display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--ink); cursor: pointer; text-align: left; transition: transform .16s var(--ease-out), border-color .16s; }
@@ -501,3 +501,11 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
 
 /* Logo: en oscuro, el bocadillo (#0B1024) se perdía sobre el fondo casi negro; borde fino y discreto. */
 :root[data-theme="dark"] .am-b { stroke: rgb(255 255 255 / .28); stroke-width: 1.25px; vector-effect: non-scaling-stroke; }
+
+/* 0.8 · Lector de ofertas: viñetas de CV */
+.cv-card { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: var(--r); background: var(--s2); border: 1px solid var(--line); min-width: 0; }
+.bullets { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.bullets li { overflow-wrap: anywhere; }
+.bullets li.resultado::marker { color: var(--accent); }
+#vac-res-h:focus { outline: none; }
+#vac-res-h:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }

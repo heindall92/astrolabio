@@ -49,6 +49,23 @@ for extra in ['progreso', 'insignias']:
     SECTIONS.append((extra, extra, None))
 
 
+def _vacante(pg):
+    pg.click('#vac-ejemplo')
+    pg.evaluate('() => window.scrollTo(0, document.getElementById("vac-res-h").offsetTop - 104)')
+
+
+def _presentacion(pg):
+    pg.fill('#pres-texto', 'Actualmente estoy terminando un máster en ciberseguridad y practico cada semana en laboratorios de análisis de alertas, donde he resuelto más de 40 casos. '
+            'Antes trabajé ocho años en hostelería: coordiné un equipo de seis personas en temporada alta y aprendí a mantener la calma con el local lleno. '
+            'Busco este puesto porque quiero aportar esa calma a vuestro equipo de monitorización.')
+    pg.evaluate('() => window.scrollTo(0, 0)')
+
+
+SECTIONS.append(('vacante', 'vacante', _vacante))
+SECTIONS.append(('presentacion', 'presentacion', _presentacion))
+SECTIONS.append(('traductor', 'traductor', None))
+
+
 def shoot(browser, name, route, action, theme, mobile, state):
     w, hgt = (390, 844) if mobile else (1280, 820)
     pg = new_page(browser, width=w, height=hgt, theme=theme, state=state)

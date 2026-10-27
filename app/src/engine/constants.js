@@ -61,6 +61,10 @@ export const LIMITES = {
   sensibles: 30,
   sensible: 60,
   diasHistorial: 1000,
+  oferta: 20000,
+  cv: 20000,
+  presentacion: 3000,
+  puesto: 120,
 };
 
 /** Valores admitidos en el perfil. */

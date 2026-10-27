@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.7.4" src="https://img.shields.io/badge/versi%C3%B3n-0.7.4-1a4fe0?style=flat"/>
+  <img alt="Versión 0.8.0" src="https://img.shields.io/badge/versi%C3%B3n-0.8.0-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -28,10 +28,10 @@
 </p>
 
 <p align="center">
-  <img src="docs/img/forja-dark.png" alt="La Forja en tema oscuro: banco de historias STAR con su estado y su puntuación" width="880"/>
+  <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.7.4 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.8.0 en desarrollo, con la demo ya publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Índice
 
@@ -54,6 +54,12 @@
 3. **Constelación.** Cada historia es una estrella y cada competencia, una constelación: se ve al momento qué te falta.
 4. **Arena.** Duelos contra recruiters con carácter que repreguntan según lo que falte en tu respuesta.
 5. **Informe.** Qué funcionó, qué faltó, la frase que conviene reescribir y la historia que mejor encaja.
+
+Y para una oferta concreta:
+
+- **Oferta.** Pegas el texto de una oferta y Astrolabio saca las competencias, tecnologías, años de experiencia, idiomas y modalidad que pide. Lo cruza con tus historias (cubierta, a medias o sin historia), te da las cinco preguntas más probables, compara tu CV con las palabras clave de la oferta y genera viñetas de CV a partir de tus historias. Sin IA: reglas y un léxico propio en español e inglés. La oferta no se guarda salvo que lo pidas.
+- **Háblame de ti.** La presentación de 60 a 90 segundos, puntuada en vivo: ahora, antes (con una cifra) y por qué este puesto. Junto a ella, las preguntas difíciles con su guía (sobrecualificación, cambio de sector, por qué dejaste tu trabajo, dónde te ves en cinco años) y diez preguntas para hacer tú al final.
+- **Traductor.** Si vienes de hostelería, comercio, docencia, logística, sanidad o administración, cómo contar lo que ya sabes hacer en una entrevista técnica, con un botón para convertirlo en historia.
 
 > «No estás solo. Tu experiencia vale aunque venga de unas prácticas, un CTF, un máster, un voluntariado o un trabajo de hostelería. Aquí aprendes a contarla».
 
@@ -107,6 +113,9 @@ flowchart LR
 | **Constelación** | <img src="docs/img/constelacion-light.png" width="300" alt="Constelación, tema claro"/> | <img src="docs/img/constelacion-dark.png" width="300" alt="Constelación, tema oscuro"/> | <img src="docs/img/constelacion-movil.png" width="140" alt="Constelación en móvil"/> |
 | **Arena** | <img src="docs/img/arena-light.png" width="300" alt="Arena, tema claro"/> | <img src="docs/img/arena-dark.png" width="300" alt="Arena, tema oscuro"/> | <img src="docs/img/arena-movil.png" width="140" alt="Arena en móvil"/> |
 | **Progreso** | <img src="docs/img/progreso-light.png" width="300" alt="Progreso, tema claro"/> | <img src="docs/img/progreso-dark.png" width="300" alt="Progreso, tema oscuro"/> | <img src="docs/img/progreso-movil.png" width="140" alt="Progreso en móvil"/> |
+| **Oferta** | <img src="docs/img/vacante-light.png" width="300" alt="Lector de ofertas: competencias, cobertura con tus historias y años que pide, tema claro"/> | <img src="docs/img/vacante-dark.png" width="300" alt="Lector de ofertas, tema oscuro"/> | <img src="docs/img/vacante-movil.png" width="140" alt="Lector de ofertas en móvil"/> |
+| **Háblame de ti** | <img src="docs/img/presentacion-light.png" width="300" alt="Presentación Háblame de ti con puntuación en vivo, tema claro"/> | <img src="docs/img/presentacion-dark.png" width="300" alt="Háblame de ti, tema oscuro"/> | <img src="docs/img/presentacion-movil.png" width="140" alt="Háblame de ti en móvil"/> |
+| **Traductor** | <img src="docs/img/traductor-light.png" width="300" alt="Traductor de experiencia por sector, tema claro"/> | <img src="docs/img/traductor-dark.png" width="300" alt="Traductor de experiencia, tema oscuro"/> | <img src="docs/img/traductor-movil.png" width="140" alt="Traductor en móvil"/> |
 | **Insignias** | <img src="docs/img/insignias-light.png" width="300" alt="Insignias, tema claro"/> | <img src="docs/img/insignias-dark.png" width="300" alt="Insignias, tema oscuro"/> | <img src="docs/img/insignias-movil.png" width="140" alt="Insignias en móvil"/> |
 | **Perfil** | <img src="docs/img/perfil-light.png" width="300" alt="Perfil, tema claro"/> | <img src="docs/img/perfil-dark.png" width="300" alt="Perfil, tema oscuro"/> | <img src="docs/img/perfil-movil.png" width="140" alt="Perfil en móvil"/> |
 | **Ayuda · Método** | <img src="docs/img/ayuda-light.png" width="300" alt="Centro de ayuda, pestaña Método STAR, tema claro"/> | <img src="docs/img/ayuda-dark.png" width="300" alt="Centro de ayuda, tema oscuro"/> | <img src="docs/img/ayuda-movil.png" width="140" alt="Centro de ayuda en móvil"/> |
@@ -170,8 +179,8 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 138 pruebas |
-| Extremo a extremo (Playwright) | 22 flujos |
+| Motor, contenido e i18n (`node --test`) | 167 pruebas |
+| Extremo a extremo (Playwright) | 23 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -183,12 +192,12 @@ flowchart LR
 - Sin servidor, sin cuentas, sin analítica. CSP con `connect-src 'none'`: la app no puede hacer peticiones.
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
+- El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
 
 ## Lo siguiente
 
-- **0.8 · Del filtro a la entrevista:** lector de ofertas que cruza lo que pide un puesto con tus historias, viñetas de CV a partir de cada historia, la presentación «Háblame de ti» y preguntas difíciles para quien cambia de sector o tiene más de 50 años.
-- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha y repaso de las cifras clave.
+- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
 - **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
 
 ## Historial de versiones
@@ -197,6 +206,7 @@ flowchart LR
 - **0.7.2** · Logo: la estrella vuelve a verse en todas las copias, también en el móvil
 - **0.7.3** · Logo: borde fino del bocadillo en el tema oscuro
 - **0.7.4** · `npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento
+- **0.8.0** · Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro
 - **0.7.0** · Rutas Soporte IT, Proyectos y Agile, UX/UI, Preventa técnica y Cambio de carrera
 - **0.6.0** · Rutas Sistemas y Cloud, Desarrollo, AppSec y DevSecOps, e IA y ML
 - **0.5.0** · Analizador en inglés con detección de idioma, entrevista en inglés, chuleta imprimible y ecosistema en «Acerca de»
