@@ -127,8 +127,13 @@ kbd { font: 500 .75rem var(--f-mono); padding: 1px 6px; border-radius: 6px; bord
 .nav { display: flex; flex-direction: column; gap: 2px; }
 .nav a { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: transform .16s var(--ease-out), background-color .16s, color .16s; }
 .nav a:hover { background: var(--s2); color: var(--ink); }
-.nav a[aria-current="page"] { background: color-mix(in oklab, var(--accent) 14%, var(--s1)); color: var(--ink); }
-.nav a[aria-current="page"] .ic { color: var(--accent); }
+/* Acento limón solo para la navegación (lateral y barra inferior); no toca --accent de la app */
+.nav, .bnav { --tab-accent: #713f12; --tab-accent-soft: #fef3c7; --tab-accent-line: rgba(202,138,4,.45); }
+:root[data-theme="dark"] .nav, :root[data-theme="dark"] .bnav { --tab-accent: #facc15; --tab-accent-soft: rgba(250,204,21,.13); --tab-accent-line: rgba(250,204,21,.28); }
+.nav .ai, .bnav .ai { flex: none; }
+.nav .ai svg { width: 20px; height: 20px; overflow: visible; }
+.nav a[aria-current="page"] { background: var(--tab-accent-soft); color: var(--tab-accent); box-shadow: inset 0 0 0 1px var(--tab-accent-line); }
+.nav a[aria-current="page"] .ic { color: var(--tab-accent); }
 .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 10px; border-top: 1px solid var(--line); }
 .side-foot .nav a, .side-foot button.navlike { width: 100%; }
 button.navlike { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--ink-2); background: transparent; border: 0; cursor: pointer; font-weight: 500; text-align: left; transition: transform .16s var(--ease-out), background-color .16s; }
@@ -337,8 +342,10 @@ dl.gloss dd { margin: 0; color: var(--ink-2); }
   .forge .panel { position: static; }
   .bnav { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; z-index: 40; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 22px; background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
   .bnav a, .bnav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 52px; border-radius: 16px; color: var(--ink-2); text-decoration: none; font-size: .7rem; font-weight: 600; background: transparent; border: 0; cursor: pointer; transition: transform .16s var(--ease-out), background-color .16s; }
-  .bnav a[aria-current="page"] { color: var(--ink); background: color-mix(in oklab, var(--accent) 16%, transparent); }
-  .bnav a[aria-current="page"] .ic { color: var(--accent); }
+    .bnav .ai svg { width: 22px; height: 22px; overflow: visible; }
+  .bnav a:hover, .bnav button:hover { color: var(--ink); }
+  .bnav a[aria-current="page"] { color: var(--tab-accent); background: var(--tab-accent-soft); box-shadow: inset 0 0 0 1px var(--tab-accent-line); font-weight: 700; }
+  .bnav a[aria-current="page"] .ic { color: var(--tab-accent); }
   .foot { padding-bottom: 110px; }
   dialog { max-height: 90dvh; }
   dialog.sheet { margin: auto auto 0; width: 100vw; max-width: 100vw; border-radius: 22px 22px 0 0; }
