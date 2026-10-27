@@ -446,7 +446,36 @@ Responde a lo que más se ha comentado del lanzamiento: el CV que no pasa el fil
 - [ ] **Plan para una entrevista concreta:** fecha, empresa, tipo y ruta generan un plan de 3, 5 o 7 días con sesiones cortas (historias que faltan, duelos con el recruiter adecuado y repaso), y un recordatorio `.ics` que se descarga.
 - [ ] **Repaso espaciado** de las cifras y frases clave de cada historia, para llegar a la entrevista sin leer.
 - [ ] Dos recruiters nuevos para los tipos de empresa que aún no tienen personaje: **sector público** (tribunal y procedimiento) e **industria** (seguridad y procesos). Cada uno con su carácter, pesos y repreguntas.
-- **Hecho cuando:** e2e de grabar, escuchar y borrar sin ninguna petición de red; prueba de que la CSP solo admite `blob:` para el audio; reglas del plan probadas en el motor.
+- [ ] **«¿Cuáles son tus expectativas salariales?»: preparar la respuesta en dos tiempos.** Idea de Yoandy (27/10/2026). Hoy solo existe la guía de `c-salario` en `content/comunes.js`; es la pregunta que más bloquea a un junior y no se ensaya en ninguna parte. Se prepara en dos tiempos:
+  1. **Primero, no cerrarse:** «Prefiero no cerrarme a una banda salarial concreta y centrarme en esta posición».
+  2. **Si insisten, un rango con argumento:** «Teniendo en cuenta las responsabilidades, los logros y el proyecto, busco posiciones entre X e Y».
+
+  Qué incluye:
+  - **Preparador de rango** (vista nueva o pestaña de «Háblame de ti»). La persona escribe tres cifras que solo viven en su navegador:
+    - su mínimo, que nunca se dice;
+    - su objetivo, que es la X;
+    - su ancla, que es la Y.
+
+    Elige bruto anual o mensual y el número de pagas: 12 o 14 en España, mensual con aguinaldo en Latinoamérica. Con eso salen las dos frases con su X e Y, listas para copiar. Reglas explicables, como el resto del motor:
+    - la X nunca es el mínimo;
+    - el rango no pasa de un 20 % de ancho;
+    - siempre va en bruto y aclarando el número de pagas;
+    - las frases citan responsabilidades, logros y proyecto, y si la persona ha analizado una oferta en «Oferta», salen de ella.
+  - **Sin cifras inventadas.** Astrolabio no propone salarios. Enlaza el tipo de fuente para investigar la banda (ofertas con salario publicado, el convenio colectivo del sector y los informes salariales públicos) y avisa de que cambia por ciudad, nivel y tipo de empresa. Se coordina con la guía salarial por país de la v1.2.
+  - **Transparencia retributiva.** Una nota explica la Directiva (UE) 2023/970: plazo de transposición, 7 de junio de 2026. Da derecho a conocer la banda o el salario inicial antes de la entrevista y prohíbe preguntar por el salario anterior. Sirve para dar la vuelta a la pregunta: «¿Cuál es la banda prevista para el puesto?». Antes de publicar la nota hay que comprobar en el BOE cómo está la transposición en España.
+  - **Ronda salarial en la Arena:** cada recruiter cierra a veces con esta pregunta y repregunta «¿y una cifra concreta?» si la respuesta se queda en el primer tiempo. Puntúa:
+    - si da un rango y no una cifra suelta;
+    - si lo justifica;
+    - si menciona el resto de condiciones (formación, teletrabajo, guardias);
+    - si evita disculparse o dar el mínimo.
+  - **Preguntas relacionadas** con su guía: «¿Cuánto cobras ahora?», con la respuesta que permite la directiva; «¿Aceptarías menos?»; y cómo responder por escrito a una oferta con cifra.
+- **Hecho cuando:**
+  - e2e de grabar, escuchar y borrar sin ninguna petición de red;
+  - prueba de que la CSP solo admite `blob:` para el audio;
+  - reglas del plan probadas en el motor;
+  - pruebas del preparador de rango: X no es el mínimo, ancho máximo, cálculo de pagas y frases en español e inglés;
+  - e2e del preparador y de la ronda salarial;
+  - ninguna cifra salarial en el contenido.
 
 ### v1.0.0 · Lanzamiento con personas reales
 - [ ] **Revisión con usuarios reales:** 3 juniors de rutas distintas, 1 persona mayor de 50 en búsqueda, 1 persona que cambia de sector, 1 recruiter y 1 orientador de carrera. Lo que salga se corrige antes de etiquetar la 1.0.
