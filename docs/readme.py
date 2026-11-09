@@ -74,6 +74,7 @@ HIST = [
     ('0.7.4', '`npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento'),
     ('0.8.0', 'Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro'),
     ('0.8.1', 'README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día'),
+    ('0.8.2', 'Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada'),
 ]
 FILAS = []
 ALT_CLARO = {

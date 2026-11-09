@@ -65,6 +65,26 @@ export function sanitizeStory(h, competenciasValidas) {
   };
 }
 
+/**
+ * Suma a tus historias las que llegan de otra herramienta del ecosistema (Blue-Jr, por ejemplo).
+ * Nunca sustituye: si ya tienes una historia con el mismo id, se queda la tuya, porque puedes haberla editado.
+ */
+export function mergeStories(actuales, entrantes, competenciasValidas) {
+  const historias = (Array.isArray(actuales) ? actuales : []).slice();
+  const ids = new Set(historias.map(h => h.id));
+  let nuevas = 0, repetidas = 0, descartadas = 0;
+  for (const raw of (Array.isArray(entrantes) ? entrantes : []).slice(0, LIMITES.historias)) {
+    const s = sanitizeStory(raw, competenciasValidas);
+    if (!s) { descartadas++; continue; }
+    if (ids.has(s.id)) { repetidas++; continue; }
+    if (historias.length >= LIMITES.historias) { descartadas++; continue; }
+    ids.add(s.id);
+    historias.push(s);
+    nuevas++;
+  }
+  return { historias, nuevas, repetidas, descartadas };
+}
+
 export function sanitizePerfil(p) {
   if (!p || typeof p !== 'object') return null;
   if (!ROLES.includes(p.rol)) return null;

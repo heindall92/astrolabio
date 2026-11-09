@@ -93,7 +93,7 @@ const HELP_BUILD = {
   ],
 };
 
-// Enlaces comprobados a mano el 2026-10-21 (responden y el título coincide). url: null = pendiente de confirmar.
+// Enlaces comprobados a mano el 2026-10-21 (responden y el título coincide); Blue-Jr, el 2026-11-09. url: null = pendiente de confirmar.
 const ECOSISTEMA = [
   { nombre: 'LemonByte', url: 'https://heindall92.github.io/lemonbyte/', repo: 'https://github.com/heindall92/lemonbyte', des: { es: 'Inglés técnico para ciberseguridad: practica la entrevista en inglés.', en: 'Technical English for cybersecurity: practise the interview in English.' } },
   { nombre: 'ARGOS', url: 'https://heindall92.github.io/argos-grc/', repo: 'https://github.com/heindall92/argos-grc', des: { es: 'Laboratorio GRC con rutas, simulacros, rangos y logros.', en: 'GRC lab with paths, drills, ranks and achievements.' } },
@@ -102,6 +102,7 @@ const ECOSISTEMA = [
   { nombre: 'ENS Compliance Studio', url: 'https://heindall92.github.io/grc_ens_compliance_studio/', repo: 'https://github.com/heindall92/grc_ens_compliance_studio', des: { es: 'Categorización, MAGERIT y declaración de aplicabilidad.', en: 'Categorisation, MAGERIT and statement of applicability.' } },
   { nombre: 'KAIROS', url: 'https://heindall92.github.io/kairos/', repo: 'https://github.com/heindall92/kairos', des: { es: 'Continuidad de negocio: BIA, BCP y DRP.', en: 'Business continuity: BIA, BCP and DRP.' } },
   { nombre: 'ENS AD Auditor', url: 'https://heindall92.github.io/ens_ad-auditor/', repo: 'https://github.com/heindall92/ens_ad-auditor', des: { es: 'Directorio activo frente a las medidas del ENS.', en: 'Active Directory against the ENS measures.' } },
+  { nombre: 'Blue-Jr', url: 'https://heindall92.github.io/Blue-Jr/', repo: 'https://github.com/heindall92/Blue-Jr', des: { es: 'Simulador de SOC de nivel 1: tus tickets llegan aquí como historias STAR.', en: 'Tier 1 SOC simulator: your tickets arrive here as STAR stories.' } },
   { nombre: 'Norvik', url: null, repo: 'https://github.com/heindall92/Norvik_Gobernanza', des: { es: 'Gobernanza: roles, políticas y el marco que une al resto.', en: 'Governance: roles, policies and the framework that ties the rest together.' } },
 ];
 

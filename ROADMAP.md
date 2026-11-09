@@ -441,6 +441,11 @@ Responde a lo que más se ha comentado del lanzamiento: el CV que no pasa el fil
 - **Hecho cuando:** pruebas del léxico (cada término con su competencia, sin duplicados, ES y EN), e2e de oferta → cobertura → preguntas → viñetas, axe en las vistas nuevas y ofertas de ejemplo en `tests/fixtures/`. *Hecho con tres ofertas de ejemplo (SOC, GRC en banca y cloud en inglés); queda pendiente reunir una oferta real anonimizada por ruta con la revisión de la 1.0.*
 - [x] La app abre siempre en tema claro; el oscuro solo si se elige.
 
+### v0.8.2 · Historias de Blue-Jr
+- [x] Importar historias de otra herramienta del ecosistema (`yrd-ecosistema`, tipo `historias`, `app` distinto de `astrolabio`) las **suma** a las tuyas con `mergeStories`; antes, cualquier importación reemplazaba todos los datos.
+- [x] Blue-Jr 0.6.0 exporta cada ticket del simulador de SOC como historia STAR (situación, tarea, acción, resultado y lección), con la defensa que escribiste en «Defiende tu ticket».
+- **Hecho cuando:** el mismo archivo de ejemplo, generado por el motor de Blue-Jr, está en `tests/fixtures/historias-blue-jr.json` de los dos repositorios; aquí pasa el saneado sin perder un campo (`tests/ecosistema.test.js`) y se importa en el navegador sin tocar tus historias, tu XP ni tu perfil (`tests/e2e_app.py`).
+
 ### v0.9.0 · Ensayar como en la entrevista real
 - [ ] **Grabadora local** en el modo en voz alta: el audio se graba con el micrófono, se queda en memoria y se puede escuchar y borrar; nunca se sube ni se guarda sin pedirlo. Cronómetro, ritmo estimado y la autoevaluación actual sobre la grabación.
 - [ ] **Plan para una entrevista concreta:** fecha, empresa, tipo y ruta generan un plan de 3, 5 o 7 días con sesiones cortas (historias que faltan, duelos con el recruiter adecuado y repaso), y un recordatorio `.ics` que se descarga.

@@ -1,0 +1,45 @@
+{
+  "formato": "yrd-ecosistema",
+  "version": 1,
+  "tipo": "historias",
+  "app": "blue-jr",
+  "appVersion": "0.6.0",
+  "exportado": "2026-11-09T09:00:00.000Z",
+  "datos": {
+    "historias": [
+      {
+        "id": "bluejr-t1-01",
+        "titulo": "Decenas de fallos de inicio de sesión en la VPN (T1-01, Blue-Jr)",
+        "tipo": "real",
+        "s": "En Blue-Jr, un simulador de SOC, hice el turno 1 (lunes) como analista N1 de Norte Logística, una empresa ficticia. A las 08:07 saltó una alerta de SIEM: «Decenas de fallos de inicio de sesión en la VPN». La regla salta con más de 20 fallos de autenticación desde una misma IP en 5 minutos.",
+        "t": "Tenía que decidir si era real, qué hacer y dejarlo documentado en el ticket para el siguiente nivel. Severidad alta; regla «Fuerza bruta contra la VPN».",
+        "a": "Revisé los registros del caso. Lo clasifiqué como verdadero positivo y decidí contener y escalar. Mi resumen del ticket: «Fuerza bruta contra la VPN desde 203.0.113.45 que termina en login OK de r.ibanez y acceso SMB a SRV-FS01. Cuenta deshabilitada, IP bloqueada y escalado a N2.» Por qué lo decidí así: Contuve porque el riesgo era inmediato: con 203.0.113.45 y r.ibanez el daño podía propagarse en minutos. Escalar sin contener habría dejado la puerta abierta mientras el N2 lo revisaba, así que contuve primero y escalé después. Además escribí el escalado al N2.",
+        "r": "La corrección automática le dio 100/100. Acerté el veredicto y la acción. Tras 23 fallos llega un «login OK» desde la misma IP y la sesión ya toca el servidor de ficheros por SMB. Una fuerza bruta que acaba en éxito es un compromiso: se contiene deshabilitando la cuenta, cortando la sesión VPN y bloqueando la IP, y se escala para revisar qué tocó.",
+        "l": "Qué me llevo: Tras 23 fallos llega un «login OK» desde la misma IP y la sesión ya toca el servidor de ficheros por SMB.",
+        "competencias": [
+          "analisis",
+          "presion",
+          "comunicacion"
+        ],
+        "creada": "2026-11-09",
+        "editada": "2026-11-09"
+      },
+      {
+        "id": "bluejr-t1-02",
+        "titulo": "Una IP externa recorre puertos de la IP pública (T1-02, Blue-Jr)",
+        "tipo": "real",
+        "s": "En Blue-Jr, un simulador de SOC, hice el turno 1 (lunes) como analista N1 de Norte Logística, una empresa ficticia. A las 08:31 saltó una alerta de SIEM: «Una IP externa recorre puertos de la IP pública». Más de 100 puertos distintos contra 192.0.2.10 en menos de un minuto.",
+        "t": "Tenía que decidir si era real, qué hacer y dejarlo documentado en el ticket para el siguiente nivel. Severidad baja; regla «Escaneo de puertos desde Internet».",
+        "a": "Revisé los registros del caso. Lo clasifiqué como verdadero positivo y decidí escalar al N2. Mi resumen del ticket: «Barrido de puertos desde una IP externa contra la IP pública; solo responden 80 y 443. Lo escalo por si es la antesala de un ataque.»",
+        "r": "La corrección automática le dio 75/100. Fallé la acción (había que cerrar). Es actividad real (reconocimiento), así que es un verdadero positivo, pero solo respondieron 80 y 443, que son públicos a propósito, y no hubo tráfico de aplicación. Es ruido de fondo de Internet: se documenta y se cierra. Escalar cada escaneo saturaría al nivel 2.",
+        "l": "Me equivoqué: elegí escalar y lo correcto era cerrar. Se me pasó 198.51.100.23 y 443 a las 08:29, que cambia la lectura del caso. Ahora, antes de decidir, compruebo ese dato y lo cito en el ticket.",
+        "competencias": [
+          "analisis",
+          "problemas"
+        ],
+        "creada": "2026-11-09",
+        "editada": "2026-11-09"
+      }
+    ]
+  }
+}

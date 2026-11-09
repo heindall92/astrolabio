@@ -255,6 +255,8 @@ async function importData(file) {
   if (!raw || typeof raw !== 'object') { toast(t('toast.importError'), { ic: 'triangle-alert' }); return; }
   const data = raw.formato === 'yrd-ecosistema' ? (raw.tipo === 'historias' ? raw.datos : null) : raw;
   if (!data) { toast(t('toast.importTipo'), { ic: 'triangle-alert' }); return; }
+  // Historias de otra herramienta del ecosistema (Blue-Jr…): se suman a las tuyas, nunca las sustituyen.
+  if (raw.formato === 'yrd-ecosistema' && raw.app !== 'astrolabio') { await addStoriesFrom(raw.app, data); return; }
   const clean = sanitizeState(data, { competencias: COMPETENCIA_IDS });
   const ok = await confirmDialog({ title: t('import.titulo'), body: t('import.cuerpo', { n: clean.historias.length }), ok: t('import.ok') });
   if (!ok) return;
@@ -262,6 +264,19 @@ async function importData(file) {
   saveState();
   toast(t('toast.importado', { n: clean.historias.length }), { ic: 'upload' });
   go('inicio');
+}
+const APPS_ECOSISTEMA = { 'blue-jr': 'Blue-Jr' };
+async function addStoriesFrom(app, data) {
+  const nombre = APPS_ECOSISTEMA[app] || t('import.otraApp');
+  const entrantes = Array.isArray(data.historias) ? data.historias : [];
+  const r = mergeStories(UI.state.historias, entrantes, COMPETENCIA_IDS);
+  if (!r.nuevas) { toast(t(r.repetidas ? 'toast.sinNuevas' : 'toast.importTipo'), { ic: 'info' }); return; }
+  const ok = await confirmDialog({ title: t('import.sumarTitulo', { app: nombre }), body: t('import.sumarCuerpo', { n: entrantes.length, app: nombre, nuevas: r.nuevas, repetidas: r.repetidas }), ok: t('import.sumarOk') });
+  if (!ok) return;
+  UI.state.historias = r.historias;
+  saveState();
+  toast(t('toast.sumadas', { n: r.nuevas }), { ic: 'upload' });
+  go('forja');
 }
 async function wipeAll() {
   const ok = await confirmDialog({ title: t('borrar.titulo'), body: t('borrar.cuerpo'), ok: t('borrar.ok'), danger: true });
