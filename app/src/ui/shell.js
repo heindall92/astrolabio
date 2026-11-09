@@ -271,7 +271,7 @@ async function addStoriesFrom(app, data) {
   const entrantes = Array.isArray(data.historias) ? data.historias : [];
   const r = mergeStories(UI.state.historias, entrantes, COMPETENCIA_IDS);
   if (!r.nuevas) { toast(t(r.repetidas ? 'toast.sinNuevas' : 'toast.importTipo'), { ic: 'info' }); return; }
-  const ok = await confirmDialog({ title: t('import.sumarTitulo', { app: nombre }), body: t('import.sumarCuerpo', { n: entrantes.length, app: nombre, nuevas: r.nuevas, repetidas: r.repetidas }), ok: t('import.sumarOk') });
+  const ok = await confirmDialog({ title: t('import.sumarTitulo', { app: nombre }), body: t('import.sumarCuerpo', { app: nombre, nuevas: r.nuevas, repetidas: r.repetidas }) + (r.descartadas ? ' ' + t('import.descartadas', { d: r.descartadas }) : ''), ok: t('import.sumarOk') });
   if (!ok) return;
   UI.state.historias = r.historias;
   saveState();

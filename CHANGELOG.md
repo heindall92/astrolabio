@@ -2,6 +2,11 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.8.3] · 2026-11-09 · Cifras que cuadran al importar
+
+### Corregido
+- Al sumar historias de otra herramienta, el diálogo anunciaba el total del archivo y luego nuevas y repetidas, que no sumaban ese total si alguna historia no se podía leer. Ahora da las nuevas, las que ya tenías y, si las hay, las que se ignoran, con la cifra al final para no depender del plural. Prueba e2e con un archivo mixto.
+
 ## [0.8.2] · 2026-11-09 · Historias de Blue-Jr
 
 ### Añadido
