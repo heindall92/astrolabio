@@ -65,7 +65,7 @@ export const EN = {
   'toast.perfilListo': 'Profile ready. Time for your first story!', 'toast.perfilGuardado': 'Profile saved', 'toast.sensiblesGuardados': 'Confidential names saved',
   'toast.borradaHistoria': 'Story deleted', 'toast.guardada': 'Story saved: {estado}',
   'import.titulo': 'Replace your data?', 'import.cuerpo': 'The file contains {n} stories. They will replace everything you have in this browser.', 'import.ok': 'Import and replace',
-  'import.sumarTitulo': 'Add stories from {app}?', 'import.sumarCuerpo': 'The file contains {n} stories from {app}. They are added to yours: {nuevas} new and {repetidas} you already had, which stay as they are. Nothing is deleted.', 'import.sumarOk': 'Add stories', 'import.otraApp': 'another tool',
+  'import.sumarTitulo': 'Add stories from {app}?', 'import.sumarCuerpo': 'Stories from {app} added to yours: {nuevas}. Already yours and left as they are: {repetidas}. Nothing is deleted.', 'import.sumarOk': 'Add stories', 'import.otraApp': 'another tool', 'import.descartadas': 'Ignored because they cannot be read or do not fit: {d}.',
   'toast.sumadas': '{n} stories added', 'toast.sinNuevas': 'You already had all those stories.',
   'borrar.titulo': 'Delete all your data?', 'borrar.cuerpo': 'Your profile, stories and progress will be removed from this browser. This cannot be undone. Export them first if you want to keep them.', 'borrar.ok': 'Delete everything',
   'fmt.minseg': '{m} min {s} s', 'fmt.seg': '{s} s',

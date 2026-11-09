@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.8.2" src="https://img.shields.io/badge/versi%C3%B3n-0.8.2-1a4fe0?style=flat"/>
+  <img alt="Versión 0.8.3" src="https://img.shields.io/badge/versi%C3%B3n-0.8.3-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -31,7 +31,7 @@
   <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.8.2 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.8.3 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Novedades de la 0.8 · Del filtro a la entrevista
 
@@ -221,6 +221,7 @@ flowchart LR
 
 ## Historial de versiones
 
+- **0.8.3** · Importar de Blue-Jr: el diálogo cuadra sus cifras y dice cuántas historias se ignoran por ilegibles
 - **0.8.2** · Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada
 - **0.8.1** · README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día
 - **0.8.0** · Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro

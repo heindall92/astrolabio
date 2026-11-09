@@ -65,7 +65,7 @@ export const ES = {
   'toast.perfilListo': 'Perfil listo. ¡A por tu primera historia!', 'toast.perfilGuardado': 'Perfil guardado', 'toast.sensiblesGuardados': 'Lista de nombres confidenciales guardada',
   'toast.borradaHistoria': 'Historia borrada', 'toast.guardada': 'Historia guardada: {estado}',
   'import.titulo': '¿Reemplazar tus datos?', 'import.cuerpo': 'El archivo trae {n} historias. Sustituirán a todo lo que tienes ahora en este navegador.', 'import.ok': 'Importar y reemplazar',
-  'import.sumarTitulo': '¿Añadir historias de {app}?', 'import.sumarCuerpo': 'El archivo trae {n} historias de {app}. Se suman a las tuyas: {nuevas} nuevas y {repetidas} que ya tenías, que se quedan como están. No se borra nada.', 'import.sumarOk': 'Añadir historias', 'import.otraApp': 'otra herramienta',
+  'import.sumarTitulo': '¿Añadir historias de {app}?', 'import.sumarCuerpo': 'Historias de {app} que se suman a las tuyas: {nuevas}. Ya las tenías y se quedan como están: {repetidas}. No se borra nada.', 'import.sumarOk': 'Añadir historias', 'import.otraApp': 'otra herramienta', 'import.descartadas': 'Se ignoran porque no se pueden leer o no caben: {d}.',
   'toast.sumadas': '{n} historias añadidas', 'toast.sinNuevas': 'Ya tenías todas esas historias.',
   'borrar.titulo': '¿Borrar todos tus datos?', 'borrar.cuerpo': 'Se eliminarán el perfil, las historias y el progreso de este navegador. No se puede deshacer. Si quieres conservarlos, expórtalos antes.', 'borrar.ok': 'Borrar todo',
   'fmt.minseg': '{m} min {s} s', 'fmt.seg': '{s} s',

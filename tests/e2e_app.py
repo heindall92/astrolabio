@@ -697,7 +697,7 @@ def t_import_blue_jr(browser):
     pg.set_input_files('#import-file', str(ejemplo))
     pg.wait_for_selector('#dlg-confirm[open]')
     cuerpo = pg.inner_text('#dlg-confirm')
-    check('Blue-Jr' in cuerpo and '2 nuevas' in cuerpo, f'el diálogo dice de dónde vienen y cuántas son nuevas: {cuerpo}')
+    check('Blue-Jr' in cuerpo and 'se suman a las tuyas: 2.' in cuerpo, f'el diálogo dice de dónde vienen y cuántas son nuevas: {cuerpo}')
     check('reemplaz' not in cuerpo.lower(), 'no habla de reemplazar')
     pg.click('#confirm-ok')
     pg.wait_for_function('() => document.body.dataset.route === "forja"')
@@ -712,6 +712,16 @@ def t_import_blue_jr(browser):
     check(not pg.locator('#dlg-confirm[open]').count(), 'sin diálogo si no hay nada nuevo')
     st = pg.evaluate("JSON.parse(localStorage.getItem('astrolabio-estado'))")
     check(len(st['historias']) == 3, 'sin duplicados')
+    # Un archivo con una historia ilegible: las cifras del diálogo cuadran y se dice cuántas se ignoran.
+    datos = json.loads(ejemplo.read_text(encoding='utf-8'))
+    datos['datos']['historias'] = [dict(datos['datos']['historias'][0], id='bluejr-otra'), {'id': 'no vale', 'titulo': 'x'}]
+    tmp = pathlib.Path('/tmp/astrolabio-blue-jr-mixto.json')
+    tmp.write_text(json.dumps(datos), encoding='utf-8')
+    pg.set_input_files('#import-file', str(tmp))
+    pg.wait_for_selector('#dlg-confirm[open]')
+    cuerpo = pg.inner_text('#dlg-confirm')
+    check('se suman a las tuyas: 1.' in cuerpo and 'se quedan como están: 0.' in cuerpo and 'no caben: 1.' in cuerpo, f'cifras que cuadran: {cuerpo}')
+    pg.keyboard.press('Escape')
     # La historia de Blue-Jr se abre en la Forja con sus cinco bloques y se puntúa.
     goto(pg, 'forja/bluejr-t1-01')
     campos = pg.evaluate("[...document.querySelectorAll('main textarea, main input')].map(e => e.value).join(' ')")
