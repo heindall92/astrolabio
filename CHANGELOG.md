@@ -2,6 +2,16 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.8.2] · 2026-11-09 · Historias de Blue-Jr
+
+### Añadido
+- **Historias de Blue-Jr.** El simulador de SOC [Blue-Jr](https://github.com/heindall92/Blue-Jr) exporta cada ticket cerrado como historia STAR en el sobre del ecosistema (`yrd-ecosistema`, tipo `historias`, `app: "blue-jr"`). Al importarlo, el diálogo dice de dónde vienen y cuántas son nuevas, y las suma a las tuyas.
+- `mergeStories` en el motor: sanea cada historia que llega, añade las nuevas sin pasar del límite y deja intactas las que ya tenías con el mismo id (puedes haberlas editado).
+- Pruebas: `tests/ecosistema.test.js` (el ejemplo de Blue-Jr pasa el saneado sin perder un campo; suma, repetidas, límite y datos hostiles) y e2e de la importación (tus historias, XP, racha y perfil intactos; importar dos veces no duplica).
+
+### Corregido
+- Importar un archivo de otra herramienta del ecosistema reemplazaba **todos** tus datos. Ahora solo la copia de Astrolabio reemplaza (y lo avisa); lo demás se suma.
+
 ## [0.8.1] · 2026-10-27 · README al día
 
 ### Corregido

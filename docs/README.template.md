@@ -43,6 +43,7 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 - **«Háblame de ti».** La presentación de 60 a 90 segundos puntuada en vivo, las preguntas difíciles con su guía y diez preguntas para hacer tú al final.
 - **Traductor de experiencia.** Cómo contar en una entrevista técnica lo que aprendiste en hostelería, comercio, docencia, logística, sanidad o administración.
 - La app **abre siempre en tema claro**; el oscuro se elige con el interruptor y se recuerda.
+- **Historias de [Blue-Jr](https://github.com/heindall92/Blue-Jr)** (0.8.2). El simulador de SOC exporta cada ticket que cierras, con tu defensa de la decisión, como historia STAR. Al importarla en Perfil se **suma** a tus historias: no se reemplaza nada y, si ya la tenías, se queda la tuya.
 
 <p align="center">
   <img src="docs/img/vacante-light.png" alt="Lector de ofertas: competencias que pide la oferta, cobertura con tus historias y años de experiencia" width="880"/>
@@ -202,6 +203,7 @@ flowchart LR
 - Sin servidor, sin cuentas, sin analítica. CSP con `connect-src 'none'`: la app no puede hacer peticiones.
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
+- Las historias de otra herramienta del ecosistema (sobre `yrd-ecosistema`, tipo `historias`, con otro `app`) se suman con `mergeStories`: nunca sustituyen tus datos ni pisan una historia que ya tengas.
 - El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
 

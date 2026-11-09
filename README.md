@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.8.1" src="https://img.shields.io/badge/versi%C3%B3n-0.8.1-1a4fe0?style=flat"/>
+  <img alt="Versión 0.8.2" src="https://img.shields.io/badge/versi%C3%B3n-0.8.2-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -31,7 +31,7 @@
   <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.8.1 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.8.2 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
 ## Novedades de la 0.8 · Del filtro a la entrevista
 
@@ -43,6 +43,7 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 - **«Háblame de ti».** La presentación de 60 a 90 segundos puntuada en vivo, las preguntas difíciles con su guía y diez preguntas para hacer tú al final.
 - **Traductor de experiencia.** Cómo contar en una entrevista técnica lo que aprendiste en hostelería, comercio, docencia, logística, sanidad o administración.
 - La app **abre siempre en tema claro**; el oscuro se elige con el interruptor y se recuerda.
+- **Historias de [Blue-Jr](https://github.com/heindall92/Blue-Jr)** (0.8.2). El simulador de SOC exporta cada ticket que cierras, con tu defensa de la decisión, como historia STAR. Al importarla en Perfil se **suma** a tus historias: no se reemplaza nada y, si ya la tenías, se queda la tuya.
 
 <p align="center">
   <img src="docs/img/vacante-light.png" alt="Lector de ofertas: competencias que pide la oferta, cobertura con tus historias y años de experiencia" width="880"/>
@@ -196,8 +197,8 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 167 pruebas |
-| Extremo a extremo (Playwright) | 23 flujos |
+| Motor, contenido e i18n (`node --test`) | 171 pruebas |
+| Extremo a extremo (Playwright) | 24 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -209,6 +210,7 @@ flowchart LR
 - Sin servidor, sin cuentas, sin analítica. CSP con `connect-src 'none'`: la app no puede hacer peticiones.
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
+- Las historias de otra herramienta del ecosistema (sobre `yrd-ecosistema`, tipo `historias`, con otro `app`) se suman con `mergeStories`: nunca sustituyen tus datos ni pisan una historia que ya tengas.
 - El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
 
@@ -219,6 +221,7 @@ flowchart LR
 
 ## Historial de versiones
 
+- **0.8.2** · Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada
 - **0.8.1** · README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día
 - **0.8.0** · Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro
 - **0.7.4** · `npm test` en Node 22, vista previa con imagen al compartir el enlace y roadmap de crecimiento

@@ -501,7 +501,7 @@ def t_ingles_chuleta(browser):
     pg.click('#help-btn')
     pg.click('#tab-acerca')
     items = pg.locator('#ecosistema > li')
-    check(items.count() == 8, 'ecosistema completo')
+    check(items.count() == 9, 'ecosistema completo')
     for i in range(items.count()):
         li = items.nth(i)
         main = li.locator('a').first
@@ -689,6 +689,36 @@ def t_oferta_presentacion(browser):
     no_errors(pg, 'oferta y presentación')
 
 
+def t_import_blue_jr(browser):
+    """Historias de Blue-Jr (otra herramienta del ecosistema): se suman a las tuyas y no se pierde nada."""
+    pg = new_page(browser, state=state(historias=[BUENA], xp=120, racha=3))
+    goto(pg, 'perfil')
+    ejemplo = pathlib.Path(__file__).parent / 'fixtures' / 'historias-blue-jr.json'
+    pg.set_input_files('#import-file', str(ejemplo))
+    pg.wait_for_selector('#dlg-confirm[open]')
+    cuerpo = pg.inner_text('#dlg-confirm')
+    check('Blue-Jr' in cuerpo and '2 nuevas' in cuerpo, f'el diálogo dice de dónde vienen y cuántas son nuevas: {cuerpo}')
+    check('reemplaz' not in cuerpo.lower(), 'no habla de reemplazar')
+    pg.click('#confirm-ok')
+    pg.wait_for_function('() => document.body.dataset.route === "forja"')
+    check(pg.locator('#story-list .card').count() == 3, 'tu historia y las dos de Blue-Jr')
+    st = pg.evaluate("JSON.parse(localStorage.getItem('astrolabio-estado'))")
+    check([h['id'] for h in st['historias']] == ['h_buena', 'bluejr-t1-01', 'bluejr-t1-02'], 'orden: las tuyas primero')
+    check(st['xp'] == 120 and st['racha'] == 3 and st['perfil']['rol'] == PERFIL['rol'], 'XP, racha y perfil intactos')
+    # Importar otra vez no duplica ni pisa.
+    goto(pg, 'perfil')
+    pg.set_input_files('#import-file', str(ejemplo))
+    pg.wait_for_function("() => document.querySelector('#toasts').innerText.includes('Ya tenías todas esas historias')")
+    check(not pg.locator('#dlg-confirm[open]').count(), 'sin diálogo si no hay nada nuevo')
+    st = pg.evaluate("JSON.parse(localStorage.getItem('astrolabio-estado'))")
+    check(len(st['historias']) == 3, 'sin duplicados')
+    # La historia de Blue-Jr se abre en la Forja con sus cinco bloques y se puntúa.
+    goto(pg, 'forja/bluejr-t1-01')
+    campos = pg.evaluate("[...document.querySelectorAll('main textarea, main input')].map(e => e.value).join(' ')")
+    check('simulador de SOC' in campos and 'Contuve porque' in campos, 'la Forja abre la historia con la situación y tu defensa')
+    no_errors(pg, 'import blue-jr')
+
+
 TESTS = [
     ('logo con la estrella visible', t_logo),
     ('abre siempre en claro aunque el sistema esté en oscuro', t_tema_claro),
@@ -701,6 +731,7 @@ TESTS = [
     ('móvil: barra inferior y Más con acentos', t_mobile),
     ('móvil estrecho: 320–390 px con cifras grandes, idioma en Más', t_mobile_estrecho),
     ('exportar, importar y borrar todo', t_export_import),
+    ('importar historias de Blue-Jr sin perder las tuyas', t_import_blue_jr),
     ('inglés sin restos en español', t_english),
     ('movimiento reducido', t_reduced),
     ('constelación accesible con teclado y lista equivalente', t_constelacion),
