@@ -15,6 +15,10 @@ export const GUION_CATEGORIAS = [
   { id: 'cierre', icono: 'flag' },
 ];
 export const ENTREVISTADORES = ['rrhh', 'tecnico', 'direccion', 'panel'];
+/** Nombre de cada idioma que puede pedir una oferta (ids de VAC_IDIOMAS). */
+export const NOMBRE_IDIOMA = {
+  ingles: { es: 'inglés', en: 'English' }, frances: { es: 'francés', en: 'French' }, aleman: { es: 'alemán', en: 'German' }, portugues: { es: 'portugués', en: 'Portuguese' },
+};
 export const FORMATOS = ['video', 'telefono', 'presencial'];
 
 /** Preguntas para el entrevistador que mejor encajan con cada tipo de entrevistador (ids de PREGUNTAS_ENTREVISTADOR). */
@@ -118,6 +122,11 @@ export const GUION_TXT = {
     salidaHueco: '[Una frase con el motivo real] y lo que busco ahora es [qué buscas]. Por eso este puesto encaja.',
     duda: 'Es una duda razonable. {resp}',
     dudaHueco: 'Es una duda razonable. [Cómo la compensas: qué has hecho ya y qué harás]',
+    dudaAnosQ: 'La oferta pide {pide} años de experiencia y tú tienes {tienes}. ¿Por qué deberíamos elegirte?',
+    dudaAnos: 'Es cierto que llevo {tienes} en el sector. En ese tiempo {logro} Lo que me falta en años lo compenso con [experiencia equivalente: laboratorios, proyectos o formación concreta].',
+    dudaAnosSinLogro: 'Es cierto que llevo {tienes} en el sector. [Qué has conseguido en ese tiempo, con una cifra] Lo que me falta en años lo compenso con [experiencia equivalente: laboratorios, proyectos o formación concreta].',
+    dudaIdiomaQ: 'La oferta pide {idioma} {pide}. ¿Podemos seguir la entrevista en {idioma}?',
+    dudaIdioma: 'Mi nivel es {tienes}. [Cómo lo uso hoy: documentación, reuniones, certificados] y [qué hago para subirlo]. Si queréis, seguimos un rato en {idioma}.',
     hueco: 'Entre {desde} y {hasta} {resp}',
     huecoHueco: 'Entre {desde} y {hasta} [la razón en una frase y lo que hiciste o aprendiste]. Ahora estoy en condiciones de asumir este puesto.',
     futuroCinco: '{resp}',
@@ -186,6 +195,11 @@ export const GUION_TXT = {
     salidaHueco: '[One sentence with the real reason] and what I am looking for now is [what you want]. That is why this role fits.',
     duda: 'That is a fair question. {resp}',
     dudaHueco: 'That is a fair question. [How you make up for it: what you have already done and will do]',
+    dudaAnosQ: 'The advert asks for {pide} years of experience and you have {tienes}. Why should we choose you?',
+    dudaAnos: 'It is true that I have {tienes} in the field. In that time {logro} I make up for the years with [equivalent experience: labs, projects or specific training].',
+    dudaAnosSinLogro: 'It is true that I have {tienes} in the field. [What you achieved in that time, with a number] I make up for the years with [equivalent experience: labs, projects or specific training].',
+    dudaIdiomaQ: 'The advert asks for {idioma} at {pide}. Can we continue the interview in {idioma}?',
+    dudaIdioma: 'My level is {tienes}. [How I use it today: documentation, meetings, certificates] and [what I do to improve it]. If you like, we can continue in {idioma} for a while.',
     hueco: 'Between {desde} and {hasta} {resp}',
     huecoHueco: 'Between {desde} and {hasta} [the reason in one sentence and what you did or learned]. I am now ready for this role.',
     futuroCinco: '{resp}',

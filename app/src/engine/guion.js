@@ -2,12 +2,13 @@
 // tus respuestas de apoyo, y devuelve bloques por tipo de pregunta para leerlos (o mirarlos) en directo.
 // Motor puro: sin DOM, sin red y con reglas explicables.
 import { foldSameLength, vacFind, likelyQuestions } from './vacante.js';
+import { nivelIdiomaCV } from './cvlector.js';
 import { analyzePitch } from './presentacion.js';
 import { recommendStories } from './arena.js';
 import { wordCount } from './analyzer.js';
 import { VAC_TECNOLOGIAS } from '../content/vacante.js';
 import { BAUL_CATEGORIAS } from '../content/baul.js';
-import { GUION_TXT, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS } from '../content/guion.js';
+import { GUION_TXT, NOMBRE_IDIOMA, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS } from '../content/guion.js';
 
 export const GUION = {
   maxTecnicas: 8,
@@ -115,6 +116,23 @@ export function huecosCV(experiencias) {
       if (meses >= GUION.huecoMeses) out.push({ desde: fin, hasta: e.desde, meses });
     }
     if (!fin || e.hasta > fin) fin = e.hasta;
+  }
+  return out;
+}
+
+const NIVELES_MCER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+/**
+ * Lo que la oferta pide y el CV no muestra: más años de los que tienes o un nivel de idioma más alto
+ * (o que el CV no dice). No descarta a nadie: prepara la respuesta a la duda que va a salir.
+ */
+export function dudasOferta(oferta, cv) {
+  const out = [];
+  if (!oferta || !cv) return out;
+  if (oferta.anos && cv.experiencias.length && cv.anos < oferta.anos) out.push({ tipo: 'anos', pide: oferta.anos, tienes: cv.anos });
+  for (const i of oferta.idiomas || []) {
+    if (!i.nivel || !NIVELES_MCER.includes(i.nivel)) continue;
+    const tienes = nivelIdiomaCV(cv.idiomas || [], i.id);
+    if (!tienes || NIVELES_MCER.indexOf(tienes) < NIVELES_MCER.indexOf(i.nivel)) out.push({ tipo: 'idioma', idioma: i.id, pide: i.nivel, tienes: tienes || '' });
   }
   return out;
 }
@@ -296,6 +314,21 @@ export function generarGuion(ctx) {
     const q = idioma === 'en' ? 'A likely doubt about your profile' : 'La duda que pueden tener sobre tu perfil';
     const b = add({ id: 'duda', cat: 'dificiles', pregunta: q, texto: r.dudaRespuesta && r.dudaRespuesta.trim() ? rellenar(T.duda, { resp: frase(r.dudaRespuesta) }) : T.dudaHueco, fuente: r.dudaRespuesta ? 'resp' : 'hueco', claves: [r.duda], apoyo: [frase(r.duda)] });
     probable(frase(r.duda), 'dificiles', b, 'duda');
+  }
+  // Dudas que salen solas de cruzar la oferta con el CV: años y nivel de idioma.
+  for (const d of dudasOferta(ctx.oferta, cv)) {
+    if (d.tipo === 'anos') {
+      const tienes = duracion(cv.meses, idioma);
+      const logro = cv.logros[0];
+      const q = rellenar(T.dudaAnosQ, { pide: d.pide, tienes });
+      const b = add({ id: 'duda-anos', cat: 'dificiles', pregunta: q, texto: rellenar(logro ? T.dudaAnos : T.dudaAnosSinLogro, { tienes, logro: logro ? frase(minuscula(logro)) : '' }), fuente: 'oferta', claves: [String(d.pide)] });
+      probable(q, 'dificiles', b, 'oferta');
+    } else {
+      const nom = L(NOMBRE_IDIOMA[d.idioma]) || d.idioma;
+      const q = rellenar(T.dudaIdiomaQ, { idioma: nom, pide: d.pide });
+      const b = add({ id: 'duda-idioma-' + d.idioma, cat: 'dificiles', pregunta: q, texto: rellenar(T.dudaIdioma, { idioma: nom, tienes: d.tienes || '[tu nivel]' }), fuente: 'oferta', claves: [nom + ' ' + d.pide] });
+      probable(q, 'dificiles', b, 'oferta');
+    }
   }
   for (const h of huecosCV(cv && cv.experiencias)) {
     const mt = ctx.mesTexto || (x => x);

@@ -97,13 +97,46 @@ const CV_EMAIL = /[\w.+-]+@[\w-]+\.[\w.-]+/;
 const CV_TELEFONO = /(?:\+\d{1,3}[\s.-]?)?(?:\d[\s.-]?){9,12}\b/;
 
 /**
+ * Une las frases que el PDF partió en dos líneas por el ajuste del margen: la siguiente empieza en minúscula,
+ * la anterior no termina en punto y ninguna es viñeta, título de sección ni rango de fechas.
+ */
+export function unirPartidas(lineas) {
+  const out = [];
+  for (const l of lineas) {
+    const prev = out[out.length - 1];
+    const t = l.trim();
+    if (prev && prev.trim() && t && /^\p{Ll}/u.test(t) && !VINETA.test(l) && !/[.:;!?]$/.test(prev.trim()) && !seccionDe(prev) && !RANGO_RE.test(foldSameLength(t))) {
+      out[out.length - 1] = prev.replace(/\s+$/, '') + ' ' + t;
+    } else out.push(l);
+  }
+  return out;
+}
+
+/** Nivel de un idioma en el CV («Inglés B2», «English C1», «inglés nativo»). null si no lo dice. */
+export function nivelIdiomaCV(lineasIdiomas, idioma) {
+  const nombres = { ingles: ['ingles', 'english'], frances: ['frances', 'french'], aleman: ['aleman', 'german'], portugues: ['portugues', 'portuguese'] }[idioma] || [idioma];
+  for (const l of lineasIdiomas) {
+    for (const trozo of foldSameLength(l).split(/[·|,;]/)) {
+      if (!nombres.some(n => trozo.includes(n))) continue;
+      const m = /\b([abc][12])\b/.exec(trozo);
+      if (m) return m[1].toUpperCase();
+      if (/nativ|native|bilingue|bilingual/.test(trozo)) return 'C2';
+      if (/fluid|fluent|avanzad|advanced/.test(trozo)) return 'C1';
+      if (/intermedi/.test(trozo)) return 'B1';
+      return '';
+    }
+  }
+  return null;
+}
+
+/**
  * Analiza el texto de un CV. Devuelve:
  * { idioma, nombre, titular, secciones, experiencias, meses, anos, actual, tecnologias, certificaciones,
  *   logros, competencias, idiomas, resumen, contacto }.
  * hoy: 'AAAA-MM' (para «actualidad»; se inyecta para que las pruebas no dependan de la fecha).
  */
 export function leerCV(texto, hoy) {
-  const lineas = String(texto || '').split('\n').map(l => l.replace(/\s+$/, ''));
+  const lineas = unirPartidas(String(texto || '').split('\n').map(l => l.replace(/\s+$/, '')));
   const idioma = idiomaCv(texto);
   // Secciones
   const secciones = { cabecera: [] };

@@ -3241,6 +3241,10 @@ const GUION_CATEGORIAS = [
   { id: 'cierre', icono: 'flag' },
 ];
 const ENTREVISTADORES = ['rrhh', 'tecnico', 'direccion', 'panel'];
+/** Nombre de cada idioma que puede pedir una oferta (ids de VAC_IDIOMAS). */
+const NOMBRE_IDIOMA = {
+  ingles: { es: 'inglés', en: 'English' }, frances: { es: 'francés', en: 'French' }, aleman: { es: 'alemán', en: 'German' }, portugues: { es: 'portugués', en: 'Portuguese' },
+};
 const FORMATOS = ['video', 'telefono', 'presencial'];
 
 /** Preguntas para el entrevistador que mejor encajan con cada tipo de entrevistador (ids de PREGUNTAS_ENTREVISTADOR). */
@@ -3344,6 +3348,11 @@ const GUION_TXT = {
     salidaHueco: '[Una frase con el motivo real] y lo que busco ahora es [qué buscas]. Por eso este puesto encaja.',
     duda: 'Es una duda razonable. {resp}',
     dudaHueco: 'Es una duda razonable. [Cómo la compensas: qué has hecho ya y qué harás]',
+    dudaAnosQ: 'La oferta pide {pide} años de experiencia y tú tienes {tienes}. ¿Por qué deberíamos elegirte?',
+    dudaAnos: 'Es cierto que llevo {tienes} en el sector. En ese tiempo {logro} Lo que me falta en años lo compenso con [experiencia equivalente: laboratorios, proyectos o formación concreta].',
+    dudaAnosSinLogro: 'Es cierto que llevo {tienes} en el sector. [Qué has conseguido en ese tiempo, con una cifra] Lo que me falta en años lo compenso con [experiencia equivalente: laboratorios, proyectos o formación concreta].',
+    dudaIdiomaQ: 'La oferta pide {idioma} {pide}. ¿Podemos seguir la entrevista en {idioma}?',
+    dudaIdioma: 'Mi nivel es {tienes}. [Cómo lo uso hoy: documentación, reuniones, certificados] y [qué hago para subirlo]. Si queréis, seguimos un rato en {idioma}.',
     hueco: 'Entre {desde} y {hasta} {resp}',
     huecoHueco: 'Entre {desde} y {hasta} [la razón en una frase y lo que hiciste o aprendiste]. Ahora estoy en condiciones de asumir este puesto.',
     futuroCinco: '{resp}',
@@ -3412,6 +3421,11 @@ const GUION_TXT = {
     salidaHueco: '[One sentence with the real reason] and what I am looking for now is [what you want]. That is why this role fits.',
     duda: 'That is a fair question. {resp}',
     dudaHueco: 'That is a fair question. [How you make up for it: what you have already done and will do]',
+    dudaAnosQ: 'The advert asks for {pide} years of experience and you have {tienes}. Why should we choose you?',
+    dudaAnos: 'It is true that I have {tienes} in the field. In that time {logro} I make up for the years with [equivalent experience: labs, projects or specific training].',
+    dudaAnosSinLogro: 'It is true that I have {tienes} in the field. [What you achieved in that time, with a number] I make up for the years with [equivalent experience: labs, projects or specific training].',
+    dudaIdiomaQ: 'The advert asks for {idioma} at {pide}. Can we continue the interview in {idioma}?',
+    dudaIdioma: 'My level is {tienes}. [How I use it today: documentation, meetings, certificates] and [what I do to improve it]. If you like, we can continue in {idioma} for a while.',
     hueco: 'Between {desde} and {hasta} {resp}',
     huecoHueco: 'Between {desde} and {hasta} [the reason in one sentence and what you did or learned]. I am now ready for this role.',
     futuroCinco: '{resp}',
@@ -5173,13 +5187,46 @@ const CV_EMAIL = /[\w.+-]+@[\w-]+\.[\w.-]+/;
 const CV_TELEFONO = /(?:\+\d{1,3}[\s.-]?)?(?:\d[\s.-]?){9,12}\b/;
 
 /**
+ * Une las frases que el PDF partió en dos líneas por el ajuste del margen: la siguiente empieza en minúscula,
+ * la anterior no termina en punto y ninguna es viñeta, título de sección ni rango de fechas.
+ */
+function unirPartidas(lineas) {
+  const out = [];
+  for (const l of lineas) {
+    const prev = out[out.length - 1];
+    const t = l.trim();
+    if (prev && prev.trim() && t && /^\p{Ll}/u.test(t) && !VINETA.test(l) && !/[.:;!?]$/.test(prev.trim()) && !seccionDe(prev) && !RANGO_RE.test(foldSameLength(t))) {
+      out[out.length - 1] = prev.replace(/\s+$/, '') + ' ' + t;
+    } else out.push(l);
+  }
+  return out;
+}
+
+/** Nivel de un idioma en el CV («Inglés B2», «English C1», «inglés nativo»). null si no lo dice. */
+function nivelIdiomaCV(lineasIdiomas, idioma) {
+  const nombres = { ingles: ['ingles', 'english'], frances: ['frances', 'french'], aleman: ['aleman', 'german'], portugues: ['portugues', 'portuguese'] }[idioma] || [idioma];
+  for (const l of lineasIdiomas) {
+    for (const trozo of foldSameLength(l).split(/[·|,;]/)) {
+      if (!nombres.some(n => trozo.includes(n))) continue;
+      const m = /\b([abc][12])\b/.exec(trozo);
+      if (m) return m[1].toUpperCase();
+      if (/nativ|native|bilingue|bilingual/.test(trozo)) return 'C2';
+      if (/fluid|fluent|avanzad|advanced/.test(trozo)) return 'C1';
+      if (/intermedi/.test(trozo)) return 'B1';
+      return '';
+    }
+  }
+  return null;
+}
+
+/**
  * Analiza el texto de un CV. Devuelve:
  * { idioma, nombre, titular, secciones, experiencias, meses, anos, actual, tecnologias, certificaciones,
  *   logros, competencias, idiomas, resumen, contacto }.
  * hoy: 'AAAA-MM' (para «actualidad»; se inyecta para que las pruebas no dependan de la fecha).
  */
 function leerCV(texto, hoy) {
-  const lineas = String(texto || '').split('\n').map(l => l.replace(/\s+$/, ''));
+  const lineas = unirPartidas(String(texto || '').split('\n').map(l => l.replace(/\s+$/, '')));
   const idioma = idiomaCv(texto);
   // Secciones
   const secciones = { cabecera: [] };
@@ -5371,6 +5418,23 @@ function huecosCV(experiencias) {
   return out;
 }
 
+const NIVELES_MCER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+/**
+ * Lo que la oferta pide y el CV no muestra: más años de los que tienes o un nivel de idioma más alto
+ * (o que el CV no dice). No descarta a nadie: prepara la respuesta a la duda que va a salir.
+ */
+function dudasOferta(oferta, cv) {
+  const out = [];
+  if (!oferta || !cv) return out;
+  if (oferta.anos && cv.experiencias.length && cv.anos < oferta.anos) out.push({ tipo: 'anos', pide: oferta.anos, tienes: cv.anos });
+  for (const i of oferta.idiomas || []) {
+    if (!i.nivel || !NIVELES_MCER.includes(i.nivel)) continue;
+    const tienes = nivelIdiomaCV(cv.idiomas || [], i.id);
+    if (!tienes || NIVELES_MCER.indexOf(tienes) < NIVELES_MCER.indexOf(i.nivel)) out.push({ tipo: 'idioma', idioma: i.id, pide: i.nivel, tienes: tienes || '' });
+  }
+  return out;
+}
+
 /**
  * Genera el guion. ctx:
  * { idioma, entrevista: { empresa, puesto, entrevistadores, pais, resp }, cv (leerCV) | null, oferta (analyzeOffer) | null,
@@ -5548,6 +5612,21 @@ function generarGuion(ctx) {
     const q = idioma === 'en' ? 'A likely doubt about your profile' : 'La duda que pueden tener sobre tu perfil';
     const b = add({ id: 'duda', cat: 'dificiles', pregunta: q, texto: r.dudaRespuesta && r.dudaRespuesta.trim() ? rellenar(T.duda, { resp: frase(r.dudaRespuesta) }) : T.dudaHueco, fuente: r.dudaRespuesta ? 'resp' : 'hueco', claves: [r.duda], apoyo: [frase(r.duda)] });
     probable(frase(r.duda), 'dificiles', b, 'duda');
+  }
+  // Dudas que salen solas de cruzar la oferta con el CV: años y nivel de idioma.
+  for (const d of dudasOferta(ctx.oferta, cv)) {
+    if (d.tipo === 'anos') {
+      const tienes = duracion(cv.meses, idioma);
+      const logro = cv.logros[0];
+      const q = rellenar(T.dudaAnosQ, { pide: d.pide, tienes });
+      const b = add({ id: 'duda-anos', cat: 'dificiles', pregunta: q, texto: rellenar(logro ? T.dudaAnos : T.dudaAnosSinLogro, { tienes, logro: logro ? frase(minuscula(logro)) : '' }), fuente: 'oferta', claves: [String(d.pide)] });
+      probable(q, 'dificiles', b, 'oferta');
+    } else {
+      const nom = L(NOMBRE_IDIOMA[d.idioma]) || d.idioma;
+      const q = rellenar(T.dudaIdiomaQ, { idioma: nom, pide: d.pide });
+      const b = add({ id: 'duda-idioma-' + d.idioma, cat: 'dificiles', pregunta: q, texto: rellenar(T.dudaIdioma, { idioma: nom, tienes: d.tienes || '[tu nivel]' }), fuente: 'oferta', claves: [nom + ' ' + d.pide] });
+      probable(q, 'dificiles', b, 'oferta');
+    }
   }
   for (const h of huecosCV(cv && cv.experiencias)) {
     const mt = ctx.mesTexto || (x => x);

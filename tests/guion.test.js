@@ -234,3 +234,26 @@ test('saneado: notas por tipo y campo, marca y entrevista con límites; nada de 
   assert.equal(E.emptyState().entrevista, null);
   assert.deepEqual(E.sanitizeState({}).baul, []);
 });
+
+test('las frases que el PDF parte por el margen se unen; viñetas, títulos y fechas no', async () => {
+  const doc = await E.leerDocumento('cv.pdf', new Uint8Array(fs.readFileSync(new URL('./fixtures/cv/cv-es-chromium.pdf', import.meta.url))));
+  const cv = E.leerCV(doc.texto, '2026-11');
+  assert.equal(cv.resumen, 'Analista SOC junior con dos años en monitorización y respuesta a incidentes. Me especializo en EDR/XDR y en reducir falsos positivos.');
+  assert.deepEqual(E.unirPartidas(['Logré bajar el', 'tiempo de triaje.', '• siguiente viñeta', 'Experiencia', 'analista · 2020 – 2022']), ['Logré bajar el tiempo de triaje.', '• siguiente viñeta', 'Experiencia', 'analista · 2020 – 2022']);
+});
+
+test('nivel de idioma del CV y dudas automáticas: años y nivel por debajo de lo que pide la oferta', () => {
+  assert.equal(E.nivelIdiomaCV(['Español nativo · Inglés B2'], 'ingles'), 'B2');
+  assert.equal(E.nivelIdiomaCV(['English: fluent'], 'ingles'), 'C1');
+  assert.equal(E.nivelIdiomaCV(['Francés'], 'ingles'), null);
+  const cv = E.leerCV(CV_ES, '2026-11');
+  const oferta = E.analyzeOffer('Analista SOC con al menos 5 años de experiencia. Inglés C1 imprescindible.');
+  assert.deepEqual(E.dudasOferta(oferta, cv), [{ tipo: 'anos', pide: 5, tienes: 4 }, { tipo: 'idioma', idioma: 'ingles', pide: 'C1', tienes: 'B2' }]);
+  assert.deepEqual(E.dudasOferta(E.analyzeOffer('Analista SOC con 2 años de experiencia. Inglés B2.'), cv), [], 'si lo cumples, no hay duda');
+  const g = guion({ textoOferta: 'Analista SOC con al menos 5 años de experiencia. Inglés C1 imprescindible.' });
+  const anos = g.bloques.find(b => b.id === 'duda-anos');
+  assert.equal(anos.pregunta, 'La oferta pide 5 años de experiencia y tú tienes 4 años y 6 meses. ¿Por qué deberíamos elegirte?');
+  assert.match(anos.texto, /^Es cierto que llevo 4 años y 6 meses en el sector\. En ese tiempo reduje un 30 %/);
+  assert.match(g.bloques.find(b => b.id === 'duda-idioma-ingles').texto, /^Mi nivel es B2\./);
+  assert.ok(g.probables.some(p => p.bloque === 'duda-anos' && p.motivo === 'oferta'));
+});
