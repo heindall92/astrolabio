@@ -2,6 +2,70 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.9.0] · 2026-11-24 · De tu CV al guion en directo
+
+### Añadido
+- **Lector de CV en el navegador** (`engine/documento.js`). Lee PDF, DOCX, ODT y TXT sin librerías ni red.
+  - **PDF:** descomprime con `DecompressionStream` y lee los flujos de objetos. Sigue el árbol de páginas y decodifica cada fuente (`ToUnicode`, `/Differences` y WinAnsi). Mide el ancho de cada glifo (`/W`, `/Widths`) para no inventar espacios por el interletraje, que es el fallo típico de los PDF de Chromium y Google Docs.
+  - **DOCX y ODT:** lee el ZIP y sus párrafos.
+  - Probado con los mismos CV ficticios exportados por Chromium, LibreOffice y pandoc (`tests/fixtures/cv/`, regenerables con `generar.py`).
+- **Análisis del CV** (`engine/cvlector.js`):
+  - nombre y titular;
+  - experiencias con fechas en español e inglés («03/2024 – actualidad», «Jan 2023 – Present», «marzo de 2021 - junio de 2023»), con meses sin contar solapes y puesto actual;
+  - tecnologías y certificaciones, con el léxico del lector de ofertas;
+  - logros con cifra, ordenados;
+  - idiomas con su nivel;
+  - frases que el PDF partió por el margen, unidas de nuevo.
+- **Baúl de notas** (`#baul`). Formularios para seis tipos de nota: herramienta (como tu EDR o XDR), concepto (versión para negocio y técnica), proyecto, certificación, empresa e idea. Tiene filtro por tipo, búsqueda sin tildes y entra en Ctrl K. Cada nota se cruza con las tecnologías de la oferta.
+- **Marca personal**: tu ventaja del 10 %, tu punto de vista, tu frase y tu hilo conductor. Se usan en «Háblame de ti» y en el cierre.
+- **Preparar entrevista** (`#entrevista`), en cuatro pasos:
+  - la entrevista: formato, quién entrevista, idioma y país;
+  - tu CV, subido o pegado;
+  - la oferta, con la banda salarial que publique y las dudas automáticas;
+  - preguntas de apoyo.
+
+  Se guarda solo en este navegador.
+- **Tu guion** (`#guion`, `engine/guion.js`): bloques por tipo de pregunta.
+  - **Saludo y «Háblame de ti»**, generado con el CV, la marca y tu motivo, y puntuado con el mismo analizador de la presentación.
+  - **Motivación**, con tu respuesta o tu nota de la empresa.
+  - **Experiencia y logros.**
+  - **Técnicas:** la nota del Baúl responde. Lo que solo está en el CV pide un ejemplo, y lo que no tienes se reconoce con honestidad.
+  - **Situaciones STAR** con tus historias, sin repetir la misma.
+  - **Difíciles:** salida, defecto, cinco años, hueco del CV y las dudas de la oferta por años o idioma.
+  - **Salario:** la banda de la oferta o tu rango, que empieza en tu objetivo y nunca en tu mínimo.
+  - **Tus preguntas** según quién entrevista, y **cierre**.
+
+  Los huecos se marcan [entre corchetes]: nada se inventa. Cada bloque se puede editar y restaurar, y el guion se descarga en `.txt` o se imprime.
+- **Pregunta por el salario anterior (España).** Incluye la respuesta y la cita literal de la Ley 3/2023 de Empleo, art. 5 g), en la redacción del Real Decreto-ley 39/2026 (BOE n.º 287, de 18-11-2026, en vigor desde el 19-11-2026). La norma prohíbe preguntar por el historial retributivo y obliga a publicar la retribución inicial en la oferta.
+- **Posibles preguntas**, cada una con su motivo (casi siempre, la oferta, tu CV, tu Baúl, la ley o un hueco) y un enlace a la respuesta. Incluye un banco propio de preguntas técnicas para 30 tecnologías.
+- **Guion en directo** (`#directo`), un teleprompter para videollamadas:
+  - tipos de pregunta en las teclas 1 a 0, y búsqueda de pregunta;
+  - modo palabras clave o texto completo con avance por palabras por minuto;
+  - tamaño del texto, «cerca de la cámara», pantalla completa y cronómetro por respuesta;
+  - pantalla siempre encendida mientras lee.
+
+  Con movimiento reducido avanza línea a línea. Los ajustes se recuerdan.
+- Ayuda: guía de la entrevista concreta y atajos del guion en directo. Privacidad: el CV y el Baúl. Inicio: accesos a «Preparar entrevista» y al Baúl.
+
+### Seguridad
+- **Límites del lector:**
+  - 10 MB por archivo;
+  - 40 MB descomprimidos en total, una defensa contra bombas de descompresión aunque el ZIP mienta sobre su tamaño;
+  - 20.000 objetos por PDF.
+- **PDF cifrado o sin texto:** error claro, sin colgar la página.
+- **Saneado del estado nuevo campo a campo:** solo los campos de cada tipo de nota y sus límites, entrevistadores y formatos válidos, ediciones con id seguro y nada de claves de prototipo.
+
+### Pruebas
+- **Motor:** `tests/documento.test.js` y `tests/guion.test.js`, 32 pruebas nuevas (203 en total).
+- **e2e:** `tests/e2e_guion.py` añade seis flujos:
+  - CV en PDF y DOCX y error claro con un PDF escaneado;
+  - Baúl;
+  - guion, con ediciones, ley y descarga;
+  - teleprompter con teclado y movimiento reducido;
+  - inglés y móvil;
+  - borrar la entrevista.
+- **axe:** las seis vistas nuevas y sus estados en claro, oscuro, 1280 y 390 px, con 0 infracciones.
+
 ## [0.8.3] · 2026-11-09 · Cifras que cuadran al importar
 
 ### Corregido

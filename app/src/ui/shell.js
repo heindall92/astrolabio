@@ -7,10 +7,12 @@ const ROUTES = [
   { id: 'arena', ic: 'swords' },
   { id: 'vacante', ic: 'scan-search' },
   { id: 'presentacion', ic: 'mic' },
+  { id: 'entrevista', ic: 'clipboard-list' },
+  { id: 'baul', ic: 'archive' },
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
-const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta', 'traductor'];
+const EXTRA_ROUTES = ['perfil', 'privacidad', 'oferta', 'chuleta', 'traductor', 'guion', 'directo'];
 const VIEWS = {};
 
 function parseHash() {
@@ -228,6 +230,8 @@ function fillMore() {
       h('div', { class: 'more-list' },
         link('#vacante', 'scan-search', t('nav.vacante')),
         link('#presentacion', 'mic', t('nav.presentacion')),
+        link('#entrevista', 'clipboard-list', t('nav.entrevista')),
+        link('#baul', 'archive', t('nav.baul')),
         link('#traductor', 'arrow-left-right', t('nav.traductor')),
         link('#progreso', 'chart-column', t('nav.progreso')),
         link('#insignias', 'award', t('nav.insignias')),
@@ -332,6 +336,8 @@ function initShell() {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); return; }
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) || document.activeElement.isContentEditable;
     if (typing || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
+    // En el guion en directo, las teclas son del teleprompter (números, flechas, espacio).
+    if ((document.body.dataset.route || '').startsWith('directo')) return;
     if (e.key === '?') { e.preventDefault(); openHelp('atajos'); }
     else if (e.key === 'n' && UI.state.perfil) { e.preventDefault(); go('forja/nueva'); }
     else if (/^[1-6]$/.test(e.key) && UI.state.perfil) { go(ROUTES[Number(e.key) - 1].id); }

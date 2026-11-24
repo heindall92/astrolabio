@@ -8,6 +8,7 @@ const KEY = {
   idioma: 'astrolabio-idioma',
   sonido: 'astrolabio-sonido',
   lateral: 'astrolabio-lateral',
+  directo: 'astrolabio-directo',
 };
 const ACENTOS = ['azul', 'rosa', 'solar', 'glaciar', 'orquidea', 'verde', 'rojo'];
 const DICTS = { es: ES, en: EN };

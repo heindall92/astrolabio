@@ -5,6 +5,7 @@ import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from helpers import axe, fresh, check, goto, new_page, run, settle  # noqa: E402
 from e2e_app import BUENA, state  # noqa: E402
+from e2e_guion import con_entrevista, CV_DIR  # noqa: E402
 
 MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
 ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias', 'vacante', 'presentacion', 'traductor']
@@ -157,6 +158,23 @@ def sweep(theme, width):
             step(pg)
             axe(pg, f'{theme}/{width}/{label}')
         check(n == len(ROUTES), 'todas las rutas')
+        # 0.9: Baúl, preparar entrevista, guion y guion en directo, con datos y en sus estados.
+        pg = new_page(browser, width=width, height=860 if width > 500 else 844, theme=theme, state=con_entrevista())
+        for r in ['baul', 'baul/n_edr', 'baul/nueva/empresa', 'entrevista', 'guion', 'directo']:
+            goto(pg, r)
+            for el in pg.locator('main details').all():
+                el.evaluate('d => d.open = true')
+            axe(pg, f'{theme}/{width}/{r}')
+        goto(pg, 'directo')
+        pg.keyboard.press('k')
+        axe(pg, f'{theme}/{width}/directo-texto')
+        goto(pg, 'guion')
+        pg.locator('#b-apertura button', has_text='Editar').click()
+        axe(pg, f'{theme}/{width}/guion-editando')
+        goto(pg, 'entrevista')
+        pg.set_input_files('#cv-file', {'name': 'roto.pdf', 'mimeType': 'application/pdf', 'buffer': b'%PDF-1.4 nada'})
+        pg.wait_for_selector('#cv-error')
+        axe(pg, f'{theme}/{width}/cv-error')
     return fn
 
 

@@ -8,7 +8,7 @@ import { recommendStories } from './arena.js';
 import { wordCount } from './analyzer.js';
 import { VAC_TECNOLOGIAS } from '../content/vacante.js';
 import { BAUL_CATEGORIAS } from '../content/baul.js';
-import { GUION_TXT, NOMBRE_IDIOMA, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS } from '../content/guion.js';
+import { GUION_TXT, NOMBRE_IDIOMA, NO_HERRAMIENTAS, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS } from '../content/guion.js';
 
 export const GUION = {
   maxTecnicas: 8,
@@ -185,6 +185,12 @@ export function generarGuion(ctx) {
     if (titular) partes.push(rellenar(T.presente, { titular: minuscula(titular), anos: cv && cv.anos >= 2 ? rellenar(T.presenteAnos, { n: cv.anos }) : cv && cv.anos === 1 ? T.presenteAnos1 : '' }));
     if (act && act.puesto && foldSameLength(act.puesto) !== foldSameLength(titular)) partes.push(rellenar(T.ahora, { puesto: act.puesto, empresa: act.empresa ? rellenar(T.ahoraEmpresa, { empresa: act.empresa }) : '' }));
     const anterior = cv && cv.experiencias.find(x => x !== act);
+    const herramientas = cv ? cv.tecnologias.filter(x => !NO_HERRAMIENTAS.includes(x) && !cv.certificaciones.some(c => foldSameLength(c).includes(foldSameLength(x)))) : [];
+    if (herramientas.length >= 2) {
+      const ofTec = ctx.oferta ? ctx.oferta.tecnologias : [];
+      const orden = [...herramientas.filter(x => ofTec.includes(x)), ...herramientas.filter(x => !ofTec.includes(x))];
+      partes.push(rellenar(T.tecs, { lista: lista(orden.slice(0, 3), idioma) }));
+    }
     if (anterior) partes.push(rellenar(T.antes, { puesto: minuscula(anterior.puesto), empresa: anterior.empresa ? rellenar(T.ahoraEmpresa, { empresa: anterior.empresa }) : '' }));
     const logro = (r.logro && r.logro.trim()) || (cv && cv.logros[0]) || '';
     if (logro) partes.push(rellenar(T.logro, { logro: frase(minuscula(logro)) }));

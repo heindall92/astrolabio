@@ -446,7 +446,39 @@ Responde a lo que más se ha comentado del lanzamiento: el CV que no pasa el fil
 - [x] Blue-Jr 0.6.0 exporta cada ticket del simulador de SOC como historia STAR (situación, tarea, acción, resultado y lección), con la defensa que escribiste en «Defiende tu ticket».
 - **Hecho cuando:** el mismo archivo de ejemplo, generado por el motor de Blue-Jr, está en `tests/fixtures/historias-blue-jr.json` de los dos repositorios; aquí pasa el saneado sin perder un campo (`tests/ecosistema.test.js`) y se importa en el navegador sin tocar tus historias, tu XP ni tu perfil (`tests/e2e_app.py`).
 
-### v0.9.0 · Ensayar como en la entrevista real
+### v0.9.0 · De tu CV al guion en directo
+Nace de una entrevista real por videollamada: el «Háblame de ti» se leyó en pantalla porque no hubo tiempo de aprenderlo, con palabras clave del puesto. Astrolabio prepara ese guion y lo enseña sin ruido.
+- [x] **Lector de CV** en el navegador, sin librerías ni red: PDF (Chromium, Word, Google Docs, LibreOffice), DOCX, ODT y TXT. Experiencias con fechas, años, puesto actual, tecnologías, certificaciones y logros con cifra.
+- [x] **Baúl de notas** con formularios por tipo: herramienta (EDR/XDR…), concepto, proyecto, certificación, empresa e idea.
+- [x] **Marca personal:** ventaja del 10 %, punto de vista, frase e hilo conductor.
+- [x] **Preparar entrevista:** formulario, CV, oferta y preguntas de apoyo.
+- [x] **Guion por tipo de pregunta**, con huecos [entre corchetes] en lugar de inventar. Dudas automáticas por años e idioma, salario sin decir el mínimo y la Ley 3/2023, art. 5 g) (Real Decreto-ley 39/2026) ante la pregunta por el salario anterior.
+- [x] **Posibles preguntas** con su porqué y banco técnico por tecnología.
+- [x] **Guion en directo:** teleprompter con teclas por tipo de pregunta, palabras clave o texto con velocidad, cerca de la cámara, pantalla completa y cronómetro.
+- **Hecho cuando:**
+  - el mismo CV ficticio se lee igual desde Chromium, LibreOffice, DOCX, ODT y TXT;
+  - las bombas de descompresión y los PDF cifrados o escaneados fallan con un mensaje claro;
+  - el guion pasa pruebas de motor para cada tipo de bloque;
+  - hay e2e del flujo completo y del teleprompter con teclado y movimiento reducido;
+  - axe da 0 infracciones en las vistas nuevas. *Hecho.*
+
+### v0.10.0 · Tu marca fuera de la entrevista
+Junta en Astrolabio lo mejor de `ai-job-search-es` (del mismo autor) para que sea una sola herramienta completa. Lo derivado de proyectos MIT de terceros se atribuye en `NOTICE`.
+- [ ] **Kit de LinkedIn** desde la marca personal y el CV:
+  - titular y «Acerca de» con la ventaja, el punto de vista y la frase;
+  - palabras clave de las ofertas guardadas;
+  - mensaje para pedir recomendaciones a excompañeros y exresponsables.
+- [ ] **CV de tareas a resultados:** cada viñeta con la fórmula XYZ (verbo, cifra y cómo); fechas sin mes que no coinciden con LinkedIn ni con los formularios; tareas sin resultado marcadas para reescribir.
+- [ ] **Bóveda de historias:** seis historias listas, cada una con «úsala para…» (preguntas y competencias) y su lugar en el guion.
+- [ ] **Plan de contenido «Field Notes»:** de una nota del Baúl a un borrador de post, con calendario cada dos semanas en `.ics` y revisión del borrador.
+- [ ] **Candidaturas:** cada oferta con su estado y su guion, y fecha de seguimiento. Se importan de `ai-job-search-es` en el sobre `yrd-ecosistema`.
+- **Hecho cuando:**
+  - todo funciona sin red;
+  - el kit de LinkedIn no inventa cifras (solo usa las del CV y del Baúl);
+  - hay prueba de ida y vuelta de la importación de candidaturas;
+  - axe da 0 infracciones.
+
+### v0.11.0 · Ensayar como en la entrevista real
 - [ ] **Grabadora local** en el modo en voz alta: el audio se graba con el micrófono, se queda en memoria y se puede escuchar y borrar; nunca se sube ni se guarda sin pedirlo. Cronómetro, ritmo estimado y la autoevaluación actual sobre la grabación.
 - [ ] **Plan para una entrevista concreta:** fecha, empresa, tipo y ruta generan un plan de 3, 5 o 7 días con sesiones cortas (historias que faltan, duelos con el recruiter adecuado y repaso), y un recordatorio `.ics` que se descarga.
 - [ ] **Repaso espaciado** de las cifras y frases clave de cada historia, para llegar a la entrevista sin leer.

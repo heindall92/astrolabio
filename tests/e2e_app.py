@@ -756,6 +756,9 @@ TESTS = [
     ('0.8: lector de ofertas, CV, «Háblame de ti» y traductor', t_oferta_presentacion),
 ]
 
+from e2e_guion import TESTS_GUION  # noqa: E402
+EXTRA_TESTS = globals().get('EXTRA_TESTS', []) + TESTS_GUION
+
 if __name__ == '__main__':
     extra = globals().get('EXTRA_TESTS', [])
     run(TESTS + extra)

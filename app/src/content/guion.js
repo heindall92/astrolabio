@@ -15,6 +15,8 @@ export const GUION_CATEGORIAS = [
   { id: 'cierre', icono: 'flag' },
 ];
 export const ENTREVISTADORES = ['rrhh', 'tecnico', 'direccion', 'panel'];
+/** Etiquetas del léxico que son áreas o funciones, no herramientas: no van en «trabajo a diario con…». */
+export const NO_HERRAMIENTAS = ['SOC', 'Red Team', 'Blue Team', 'Pentesting', 'Redes', 'Monitorización', 'Respuesta a incidentes', 'Análisis forense', 'Malware', 'Threat hunting', 'Auditoría', 'Análisis de riesgos', 'Continuidad de negocio', 'Gestión de vulnerabilidades', 'Criptografía', 'Estadística', 'Machine learning', 'Deep learning', 'Microservicios', 'Pruebas automatizadas', 'Investigación de usuarios', 'Prototipado', 'Accesibilidad', 'Helpdesk', 'Agile'];
 /** Nombre de cada idioma que puede pedir una oferta (ids de VAC_IDIOMAS). */
 export const NOMBRE_IDIOMA = {
   ingles: { es: 'inglés', en: 'English' }, frances: { es: 'francés', en: 'French' }, aleman: { es: 'alemán', en: 'German' }, portugues: { es: 'portugués', en: 'Portuguese' },
@@ -84,6 +86,7 @@ export const GUION_TXT = {
     ahoraEmpresa: ' en {empresa}',
     antes: 'Antes fui {puesto}{empresa}, y esa etapa me dio una base práctica.',
     logro: 'Un ejemplo concreto: {logro}',
+    tecs: 'Trabajo a diario con {lista}.',
     certs: 'Además, tengo {lista}.',
     frase: 'Si tuviera que resumirme en una frase: {frase}',
     ventaja: 'Lo que me diferencia es {ventaja}',
@@ -157,6 +160,7 @@ export const GUION_TXT = {
     ahoraEmpresa: ' at {empresa}',
     antes: 'Before that I was {puesto}{empresa}, which gave me a practical foundation.',
     logro: 'A concrete example: {logro}',
+    tecs: 'I work daily with {lista}.',
     certs: 'I also hold {lista}.',
     frase: 'If I had to sum myself up in one sentence: {frase}',
     ventaja: 'What sets me apart is {ventaja}',

@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="Licencia GPLv2" src="https://img.shields.io/badge/LICENCIA-GPLv2-4169A1?style=flat"/></a>
-  <img alt="Versión 0.8.3" src="https://img.shields.io/badge/versi%C3%B3n-0.8.3-1a4fe0?style=flat"/>
+  <img alt="Versión 0.9.0" src="https://img.shields.io/badge/versi%C3%B3n-0.9.0-1a4fe0?style=flat"/>
   <img alt="axe-core: 0 infracciones" src="https://img.shields.io/badge/axe--core-0%20infracciones-2E8B57?style=flat"/>
   <img alt="Interfaz ES/EN" src="https://img.shields.io/badge/UI-ES%20%2F%20EN-2E8B57?style=flat"/>
   <img alt="Iconos Lucide" src="https://img.shields.io/badge/iconos-Lucide-F56565?style=flat"/>
@@ -31,7 +31,36 @@
   <img src="docs/img/forja-light.png" alt="La Forja: banco de historias STAR con su estado y su puntuación" width="880"/>
 </p>
 
-> **Estado:** versión 0.8.3 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+> **Estado:** versión 0.9.0 publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
+
+## Novedades de la 0.9 · De tu CV al guion en directo
+
+La 0.9 te acompaña el día de la entrevista. Subes tu CV, contestas unas preguntas y te llevas lo que vas a decir, ordenado por tipo de pregunta, con un modo para leerlo en una videollamada.
+
+- **Tu CV, leído en el navegador.** PDF (de Word, Google Docs, LibreOffice o «Imprimir en PDF»), DOCX, ODT o texto, con un lector propio sin librerías ni red. Saca tus experiencias con fechas, los años, el puesto actual, las tecnologías, las certificaciones y los logros con cifra. Si el PDF está cifrado o escaneado, te lo dice.
+- **Baúl de notas.** Formularios para guardar lo que sabes: herramientas (tu EDR o tu XDR: qué es en una frase, qué hiciste y una cifra), conceptos explicados para negocio y para un técnico, proyectos, certificaciones, la empresa que investigas e ideas sueltas.
+- **Marca personal.** Tu ventaja del 10 %, tu punto de vista, tu frase y tu hilo conductor: el mismo mensaje en el CV, en LinkedIn y en la entrevista.
+- **Preparar entrevista.** Cuatro pasos: la entrevista (quién te entrevista: RR. HH., perfil técnico, dirección o panel), tu CV, la oferta y unas preguntas de apoyo. El guion sale por tipo de pregunta:
+  - saludo y «Háblame de ti», puntuado con el mismo analizador;
+  - motivación, experiencia y técnicas, con tus notas del Baúl;
+  - situaciones STAR, con tus historias;
+  - difíciles, salario y tus preguntas;
+  - cierre.
+
+  Lo que falta queda **[entre corchetes]**: no inventa nada.
+- **Las dudas que va a tener quien te entrevista.** Si la oferta pide más años o un nivel de idioma que tu CV no muestra, la respuesta ya está preparada.
+- **Salario.** Con la banda de la oferta o con tu objetivo, sin decir nunca tu mínimo. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
+- **Posibles preguntas**, cada una con su porqué (la oferta, tu CV, tu Baúl o «casi siempre») y un enlace a tu respuesta.
+- **Guion en directo.** Un teleprompter para videollamadas:
+  - salto al tipo de pregunta con las teclas 1 a 0;
+  - palabras clave para mirar de un vistazo, o el texto completo avanzando a las palabras por minuto que elijas;
+  - opción de dejarlo cerca de la cámara, pantalla completa y cronómetro por respuesta.
+
+  Con movimiento reducido avanza línea a línea.
+
+<p align="center">
+  <img src="docs/img/guion-light.png" alt="Tu guion: «Háblame de ti» generado con el CV y la marca personal, y la navegación por tipo de pregunta" width="880"/>
+</p>
 
 ## Novedades de la 0.8 · Del filtro a la entrevista
 
@@ -51,6 +80,7 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 
 ## Índice
 
+- [Novedades de la 0.9](#novedades-de-la-09--de-tu-cv-al-guion-en-directo)
 - [Novedades de la 0.8](#novedades-de-la-08--del-filtro-a-la-entrevista)
 - [Cómo se usa](#cómo-se-usa)
 - [Mapa mental](#mapa-mental)
@@ -75,6 +105,8 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 
 Y para una oferta concreta:
 
+- **Preparar entrevista.** Sube tu CV, pega la oferta, marca quién te entrevista y contesta las preguntas de apoyo. **Tu guion** te da lo que vas a decir por tipo de pregunta y las posibles preguntas; **Guion en directo** lo enseña como un teleprompter durante la videollamada.
+- **Baúl.** Tu marca personal y tus notas de herramientas, conceptos, proyectos, certificaciones y empresas. El guion las usa para responder con tus datos.
 - **Oferta.** Pegas el texto de una oferta y Astrolabio saca las competencias, tecnologías, años de experiencia, idiomas y modalidad que pide. Lo cruza con tus historias (cubierta, a medias o sin historia), te da las cinco preguntas más probables, compara tu CV con las palabras clave de la oferta y genera viñetas de CV a partir de tus historias. Sin IA: reglas y un léxico propio en español e inglés. La oferta no se guarda salvo que lo pidas.
 - **Háblame de ti.** La presentación de 60 a 90 segundos, puntuada en vivo: ahora, antes (con una cifra) y por qué este puesto. Junto a ella, las preguntas difíciles con su guía (sobrecualificación, cambio de sector, por qué dejaste tu trabajo, dónde te ves en cinco años) y diez preguntas para hacer tú al final.
 - **Traductor.** Si vienes de hostelería, comercio, docencia, logística, sanidad o administración, cómo contar lo que ya sabes hacer en una entrevista técnica, con un botón para convertirlo en historia.
@@ -128,6 +160,10 @@ flowchart LR
 | **Inicio** | <img src="docs/img/inicio-light.png" width="300" alt="Inicio, tema claro"/> | <img src="docs/img/inicio-dark.png" width="300" alt="Inicio, tema oscuro"/> | <img src="docs/img/inicio-movil.png" width="140" alt="Inicio en móvil"/> |
 | **Forja** | <img src="docs/img/forja-light.png" width="300" alt="Forja, tema claro"/> | <img src="docs/img/forja-dark.png" width="300" alt="Forja, tema oscuro"/> | <img src="docs/img/forja-movil.png" width="140" alt="Forja en móvil"/> |
 | **Editor STAR** | <img src="docs/img/editor-light.png" width="300" alt="Editor con puntuación en vivo, tema claro"/> | <img src="docs/img/editor-dark.png" width="300" alt="Editor con puntuación en vivo, tema oscuro"/> | <img src="docs/img/editor-movil.png" width="140" alt="Editor en móvil"/> |
+| **Preparar entrevista** | <img src="docs/img/entrevista-light.png" width="300" alt="Preparar entrevista: tu CV leído en el navegador con años, puestos, tecnologías y logros, tema claro"/> | <img src="docs/img/entrevista-dark.png" width="300" alt="Preparar entrevista, tema oscuro"/> | <img src="docs/img/entrevista-movil.png" width="140" alt="Preparar entrevista en móvil"/> |
+| **Tu guion** | <img src="docs/img/guion-light.png" width="300" alt="Tu guion por tipo de pregunta, con «Háblame de ti» generado, tema claro"/> | <img src="docs/img/guion-dark.png" width="300" alt="Tu guion, tema oscuro"/> | <img src="docs/img/guion-movil.png" width="140" alt="Tu guion en móvil"/> |
+| **Guion en directo** | <img src="docs/img/directo-light.png" width="300" alt="Guion en directo: teleprompter con tipos de pregunta, velocidad y cronómetro, tema claro"/> | <img src="docs/img/directo-dark.png" width="300" alt="Guion en directo, tema oscuro"/> | <img src="docs/img/directo-movil.png" width="140" alt="Guion en directo en móvil"/> |
+| **Baúl** | <img src="docs/img/baul-light.png" width="300" alt="Baúl: marca personal y formularios de notas, tema claro"/> | <img src="docs/img/baul-dark.png" width="300" alt="Baúl, tema oscuro"/> | <img src="docs/img/baul-movil.png" width="140" alt="Baúl en móvil"/> |
 | **Constelación** | <img src="docs/img/constelacion-light.png" width="300" alt="Constelación, tema claro"/> | <img src="docs/img/constelacion-dark.png" width="300" alt="Constelación, tema oscuro"/> | <img src="docs/img/constelacion-movil.png" width="140" alt="Constelación en móvil"/> |
 | **Arena** | <img src="docs/img/arena-light.png" width="300" alt="Arena, tema claro"/> | <img src="docs/img/arena-dark.png" width="300" alt="Arena, tema oscuro"/> | <img src="docs/img/arena-movil.png" width="140" alt="Arena en móvil"/> |
 | **Progreso** | <img src="docs/img/progreso-light.png" width="300" alt="Progreso, tema claro"/> | <img src="docs/img/progreso-dark.png" width="300" alt="Progreso, tema oscuro"/> | <img src="docs/img/progreso-movil.png" width="140" alt="Progreso en móvil"/> |
@@ -186,7 +222,7 @@ flowchart LR
     CONT[content: competencias, recruiters, preguntas, léxico] --> ENG
     ENG[engine: analyzer, score, sanitize…<br/>puro y sin DOM] --> UI[ui: shell, perfil, forja, ayuda…]
   end
-  V[vendor: Geist, Sora, 119 iconos Lucide, logo] --> B
+  V[vendor: Geist, Sora, 151 iconos Lucide, logo] --> B
   src --> B[app/build.js]
   B --> D[dist/index.html<br/>CSP por hashes]
   B --> A[dist/artifact/astrolabio.html]
@@ -197,8 +233,8 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 171 pruebas |
-| Extremo a extremo (Playwright) | 24 flujos |
+| Motor, contenido e i18n (`node --test`) | 203 pruebas |
+| Extremo a extremo (Playwright) | 30 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -211,16 +247,24 @@ flowchart LR
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
 - Las historias de otra herramienta del ecosistema (sobre `yrd-ecosistema`, tipo `historias`, con otro `app`) se suman con `mergeStories`: nunca sustituyen tus datos ni pisan una historia que ya tengas.
-- El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
+- El CV se lee en el navegador con un lector propio (sin librerías ni red), con límite de 10 MB, de 40 MB descomprimidos y de objetos por PDF: un archivo malicioso no puede bloquear la página. Se guarda su texto, nunca el archivo, y «Borrar esta entrevista» lo quita.
+- El texto de una oferta y tu CV del lector de ofertas se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
 
 ## Lo siguiente
 
-- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
+- **0.10 · Tu marca fuera de la entrevista:**
+  - kit de LinkedIn (titular, «Acerca de», palabras clave y petición de recomendaciones);
+  - CV de tareas a resultados (fórmula XYZ y fechas coherentes);
+  - bóveda de historias con «úsala para…»;
+  - plan de contenido «Field Notes» cada dos semanas;
+  - seguimiento de candidaturas, con lo mejor de ai-job-search-es.
+- **0.11 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
 - **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
 
 ## Historial de versiones
 
+- **0.9.0** · De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta con salario y Ley 3/2023, posibles preguntas y teleprompter
 - **0.8.3** · Importar de Blue-Jr: el diálogo cuadra sus cifras y dice cuántas historias se ignoran por ilegibles
 - **0.8.2** · Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada
 - **0.8.1** · README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día

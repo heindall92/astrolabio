@@ -41,6 +41,8 @@ const HELP_BUILD = {
   guia: () => [
     h('p', { text: t('ayuda.guia.intro') }),
     h('ol', null, ['perfil', 'forja', 'constelacion', 'arena', 'informe'].map(s => h('li', null, h('b', { text: t('camino.' + s) }), ': ', t('camino.' + s + '.d')))),
+    h('h3', { text: t('ayuda.guia.entrevistaTitulo') }),
+    h('p', { text: t('ayuda.guia.entrevista') }),
     h('h3', { text: t('ayuda.guia.realTitulo') }),
     h('p', { text: t('ayuda.guia.real') }),
     h('div', { class: 'callout warn' }, icon('triangle-alert'), h('p', { text: t('forja.ensayoAviso') })),
@@ -69,9 +71,9 @@ const HELP_BUILD = {
     ...RECRUITERS.map(r => h('div', { class: 'card stack' }, h('div', { class: 'row' }, icon(r.icono), h('h3', { text: L(r.nombre) }), h('span', { class: 'chip' + (r.jefe ? ' gold' : ''), text: t('dificultad.' + r.dificultad) })), h('p', { class: 'muted', text: L(r.estilo) }))),
   ],
   atajos: () => {
-    const rows = [['Ctrl K / ⌘K', 'atajo.buscar'], ['?', 'atajo.ayuda'], ['N', 'atajo.nueva'], ['1 – 6', 'atajo.secciones'], ['Esc', 'atajo.cerrar'], ...(typeof ARENA_SHORTCUTS !== 'undefined' ? ARENA_SHORTCUTS : [])];
+    const rows = [['Ctrl K / ⌘K', 'atajo.buscar'], ['?', 'atajo.ayuda'], ['N', 'atajo.nueva'], ['1 – 6', 'atajo.secciones'], ['Esc', 'atajo.cerrar'], ...(typeof ARENA_SHORTCUTS !== 'undefined' ? ARENA_SHORTCUTS : []), ...(typeof DIRECTO_SHORTCUTS !== 'undefined' ? DIRECTO_SHORTCUTS : [])];
     return [h('table', null, h('thead', null, h('tr', null, h('th', { scope: 'col', text: t('ayuda.atajos.tecla') }), h('th', { scope: 'col', text: t('ayuda.atajos.accion') }))),
-      h('tbody', null, rows.map(([k, key]) => h('tr', null, h('td', null, h('kbd', { text: k })), h('td', { text: t(key) })))))];
+      h('tbody', null, rows.map(([k, key]) => h('tr', null, h('td', null, h('kbd', { text: k.startsWith('tecla.') ? t(k) : k })), h('td', { text: t(key) })))))];
   },
   glosario: () => {
     const items = allGlossary();
