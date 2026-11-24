@@ -486,20 +486,20 @@ Nace de una entrevista real por videollamada: el «Háblame de ti» se leyó en 
   - axe da 0 infracciones en las vistas nuevas. *Hecho.*
 
 ### v0.10.0 · Tu marca fuera de la entrevista
-Junta en Astrolabio lo mejor de `ai-job-search-es` (del mismo autor) para que sea una sola herramienta completa. Lo derivado de proyectos MIT de terceros se atribuye en `NOTICE`.
-- [ ] **Kit de LinkedIn** desde la marca personal y el CV:
+Junta en Astrolabio lo mejor de `ai-job-search-es` (del mismo autor) para que sea una sola herramienta completa. No se copió código de terceros: las partes de `ai-job-search-es` que derivan de proyectos MIT (base del repositorio, panel y fórmulas de LinkedIn) no se han traído; los textos son de redacción propia.
+- [x] **Kit de LinkedIn** desde la marca personal y el CV:
   - titular y «Acerca de» con la ventaja, el punto de vista y la frase;
   - palabras clave de las ofertas guardadas;
   - mensaje para pedir recomendaciones a excompañeros y exresponsables.
-- [ ] **CV de tareas a resultados:** cada viñeta con la fórmula XYZ (verbo, cifra y cómo); fechas sin mes que no coinciden con LinkedIn ni con los formularios; tareas sin resultado marcadas para reescribir.
-- [ ] **Bóveda de historias:** seis historias listas, cada una con «úsala para…» (preguntas y competencias) y su lugar en el guion.
-- [ ] **Plan de contenido «Field Notes»:** de una nota del Baúl a un borrador de post, con calendario cada dos semanas en `.ics` y revisión del borrador.
-- [ ] **Candidaturas:** cada oferta con su estado y su guion, y fecha de seguimiento. Se importan de `ai-job-search-es` en el sobre `yrd-ecosistema`.
+- [x] **CV de tareas a resultados:** cada viñeta con la fórmula XYZ (verbo, cifra y cómo); fechas sin mes que no coinciden con LinkedIn ni con los formularios; tareas sin resultado marcadas para reescribir.
+- [x] **Bóveda de historias:** seis historias listas, cada una con «úsala para…» (preguntas y competencias) y su lugar en el guion.
+- [x] **Plan de contenido «Field Notes»:** de una nota del Baúl a un borrador de post, con calendario cada dos semanas en `.ics` y revisión del borrador.
+- [x] **Candidaturas:** cada oferta con su estado y su guion, y fecha de seguimiento. Se importan de `ai-job-search-es` en el sobre `yrd-ecosistema`.
 - **Hecho cuando:**
   - todo funciona sin red;
   - el kit de LinkedIn no inventa cifras (solo usa las del CV y del Baúl);
   - hay prueba de ida y vuelta de la importación de candidaturas;
-  - axe da 0 infracciones.
+  - axe da 0 infracciones. *Hecho: `tests/marca.test.js`, `tests/e2e_marca.py` y el barrido de axe.*
 
 ### v0.11.0 · Ensayar como en la entrevista real
 - [ ] **Grabadora local** en el modo en voz alta: el audio se graba con el micrófono, se queda en memoria y se puede escuchar y borrar; nunca se sube ni se guarda sin pedirlo. Cronómetro, ritmo estimado y la autoevaluación actual sobre la grabación.

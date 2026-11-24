@@ -9,6 +9,8 @@ const ROUTES = [
   { id: 'presentacion', ic: 'mic' },
   { id: 'entrevista', ic: 'clipboard-list' },
   { id: 'baul', ic: 'archive' },
+  { id: 'marca', ic: 'megaphone' },
+  { id: 'candidaturas', ic: 'list-todo' },
   { id: 'progreso', ic: 'chart-column' },
   { id: 'insignias', ic: 'award' },
 ];
@@ -232,6 +234,8 @@ function fillMore() {
         link('#presentacion', 'mic', t('nav.presentacion')),
         link('#entrevista', 'clipboard-list', t('nav.entrevista')),
         link('#baul', 'archive', t('nav.baul')),
+        link('#marca', 'megaphone', t('nav.marca')),
+        link('#candidaturas', 'list-todo', t('nav.candidaturas')),
         link('#traductor', 'arrow-left-right', t('nav.traductor')),
         link('#progreso', 'chart-column', t('nav.progreso')),
         link('#insignias', 'award', t('nav.insignias')),
@@ -257,6 +261,8 @@ async function importData(file) {
   const text = await file.text();
   const raw = safeParse(text);
   if (!raw || typeof raw !== 'object') { toast(t('toast.importError'), { ic: 'triangle-alert' }); return; }
+  // Candidaturas de ai-job-search-es: se suman a las tuyas en «Candidaturas».
+  if (raw.formato === 'ajs-candidaturas') { await importarCandidaturas(raw); return; }
   const data = raw.formato === 'yrd-ecosistema' ? (raw.tipo === 'historias' ? raw.datos : null) : raw;
   if (!data) { toast(t('toast.importTipo'), { ic: 'triangle-alert' }); return; }
   // Historias de otra herramienta del ecosistema (Blue-Jr…): se suman a las tuyas, nunca las sustituyen.

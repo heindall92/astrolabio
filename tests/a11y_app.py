@@ -6,6 +6,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from helpers import axe, fresh, check, goto, new_page, run, settle  # noqa: E402
 from e2e_app import BUENA, state  # noqa: E402
 from e2e_guion import con_entrevista, CV_DIR  # noqa: E402
+from e2e_marca import historia  # noqa: E402
+import json as _json  # noqa: E402
+CANDS = _json.loads((CV_DIR.parent / 'candidaturas-ajs.json').read_text(encoding='utf-8'))['candidaturas']
 
 MALA = dict(BUENA, id='h_mala', titulo='Una alerta', s='Estaba en el SOC.', t='Había alertas.', a='Estuve mirando cosas. Lo miramos entre todos en 10.1.2.3.', r='Se solucionó más o menos.', l='')
 ROUTES = ['inicio', 'forja', 'forja/h_buena', 'forja/h_mala', 'forja/nueva', 'perfil', 'privacidad', 'constelacion', 'arena', 'progreso', 'insignias', 'vacante', 'presentacion', 'traductor']
@@ -179,6 +182,18 @@ def sweep(theme, width):
         pg.click('#ronda-ent-enviar')
         pg.click('#ronda-ent-sigue')
         axe(pg, f'{theme}/{width}/ronda-salarial')
+        # 0.10: tu marca y candidaturas, con datos.
+        pg = new_page(browser, width=width, height=860 if width > 500 else 844, theme=theme, state=con_entrevista(historias=[historia('h1', ['presion']), historia('h2', ['equipo'])], candidaturas=CANDS, ultimoDia='2026-11-24'))
+        for r in ['marca/linkedin', 'marca/cv', 'marca/boveda', 'marca/contenido', 'candidaturas', 'candidaturas/nueva']:
+            goto(pg, r)
+            for el in pg.locator('main details').all():
+                el.evaluate('d => d.open = true')
+            axe(pg, f'{theme}/{width}/{r}')
+        goto(pg, 'candidaturas')
+        pg.set_input_files('#cand-file', str(CV_DIR.parent / 'candidaturas-ajs.json'))
+        pg.wait_for_selector('#dlg-confirm[open]')
+        axe(pg, f'{theme}/{width}/candidaturas-importar')
+        pg.keyboard.press('Escape')
     return fn
 
 

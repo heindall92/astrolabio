@@ -592,3 +592,21 @@ mark.hueco { background: color-mix(in oklab, var(--warn) 16%, transparent); colo
 .checks li { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
 .checks li.ok .ic { color: var(--ok); }
 .checks li.no .ic { color: var(--crit); }
+
+/* ============ 0.10 · Tu marca y candidaturas ============ */
+.tabs-marca a { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 14px; border-radius: 999px; color: var(--ink-2); text-decoration: none; font: 550 .85rem var(--f); }
+.tabs-marca a[aria-current="page"] { background: var(--s1); color: var(--ink); box-shadow: var(--shadow); }
+.texto-largo { white-space: pre-wrap; line-height: 1.6; padding: 14px 16px; border-radius: var(--r-sm); background: var(--s2); }
+mark.pliegue { background: color-mix(in oklab, var(--accent) 14%, transparent); color: var(--ink); border-radius: 4px; }
+tr.falta th { color: var(--warn); }
+.chip.falta { color: var(--crit); border-color: color-mix(in oklab, var(--crit) 40%, var(--line)); background: transparent; }
+.fn-item.publicado { opacity: .72; }
+.cand-tablero { display: flex; flex-wrap: wrap; gap: 8px; }
+.cand-col { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--s1); }
+.cand.cerrada { opacity: .75; }
+.cand select { width: auto; min-height: 32px; border-radius: var(--r-sm); border: 1px solid var(--line-2); background: var(--s1); padding: 0 8px; max-width: 100%; }
+.chip.cand-oferta { color: var(--star-ink); background: var(--star); border-color: transparent; }
+.chip.cand-entrevista { color: var(--on-accent); background: var(--accent); border-color: transparent; }
+
+main details > summary { min-height: 24px; padding-block: 2px; cursor: pointer; }
+#fn-plan { list-style: none; padding: 0; }

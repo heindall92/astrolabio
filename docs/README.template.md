@@ -33,6 +33,24 @@
 
 > **Estado:** versión {{VERSION}} publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
+## Novedades de la 0.10 · Tu marca fuera de la entrevista
+
+La 0.10 lleva el mismo mensaje de la entrevista a LinkedIn, al CV y a lo que publicas, y ordena tus candidaturas. Junta en Astrolabio lo mejor de `ai-job-search-es`, del mismo autor.
+
+- **Kit de LinkedIn:**
+  - tres titulares dentro del límite del editor (220 caracteres);
+  - un «Acerca de» que abre con tu frase y lleva los logros de tu CV tal cual, con lo que se ve antes de «ver más» resaltado;
+  - las palabras clave que piden tus ofertas y faltan en tu perfil;
+  - el mensaje para pedir una recomendación.
+- **CV de tareas a resultados.** Cada viñeta se revisa con la fórmula XYZ (verbo de acción, cifra y cómo). Te propone el verbo («Administración de…» → «Administré…»), pero nunca un número. Una ficha de fechas con mes y año sirve para que el CV, los formularios y LinkedIn digan lo mismo.
+- **Bóveda de historias.** Seis historias que cubren competencias distintas, cada una con «úsala para…»: las preguntas para las que es la mejor, sin repetir ninguna.
+- **Field Notes.** Una nota del Baúl cada dos semanas convertida en borrador de post, con tu cifra como gancho. Una revisión te avisa de lo que suena genérico, del cebo, de los hashtags de más o de los huecos sin completar. El calendario se descarga en `.ics` (RFC 5545). Tú publicas: no se envía nada.
+- **Candidaturas.** Estado, prioridad, próximo paso y seguimiento, con avisos de lo que te toca mover. Se importan y se exportan en el formato de `ai-job-search-es` (`ajs-candidaturas`), y desde cada una se prepara la entrevista.
+
+<p align="center">
+  <img src="docs/img/marca-light.png" alt="Tu marca: titulares de LinkedIn con su límite y «Acerca de» generado con tu frase y los logros del CV" width="880"/>
+</p>
+
 ## Novedades de la 0.9 · De tu CV al guion en directo
 
 La 0.9 te acompaña el día de la entrevista. Subes tu CV, contestas unas preguntas y te llevas lo que vas a decir, ordenado por tipo de pregunta, con un modo para leerlo en una videollamada.
@@ -80,6 +98,7 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 
 ## Índice
 
+- [Novedades de la 0.10](#novedades-de-la-010--tu-marca-fuera-de-la-entrevista)
 - [Novedades de la 0.9](#novedades-de-la-09--de-tu-cv-al-guion-en-directo)
 - [Novedades de la 0.8](#novedades-de-la-08--del-filtro-a-la-entrevista)
 - [Cómo se usa](#cómo-se-usa)
@@ -106,6 +125,8 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 Y para una oferta concreta:
 
 - **Preparar entrevista.** Sube tu CV, pega la oferta, marca quién te entrevista y contesta las preguntas de apoyo. **Tu guion** te da lo que vas a decir por tipo de pregunta y las posibles preguntas; **Guion en directo** lo enseña como un teleprompter durante la videollamada.
+- **Tu marca.** LinkedIn, CV de resultados, bóveda de historias y plan Field Notes, todo a partir de tu CV, tu marca y tu Baúl.
+- **Candidaturas.** Cada oferta con su estado y su seguimiento; se importan de `ai-job-search-es`.
 - **Baúl.** Tu marca personal y tus notas de herramientas, conceptos, proyectos, certificaciones y empresas. El guion las usa para responder con tus datos.
 - **Oferta.** Pegas el texto de una oferta y Astrolabio saca las competencias, tecnologías, años de experiencia, idiomas y modalidad que pide. Lo cruza con tus historias (cubierta, a medias o sin historia), te da las cinco preguntas más probables, compara tu CV con las palabras clave de la oferta y genera viñetas de CV a partir de tus historias. Sin IA: reglas y un léxico propio en español e inglés. La oferta no se guarda salvo que lo pidas.
 - **Háblame de ti.** La presentación de 60 a 90 segundos, puntuada en vivo: ahora, antes (con una cifra) y por qué este puesto. Junto a ella, las preguntas difíciles con su guía (sobrecualificación, cambio de sector, por qué dejaste tu trabajo, dónde te ves en cinco años) y diez preguntas para hacer tú al final.
@@ -242,12 +263,6 @@ flowchart LR
 
 ## Lo siguiente
 
-- **0.10 · Tu marca fuera de la entrevista:**
-  - kit de LinkedIn (titular, «Acerca de», palabras clave y petición de recomendaciones);
-  - CV de tareas a resultados (fórmula XYZ y fechas coherentes);
-  - bóveda de historias con «úsala para…»;
-  - plan de contenido «Field Notes» cada dos semanas;
-  - seguimiento de candidaturas, con lo mejor de ai-job-search-es.
 - **0.11 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
 - **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
 

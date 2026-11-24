@@ -48,6 +48,7 @@ def demo_state():
                'a': 'Hicimos un reparto de mesas y estuve un poco organizando cosas con los compañeros.', 'r': 'Salió bien.', 'l': '', 'competencias': ['presion', 'equipo'], 'creada': '2026-10-19', 'editada': '2026-10-19'})
     return {'version': 1, 'perfil': {'nombre': 'Ana García', 'rol': 'blue', 'nivel': 'junior', 'empresa': 'banca', 'idioma': 'es'}, 'historias': hs,
             'baul': BAUL_DEMO, 'marca': MARCA_DEMO, 'entrevista': entrevista_demo(),
+            'candidaturas': json.loads((OUT.parent.parent / 'tests/fixtures/candidaturas-ajs.json').read_text(encoding='utf-8'))['candidaturas'],
             'duelos': [{'fecha': '2026-10-18', 'recruiter': 'rita', 'ruta': 'blue', 'conviccion': 80, 'superado': True, 'modo': 'escrito'}, {'fecha': '2026-10-19', 'recruiter': 'banca', 'ruta': 'blue', 'conviccion': 58, 'superado': False, 'modo': 'contrarreloj'}], 'xp': 340, 'racha': 3, 'ultimoDia': __import__('datetime').date.today().isoformat(), 'insignias': ['primera-historia', 'primera-estrella', 'brillante', 'cinco-historias', 'cifra-en-mano', 'aprendiz', 'primer-duelo', 'primera-victoria', 'racha-3', 'meta-diaria', 'media-constelacion', 'hosteleria'], 'historialXp': {(__import__('datetime').date.today() - __import__('datetime').timedelta(days=i)).isoformat(): v for i, v in enumerate([45, 70, 20, 0, 85, 60, 35, 0, 0, 25])}, 'historialMedia': {(__import__('datetime').date.today() - __import__('datetime').timedelta(days=i)).isoformat(): v for i, v in enumerate([74, 71, 66, 58, 52, 41])}, 'ajustes': {'sensibles': []}}
 
 
@@ -107,6 +108,8 @@ SECTIONS.append(('entrevista', 'entrevista', _entrevista))
 SECTIONS.append(('guion', 'guion', _guion))
 SECTIONS.append(('directo', 'directo', _directo))
 SECTIONS.append(('baul', 'baul', None))
+SECTIONS.append(('marca', 'marca/linkedin', None))
+SECTIONS.append(('candidaturas', 'candidaturas', None))
 
 
 def shoot(browser, name, route, action, theme, mobile, state):
