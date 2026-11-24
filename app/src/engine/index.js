@@ -8,3 +8,6 @@ export * from './progress.js';
 export * from './vacante.js';
 export * from './cv.js';
 export * from './presentacion.js';
+export * from './documento.js';
+export * from './cvlector.js';
+export * from './guion.js';

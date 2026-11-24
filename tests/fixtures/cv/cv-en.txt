@@ -1,0 +1,34 @@
+# Daniel Ortega
+
+Junior Cloud Engineer · Madrid · daniel.ortega@example.com
+
+## Summary
+
+Junior cloud engineer with three years of experience automating infrastructure on AWS and Azure.
+
+## Experience
+
+**Cloud Support Engineer** · Nimbus Data (fictitious) · Jan 2023 – Present
+
+- Automated 45 deployments with Terraform and GitHub Actions.
+- Cut monthly cloud costs by 18% by rightsizing 70 instances.
+
+**IT Technician** · City Library (fictitious) · Sep 2021 – Dec 2022
+
+- Supported 120 users across Windows and Linux.
+
+## Education
+
+BSc Computer Engineering · 2017 – 2021
+
+## Certifications
+
+- AWS Certified Solutions Architect – Associate · 2024
+
+## Skills
+
+AWS, Azure, Terraform, Docker, Kubernetes, Python, Bash, Linux.
+
+## Languages
+
+English C1 · Spanish native

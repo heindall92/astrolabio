@@ -1,5 +1,7 @@
 // Carga segura de datos: safeParse descarta claves peligrosas y sanitize reconstruye campo a campo.
 import { LIMITES, ROLES, NIVELES, EMPRESAS, IDIOMAS, TIPOS } from './constants.js';
+import { BAUL_TIPOS, BAUL_CATEGORIAS, BAUL_NIVELES } from '../content/baul.js';
+import { ENTREVISTADORES, FORMATOS } from '../content/guion.js';
 
 const PELIGROSAS = new Set(['__proto__', 'constructor', 'prototype']);
 
@@ -42,6 +44,64 @@ export function emptyState() {
     ajustes: { sensibles: [] },
     presentacion: { texto: '', puesto: '' },
     vacante: null,
+    baul: [],
+    marca: { ventaja: '', puntoVista: '', frase: '', hilo: '' },
+    entrevista: null,
+  };
+}
+
+/** Respuestas de apoyo de «Preparar entrevista» (texto) y cifras del salario. */
+export const RESPUESTAS = ['motivoEmpresa', 'motivoPuesto', 'logro', 'salida', 'duda', 'dudaRespuesta', 'hueco', 'defecto', 'futuro', 'cambio', 'disponibilidad', 'condiciones'];
+
+/** Una nota del Baúl: solo los campos de su tipo, con su longitud máxima. */
+export function sanitizeNota(n) {
+  if (!n || typeof n !== 'object') return null;
+  const id = typeof n.id === 'string' && ID.test(n.id) && !PELIGROSAS.has(n.id) ? n.id : null;
+  const tipo = BAUL_TIPOS.find(x => x.id === n.tipo);
+  if (!id || !tipo) return null;
+  const src = n.campos && typeof n.campos === 'object' ? n.campos : {};
+  const campos = {};
+  for (const [k, control, max] of tipo.campos) {
+    let v = str(src[k], max);
+    if (control === 'categoria') v = BAUL_CATEGORIAS.some(c => c[0] === v) ? v : '';
+    if (control === 'nivel') v = BAUL_NIVELES.includes(v) ? v : '';
+    campos[k] = v;
+  }
+  if (!campos[tipo.campos[0][0]].trim()) return null;
+  return { id, tipo: tipo.id, campos, creada: date(n.creada), editada: date(n.editada) };
+}
+
+export function sanitizeMarca(m) {
+  const o = m && typeof m === 'object' ? m : {};
+  return { ventaja: str(o.ventaja, LIMITES.marca), puntoVista: str(o.puntoVista, LIMITES.marca), frase: str(o.frase, LIMITES.marca), hilo: str(o.hilo, LIMITES.marca) };
+}
+
+export function sanitizeEntrevista(e) {
+  if (!e || typeof e !== 'object' || Array.isArray(e)) return null;
+  const resp = {};
+  const r = e.resp && typeof e.resp === 'object' ? e.resp : {};
+  for (const k of RESPUESTAS) resp[k] = str(r[k], LIMITES.respuesta);
+  resp.salarioMin = int(r.salarioMin, 0, LIMITES.salario);
+  resp.salarioObjetivo = int(r.salarioObjetivo, 0, LIMITES.salario);
+  const ediciones = {};
+  if (e.ediciones && typeof e.ediciones === 'object') {
+    for (const k of Object.keys(e.ediciones).slice(0, LIMITES.ediciones)) {
+      if (/^[a-z0-9_-]{1,80}$/i.test(k) && !PELIGROSAS.has(k) && typeof e.ediciones[k] === 'string') ediciones[k] = e.ediciones[k].slice(0, LIMITES.edicion);
+    }
+  }
+  return {
+    empresa: str(e.empresa, LIMITES.puesto),
+    puesto: str(e.puesto, LIMITES.puesto),
+    fecha: date(e.fecha),
+    formato: oneOf(e.formato, FORMATOS, 'video'),
+    entrevistadores: Array.isArray(e.entrevistadores) ? [...new Set(e.entrevistadores.filter(x => ENTREVISTADORES.includes(x)))] : [],
+    idioma: oneOf(e.idioma, IDIOMAS, 'es'),
+    pais: oneOf(e.pais, ['es', 'otro'], 'es'),
+    oferta: str(e.oferta, LIMITES.oferta),
+    cv: str(e.cv, LIMITES.cv),
+    cvArchivo: str(e.cvArchivo, LIMITES.puesto),
+    resp,
+    ediciones,
   };
 }
 
@@ -140,6 +200,15 @@ export function sanitizeState(raw, { competencias } = {}) {
   if (raw.presentacion && typeof raw.presentacion === 'object') {
     out.presentacion = { texto: str(raw.presentacion.texto, LIMITES.presentacion), puesto: str(raw.presentacion.puesto, LIMITES.puesto) };
   }
+  if (Array.isArray(raw.baul)) {
+    const vistos = new Set();
+    for (const n of raw.baul.slice(0, LIMITES.notas)) {
+      const c = sanitizeNota(n);
+      if (c && !vistos.has(c.id)) { vistos.add(c.id); out.baul.push(c); }
+    }
+  }
+  out.marca = sanitizeMarca(raw.marca);
+  out.entrevista = sanitizeEntrevista(raw.entrevista);
   // La oferta solo está aquí si la persona pidió recordarla.
   if (raw.vacante && typeof raw.vacante === 'object' && typeof raw.vacante.texto === 'string' && raw.vacante.texto.trim()) {
     out.vacante = { texto: str(raw.vacante.texto, LIMITES.oferta), cv: str(raw.vacante.cv, LIMITES.cv), fecha: date(raw.vacante.fecha) };
