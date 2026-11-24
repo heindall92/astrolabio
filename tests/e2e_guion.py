@@ -19,7 +19,7 @@ def base(**kw):
 def con_entrevista(idioma='es', **kw):
     cv = (CV_DIR / ('cv-es.txt' if idioma == 'es' else 'cv-en.txt')).read_text(encoding='utf-8').replace('**', '').replace('## ', '').replace('# ', '')
     ent = {'empresa': 'Acme', 'puesto': 'Analista SOC' if idioma == 'es' else 'SOC Analyst', 'formato': 'video', 'entrevistadores': ['rrhh', 'tecnico'], 'idioma': idioma, 'pais': 'es',
-           'oferta': OFERTA, 'cv': cv, 'cvArchivo': 'cv.txt', 'resp': {'motivoPuesto': 'quiero especializarme en detección', 'salarioObjetivo': 35000, 'salarioMin': 30000}, 'ediciones': {}}
+           'oferta': OFERTA, 'cv': cv, 'cvArchivo': 'cv.txt', 'resp': {'motivoPuesto': 'quiero especializarme en detección', 'salarioObjetivo': 35000, 'salarioAncla': 39000, 'salarioMin': 30000}, 'ediciones': {}}
     if idioma == 'en':
         nota = {**NOTA_EDR, 'campos': {**NOTA_EDR['campos'], 'definicion': 'An EDR records what happens on each endpoint', 'uso': 'I investigated alerts and isolated machines', 'cifra': 'cut triage from 20 to 8 minutes'}}
         ent['oferta'] = 'SOC analyst with EDR/XDR, SIEM and MITRE ATT&CK. Salary 32,000 - 38,000 EUR.'
@@ -53,11 +53,30 @@ def t_preparar_cv(browser):
     dudas = pg.inner_text('#oferta-dudas')
     check('5 años' in dudas and 'C1' in dudas and 'B2' in dudas, f'dudas automáticas: {dudas}')
     pg.fill('#ent-r-motivoPuesto', 'quiero especializarme en detección')
+    # Preparador de rango: X nunca el mínimo, ancho máximo del 20 % y vista previa en dos tiempos.
+    pg.fill('#ent-r-salarioMin', '35000')
     pg.fill('#ent-r-salarioObjetivo', '35000')
+    pg.fill('#ent-r-salarioAncla', '50000')
+    avisos = pg.inner_text('#sal-avisos')
+    check('nunca el mínimo' in avisos and '20 %' in avisos, f'avisos del preparador: {avisos}')
+    pg.fill('#ent-r-salarioMin', '30000')
+    pg.click('#ent-salarioPagas button[data-v="12"]')
+    seg = pg.inner_text('#sal-segundo').replace('\xa0', ' ')
+    check('entre 35.000 € y 42.000 € brutos anuales, en 12 pagas' in seg and 'Acme Seguridad' in seg and 'EDR' in seg, f'segundo tiempo recortado al 20 % y con argumento de la oferta: {seg}')
+    check(pg.inner_text('#sal-primero').startswith('Prefiero no cerrarme a una banda salarial concreta'), 'primer tiempo')
+    # Ronda salarial: una cifra suelta pide rango; una respuesta redonda saca 100.
+    pg.fill('#ronda-ent-txt', 'Unos 30.000 euros.')
+    pg.click('#ronda-ent-enviar')
+    check(pg.inner_text('#ronda-ent-nota') != '100' and pg.locator('#ronda-ent-res li.no').count() >= 3, 'cifra suelta y mínimo: suspende')
+    pg.click('#ronda-ent-sigue')
+    check('¿Me das un rango, entonces?' in pg.inner_text('#ronda-ent-q'), 'repregunta por el rango')
+    pg.fill('#ronda-ent-txt', 'Teniendo en cuenta las responsabilidades y mis logros, busco entre 35.000 y 39.000 € brutos, y valoro el teletrabajo.')
+    pg.click('#ronda-ent-enviar')
+    check(pg.inner_text('#ronda-ent-nota') == '100', 'respuesta redonda: 100')
     pg.wait_for_timeout(700)
     s = estado(pg)['entrevista']
     check(s['empresa'] == 'Acme Seguridad' and s['entrevistadores'] == ['direccion'] and s['formato'] == 'telefono', f'guardado: {s["empresa"]} {s["entrevistadores"]} {s["formato"]}')
-    check('Marta Vidal Soler' in s['cv'] and s['resp']['salarioObjetivo'] == 35000, 'CV y respuestas guardados')
+    check('Marta Vidal Soler' in s['cv'] and s['resp']['salarioObjetivo'] == 35000 and s['resp']['salarioAncla'] == 50000 and s['resp']['salarioPagas'] == 12, 'CV y respuestas guardados')
     fresh(pg, 'entrevista')
     check(pg.input_value('#ent-empresa') == 'Acme Seguridad' and pg.locator('#cv-kpis').count() == 1, 'persistencia tras recargar')
     # DOCX y ODT también; un PDF escaneado da un error claro.
@@ -124,8 +143,12 @@ def t_guion(browser):
     check('Soy analista SOC junior' in pres and 'Lo que me diferencia es que convierto el ruido en señal' in pres and 'Encuentro el hueco y lo cierro.' in pres, f'«Háblame de ti» con CV y marca: {pres[:400]}')
     check('La he usado en producción' in pg.inner_text('#b-tec-edr'), 'la nota del Baúl responde a EDR')
     check(pg.locator('#b-tec-siem mark.hueco').count() == 2, 'lo que falta (SIEM) sale con huecos marcados')
-    sal = pg.inner_text('#b-salario')
-    check('32.000 € – 38.000 €' in sal and '35.000 €' in sal and '30.000' not in sal, f'salario: banda de la oferta y objetivo, nunca el mínimo: {sal}')
+    sal = pg.inner_text('#b-salario').replace('\xa0', ' ')
+    check('La oferta indica 32.000 € – 38.000 €' in sal, f'salario: primero, la banda de la oferta: {sal}')
+    rango = pg.inner_text('#b-salario-rango').replace('\xa0', ' ')
+    check('¿Y una cifra concreta?' in rango and 'entre 35.000 € y 39.000 € brutos anuales, en 14 pagas' in rango, f'si insisten, el rango con argumento: {rango}')
+    todo = ' '.join(pg.locator('#cat-salario ~ article, section:has(#cat-salario) article').all_inner_texts())
+    check('30.000' not in todo.replace('\xa0', ' '), 'el mínimo no aparece en ningún bloque de salario')
     hist = pg.locator('#b-salario-historial')
     hist.locator('summary').click()
     check('historial retributivo' in hist.inner_text() and 'Real Decreto-ley 39/2026' in hist.inner_text(), 'la ley en el apoyo del salario anterior')
@@ -200,6 +223,29 @@ def t_directo(browser):
     no_errors(pr, 'directo reducido')
 
 
+def t_sin_null(browser):
+    """Ninguna rama condicional se pinta como «null» o «undefined» en las vistas nuevas, en ningún estado."""
+    import re
+    pg = new_page(browser, state=con_entrevista())
+    goto(pg, 'entrevista')
+    pg.fill('#ronda-ent-txt', 'Unos 30.000 euros.')
+    pg.click('#ronda-ent-enviar')
+    estados = [('entrevista', None), ('guion', None), ('directo', None), ('baul', None), ('baul/n_edr', None)]
+    txt = pg.inner_text('main')
+    check(not re.search(r'\b(null|undefined|NaN)\b', txt), 'texto «null» en #entrevista tras la ronda salarial')
+    for r, _ in estados:
+        goto(pg, r)
+        txt = pg.inner_text('main')
+        m = re.search(r'\b(null|undefined|NaN)\b', txt)
+        check(not m, f'texto «{m.group(0) if m else ""}» en #{r}')
+    pv = new_page(browser, state=base(entrevista={'empresa': '', 'puesto': '', 'cv': '', 'oferta': '', 'resp': {}}))
+    for r in ['entrevista', 'guion', 'directo']:
+        goto(pv, r)
+        m = re.search(r'\b(null|undefined|NaN)\b', pv.inner_text('main'))
+        check(not m, f'texto «{m.group(0) if m else ""}» en #{r} con la entrevista vacía')
+    no_errors(pg, 'sin null')
+
+
 def t_guion_ingles_y_movil(browser):
     pg = new_page(browser, state=con_entrevista('en'), lang='en')
     for route in ['entrevista', 'guion', 'directo', 'baul', 'baul/nueva/herramienta', 'baul/n_edr', 'inicio']:
@@ -241,6 +287,7 @@ TESTS_GUION = [
     ('0.9: baúl con marca personal, notas, filtros y Ctrl K', t_baul),
     ('0.9: guion por tipo de pregunta, ley del salario, ediciones y descarga', t_guion),
     ('0.9: guion en directo con teclado, velocidad y movimiento reducido', t_directo),
+    ('0.9: ninguna rama vacía se pinta como «null»', t_sin_null),
     ('0.9: inglés sin restos y móvil sin desbordar', t_guion_ingles_y_movil),
     ('0.9: borrar la entrevista no toca el Baúl', t_borrar_entrevista),
 ]

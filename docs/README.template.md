@@ -49,7 +49,7 @@ La 0.9 te acompaña el día de la entrevista. Subes tu CV, contestas unas pregun
 
   Lo que falta queda **[entre corchetes]**: no inventa nada.
 - **Las dudas que va a tener quien te entrevista.** Si la oferta pide más años o un nivel de idioma que tu CV no muestra, la respuesta ya está preparada.
-- **Salario.** Con la banda de la oferta o con tu objetivo, sin decir nunca tu mínimo. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
+- **«¿Cuáles son tus expectativas salariales?» en dos tiempos.** Primero no te cierras a una banda y preguntas la del puesto. Si insisten, das un rango con argumento, de tu objetivo (nunca tu mínimo) a tu ancla, como mucho un 20 % de ancho, en bruto y con las pagas. La **ronda salarial** te puntúa y repregunta «¿Y una cifra concreta?», también al ganar un duelo en la Arena. Astrolabio no propone salarios: solo usa tus cifras. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
 - **Posibles preguntas**, cada una con su porqué (la oferta, tu CV, tu Baúl o «casi siempre») y un enlace a tu respuesta.
 - **Guion en directo.** Un teleprompter para videollamadas:
   - salto al tipo de pregunta con las teclas 1 a 0;

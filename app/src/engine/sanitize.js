@@ -83,6 +83,9 @@ export function sanitizeEntrevista(e) {
   for (const k of RESPUESTAS) resp[k] = str(r[k], LIMITES.respuesta);
   resp.salarioMin = int(r.salarioMin, 0, LIMITES.salario);
   resp.salarioObjetivo = int(r.salarioObjetivo, 0, LIMITES.salario);
+  resp.salarioAncla = int(r.salarioAncla, 0, LIMITES.salario);
+  resp.salarioUnidad = oneOf(r.salarioUnidad, ['anual', 'mensual'], 'anual');
+  resp.salarioPagas = [12, 13, 14].includes(Number(r.salarioPagas)) ? Number(r.salarioPagas) : 14;
   const ediciones = {};
   if (e.ediciones && typeof e.ediciones === 'object') {
     for (const k of Object.keys(e.ediciones).slice(0, LIMITES.ediciones)) {

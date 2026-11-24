@@ -136,13 +136,9 @@ export const GUION_TXT = {
     futuroCincoHueco: 'Me veo creciendo en [tu especialidad], con más responsabilidad en [qué], y quiero hacerlo aquí porque [qué ofrece la empresa].',
     defecto: '{resp}',
     defectoHueco: '[Un defecto real que no sea clave para el puesto], una vez me afectó en [cuándo] y ahora lo compenso con [qué haces].',
-    salarioHistorial: 'Prefiero centrarme en este puesto. {rango}',
     salarioHistorialSin: 'Prefiero centrarme en este puesto. ¿Me puedes contar la banda prevista?',
-    salarioRango: 'Para este rol busco entre {min} y {max} brutos al año, según el paquete completo{condiciones}.',
-    salarioOfertaOk: 'La oferta indica {oferta}, y encaja con lo que busco. Por la experiencia que aporto, me situaría en torno a {objetivo}.',
     salarioOfertaSolo: 'La oferta indica {oferta}, y encaja con lo que busco.',
-    salarioHueco: 'Para este rol busco entre [tu objetivo] y [un 10 % más] brutos al año, según el paquete completo.',
-    condiciones: ' ({lista})',
+    valoro: 'Valoro también {lista}',
     disponibilidad: '{resp}',
     disponibilidadHueco: 'Podría incorporarme en [plazo, por ejemplo, 15 días por el preaviso].',
     cierre: 'Muchas gracias por la conversación.{encaje}{frase} ¿Cuáles son los siguientes pasos?',
@@ -210,13 +206,9 @@ export const GUION_TXT = {
     futuroCincoHueco: 'I see myself growing in [your speciality], with more responsibility for [what], and I want to do it here because [what the company offers].',
     defecto: '{resp}',
     defectoHueco: '[A real weakness that is not key to the role], it once affected me when [when] and now I compensate with [what you do].',
-    salarioHistorial: 'I would rather focus on this role. {rango}',
     salarioHistorialSin: 'I would rather focus on this role. Could you share the planned range?',
-    salarioRango: 'For this role I am looking for between {min} and {max} gross per year, depending on the full package{condiciones}.',
-    salarioOfertaOk: 'The advert states {oferta}, which fits what I am looking for. Given the experience I bring, I would place myself around {objetivo}.',
     salarioOfertaSolo: 'The advert states {oferta}, which fits what I am looking for.',
-    salarioHueco: 'For this role I am looking for between [your target] and [10% more] gross per year, depending on the full package.',
-    condiciones: ' ({lista})',
+    valoro: 'I also value {lista}',
     disponibilidad: '{resp}',
     disponibilidadHueco: 'I could start in [time frame, for example two weeks for my notice period].',
     cierre: 'Thank you very much for the conversation.{encaje}{frase} What are the next steps?',
@@ -243,4 +235,74 @@ export const SALARIO_LEY = {
 export const SALARIO_CONSEJOS = {
   es: ['El extremo bajo de tu rango suele acabar siendo la oferta: empieza en tu objetivo, nunca en tu mínimo.', 'Si te piden una cifra exacta, di tu objetivo.', 'Habla en bruto anual y valora el paquete: teletrabajo, formación, guardias, variable.'],
   en: ['The low end of your range often becomes the offer: start at your target, never at your minimum.', 'If they ask for an exact figure, give your target.', 'Talk in gross annual terms and weigh the package: remote work, training, on-call, bonus.'],
+};
+
+/** Pregunta salarial en dos tiempos (especificación de Yoandy, 27-10-2026). Sin cifras: solo las de la persona. */
+export const SALARIO_TXT = {
+  es: {
+    primero: 'Prefiero no cerrarme a una banda salarial concreta y centrarme en esta posición. ¿Cuál es la banda prevista para el puesto?',
+    segundo: '{argumento}, busco posiciones entre {x} y {y} {pagas}.',
+    argumento: 'Teniendo en cuenta las responsabilidades, los logros y el proyecto',
+    argumentoCon: 'Teniendo en cuenta {lista}',
+    argResp: 'las responsabilidades del puesto ({r})',
+    argLogro: 'logros como {l}',
+    argProyecto: 'el proyecto de {p}',
+    menos: 'Estoy abierto a hablar del paquete completo. Por debajo de {x} tendría que valorar qué más ofrece el puesto: formación, teletrabajo o una revisión salarial en los primeros meses.',
+    escrito: 'Gracias por la oferta: me encaja el puesto y el equipo. {argumento}, ¿sería posible acercarnos a {y}? Si no, me gustaría hablar del resto del paquete: formación, teletrabajo y revisión salarial.',
+    anual: 'brutos anuales, en {pagas}',
+    mensual: 'brutos al mes, en {pagas}',
+    pagas: '{n} pagas',
+    aguinaldo: '13 pagas (con aguinaldo)',
+    huecoX: '[tu objetivo]',
+    huecoY: '[tu ancla]',
+    y: 'y',
+  },
+  en: {
+    primero: 'I would rather not commit to a specific salary band yet and focus on this role. What is the planned range for the position?',
+    segundo: '{argumento}, I am looking for roles between {x} and {y} {pagas}.',
+    argumento: 'Taking into account the responsibilities, the achievements and the project',
+    argumentoCon: 'Taking into account {lista}',
+    argResp: 'the responsibilities of the role ({r})',
+    argLogro: 'achievements such as {l}',
+    argProyecto: 'the project at {p}',
+    menos: 'I am open to discussing the whole package. Below {x} I would need to weigh what else the role offers: training, remote work or a salary review in the first months.',
+    escrito: 'Thank you for the offer: the role and the team suit me. {argumento}, would it be possible to get closer to {y}? If not, I would like to discuss the rest of the package: training, remote work and a salary review.',
+    anual: 'gross per year, paid in {pagas}',
+    mensual: 'gross per month, paid in {pagas}',
+    pagas: '{n} instalments',
+    aguinaldo: '13 instalments (including the year-end bonus)',
+    huecoX: '[your target]',
+    huecoY: '[your anchor]',
+    y: 'and',
+  },
+};
+
+/** Marcas del evaluador de la ronda salarial (minúsculas y sin tildes). */
+export const SALARIO_MARCAS = {
+  es: {
+    justifica: ['teniendo en cuenta', 'responsabilidad', 'logro', 'proyecto', 'experiencia', 'aporto', 'aportar', 'mercado'],
+    condiciones: ['formacion', 'teletrabajo', 'remoto', 'guardia', 'paquete', 'variable', 'beneficio', 'flexibilidad', 'vacaciones', 'revision'],
+    disculpa: ['perdon', 'lo siento', 'no lo se', 'no se cuanto', 'lo que sea', 'me conformo', 'lo que me deis', 'lo que me den', 'cualquier cosa', 'no tengo ni idea', 'me da igual'],
+  },
+  en: {
+    justifica: ['taking into account', 'responsibilit', 'achievement', 'project', 'experience', 'i bring', 'market'],
+    condiciones: ['training', 'remote', 'on-call', 'package', 'bonus', 'benefit', 'flexib', 'holiday', 'review'],
+    disculpa: ['sorry', 'i do not know', "i don't know", 'whatever', 'anything is fine', 'i would accept anything', 'no idea'],
+  },
+};
+
+/** Dónde investigar la banda (tipos de fuente, nunca cifras). */
+export const SALARIO_FUENTES = {
+  es: ['Ofertas con salario publicado: en España deben incluir la retribución inicial desde el 19-11-2026.', 'El convenio colectivo de tu sector y sus tablas salariales.', 'Informes salariales públicos de empresas de selección.', 'La banda cambia por ciudad, nivel y tipo de empresa: compara con puestos como el tuyo.'],
+  en: ['Adverts with published pay: in Spain they must state the starting pay since 19-11-2026.', 'Your sector’s collective agreement and its pay tables.', 'Public salary reports from recruitment firms.', 'The band changes by city, level and type of company: compare with roles like yours.'],
+};
+
+/** Avisos del preparador de rango y de la banda de la oferta. */
+export const SALARIO_AVISOS = {
+  'x-minimo': { es: 'Tu X no supera tu mínimo: la X es tu objetivo, nunca el mínimo, porque el extremo bajo suele acabar siendo la oferta.', en: 'Your X does not exceed your minimum: X is your target, never your minimum, because the low end often becomes the offer.' },
+  'y-menor': { es: 'Tu ancla está por debajo de tu objetivo: el rango va de X (objetivo) a Y (ancla).', en: 'Your anchor is below your target: the range goes from X (target) to Y (anchor).' },
+  ancho: { es: 'El rango pasaba de un 20 % de ancho: se ha recortado. Un rango muy ancho suena a que no sabes lo que vales.', en: 'The range was wider than 20%: it has been trimmed. A very wide range sounds as if you do not know your worth.' },
+  'sin-objetivo': { es: 'Escribe tu objetivo (X) en «Preparar entrevista».', en: 'Enter your target (X) in “Prepare interview”.' },
+  'sin-ancla': { es: 'Escribe tu ancla (Y) en «Preparar entrevista».', en: 'Enter your anchor (Y) in “Prepare interview”.' },
+  ofertaBaja: { es: 'La banda de la oferta está por debajo de tu mínimo: decide antes de la entrevista si sigues.', en: 'The advert’s range is below your minimum: decide before the interview whether you continue.' },
 };

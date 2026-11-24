@@ -75,7 +75,7 @@ VIEWS.entrevista = view => {
       const f = ev.target.files[0];
       ev.target.value = '';
       if (!f) return;
-      cvBox.replaceChildren(h('p', { class: 'small muted', id: 'cv-leyendo' }, icon('loader', 'ic sm spin'), ' ', t('cv.leyendo', { f: f.name })));
+      rellenarNodo(cvBox, h('p', { class: 'small muted', id: 'cv-leyendo' }, icon('loader', 'ic sm spin'), ' ', t('cv.leyendo', { f: f.name })));
       try {
         if (f.size > DOC_LIMITES.archivo) throw Object.assign(new Error('grande'), { codigo: 'grande' });
         const r = await leerDocumento(f.name, new Uint8Array(await f.arrayBuffer()));
@@ -88,15 +88,15 @@ VIEWS.entrevista = view => {
         pintarCv();
       } catch (err) {
         const cod = err && err.codigo ? err.codigo : 'danado';
-        cvBox.replaceChildren(h('div', { class: 'callout warn', role: 'alert', id: 'cv-error' }, icon('triangle-alert'), h('p', { text: t('cv.error.' + cod) })));
+        rellenarNodo(cvBox, h('div', { class: 'callout warn', role: 'alert', id: 'cv-error' }, icon('triangle-alert'), h('p', { text: t('cv.error.' + cod) })));
       }
     } });
   function pintarCv() {
     const cv = cvDe(e);
-    archivo.replaceChildren(...(e.cvArchivo ? [icon('file-text', 'ic sm'), ' ', e.cvArchivo] : []));
-    if (!cv) { cvBox.replaceChildren(h('p', { class: 'small muted', text: t('cv.sin') })); return; }
+    rellenarNodo(archivo, ...(e.cvArchivo ? [icon('file-text', 'ic sm'), ' ', e.cvArchivo] : []));
+    if (!cv) { rellenarNodo(cvBox, h('p', { class: 'small muted', text: t('cv.sin') })); return; }
     const exp = cv.experiencias;
-    cvBox.replaceChildren(
+    rellenarNodo(cvBox, 
       h('div', { class: 'grid', id: 'cv-kpis' },
         h('div', { class: 'kpi' }, h('span', { text: t('cv.kpi.anos') }), h('b', { text: cv.meses ? fmtNum(cv.anos) : '–' })),
         h('div', { class: 'kpi' }, h('span', { text: t('cv.kpi.puestos') }), h('b', { text: fmtNum(exp.length) })),
@@ -123,11 +123,11 @@ VIEWS.entrevista = view => {
   // 3. La oferta
   const ofBox = h('div', { class: 'stack', id: 'oferta-resumen', 'aria-live': 'polite' });
   const pintarOferta = () => {
-    if (!e.oferta.trim()) { ofBox.replaceChildren(); return; }
+    if (!e.oferta.trim()) { rellenarNodo(ofBox); return; }
     const of = analyzeOffer(e.oferta);
     const sal = salarioEnOferta(e.oferta);
     const dudas = dudasOferta(of, cvDe(e));
-    ofBox.replaceChildren(
+    rellenarNodo(ofBox, 
       of.tecnologias.length ? h('div', { class: 'meta' }, h('span', { class: 'small muted', text: t('ent.ofertaPide') }), of.tecnologias.map(x => h('span', { class: 'chip', text: x }))) : null,
       h('p', { class: 'small', id: 'oferta-salario' }, icon('wallet', 'ic sm'), ' ', sal ? t('ent.ofertaSalario', { s: sal.min === sal.max ? fmtEur(sal.min) : fmtEur(sal.min) + ' – ' + fmtEur(sal.max) }) : t('ent.ofertaSinSalario')),
       dudas.length ? h('ul', { class: 'tips', id: 'oferta-dudas' }, dudas.map(d => h('li', null, icon('shield-alert'), h('span', { text: d.tipo === 'anos' ? t('ent.dudaAnos', { pide: d.pide, tienes: d.tienes }) : t('ent.dudaIdioma', { pide: d.pide, tienes: d.tienes || t('ent.sinNivel') }) })))) : null);
@@ -140,15 +140,41 @@ VIEWS.entrevista = view => {
 
   // 4. Preguntas de apoyo
   const resp = (k, rows = 2) => field('ent-r-' + k, t('ent.r.' + k), h('textarea', { id: 'ent-r-' + k, rows, maxlength: LIMITES.respuesta, value: e.resp[k], placeholder: t('ent.r.' + k + '.ph'), 'aria-describedby': 'ent-r-' + k + '-h', oninput: ev => setR(k, ev.target.value) }), t('ent.r.' + k + '.d'));
-  const euro = k => field('ent-r-' + k, t('ent.r.' + k), h('input', { type: 'number', id: 'ent-r-' + k, min: 0, max: LIMITES.salario, step: 500, inputmode: 'numeric', value: e.resp[k] || '', 'aria-describedby': 'ent-r-' + k + '-h', oninput: ev => setR(k, Number(ev.target.value) || 0) }), t('ent.r.' + k + '.d'));
+  const euro = k => field('ent-r-' + k, t('ent.r.' + k), h('input', { type: 'number', id: 'ent-r-' + k, min: 0, max: LIMITES.salario, step: 50, inputmode: 'numeric', value: e.resp[k] || '', 'aria-describedby': 'ent-r-' + k + '-h', oninput: ev => { setR(k, Number(ev.target.value) || 0); pintarSal(); } }), t('ent.r.' + k + '.d'));
+  const segR = (k, opts) => h('div', { class: 'seg wide', role: 'group', 'aria-label': t('ent.' + k), id: 'ent-' + k },
+    opts.map(o => h('button', { type: 'button', 'aria-pressed': String(String(e.resp[k] || (k === 'salarioPagas' ? 14 : 'anual')) === String(o)), dataset: { v: o }, onclick: ev => {
+      setR(k, o); $$(`#ent-${k} button`).forEach(b => b.setAttribute('aria-pressed', String(b === ev.currentTarget))); pintarSal();
+    } }, t(`ent.${k}.${o}`))));
+  // Vista previa de la pregunta salarial en dos tiempos, con los avisos del preparador de rango.
+  const salVista = h('div', { class: 'card stack sal-vista', id: 'sal-vista', 'aria-live': 'polite' });
+  function pintarSal() {
+    const of = e.oferta.trim() ? analyzeOffer(e.oferta) : null;
+    const cv = cvDe(e);
+    const fs = frasesSalario({ minimo: e.resp.salarioMin, objetivo: e.resp.salarioObjetivo, ancla: e.resp.salarioAncla, unidad: e.resp.salarioUnidad || 'anual', pagas: e.resp.salarioPagas || 14 },
+      argumentoSalario({ oferta: of, cv, baul: UI.state.baul, empresa: e.empresa, idioma: e.idioma }), e.idioma);
+    const avisos = fs.rango.avisos.filter(a => a !== 'sin-objetivo' && a !== 'sin-ancla');
+    rellenarNodo(salVista, 
+      h('p', { class: 'eyebrow', text: t('sal.vista') }),
+      h('div', { class: 'stack tight' }, h('b', { class: 'small', text: '1 · ' + t('sal.primero') }), h('p', { class: 'guion-texto', id: 'sal-primero', text: fs.primero })),
+      h('div', { class: 'stack tight' }, h('b', { class: 'small', text: '2 · ' + t('sal.segundo') }), h('p', { class: 'guion-texto', id: 'sal-segundo' }, textoConHuecos(fs.segundo))),
+      avisos.length ? h('ul', { class: 'tips', id: 'sal-avisos' }, avisos.map(a => h('li', { class: 'crit' }, icon('triangle-alert'), h('span', { text: L(SALARIO_AVISOS[a]) })))) : null,
+      h('details', null, h('summary', { text: t('sal.fuentes') }), h('ul', { class: 'small stack tight' }, SALARIO_FUENTES[UI.lang === 'en' ? 'en' : 'es'].map(x => h('li', { text: x })))));
+  }
   view.append(h('section', { class: 'card stack', 'aria-labelledby': 'ent-4-h', id: 'ent-apoyo' },
     h('h2', { id: 'ent-4-h' }, h('span', { class: 'paso', text: '4' }), t('ent.paso4')),
     h('p', { class: 'small muted', text: t('ent.paso4.d') }),
     h('div', { class: 'form-grid' }, resp('motivoPuesto'), resp('motivoEmpresa'), resp('logro'), resp('salida'), resp('futuro'), resp('defecto'), resp('duda'), resp('dudaRespuesta'), resp('hueco'),
       UI.state.perfil.rol === 'cambio' ? resp('cambio') : null),
-    h('h3', { text: t('ent.salario') }),
-    h('div', { class: 'form-grid' }, euro('salarioObjetivo'), euro('salarioMin'), resp('condiciones', 1), resp('disponibilidad', 1)),
+    h('h3', { id: 'ent-salario-h', text: t('ent.salario') }),
+    h('p', { class: 'small muted', text: t('ent.salario.d') }),
+    h('div', { class: 'form-grid' }, euro('salarioObjetivo'), euro('salarioAncla'), euro('salarioMin'),
+      h('div', { class: 'field' }, h('span', { class: 'label', text: t('ent.salarioUnidad') }), segR('salarioUnidad', ['anual', 'mensual'])),
+      h('div', { class: 'field' }, h('span', { class: 'label', text: t('ent.salarioPagas') }), segR('salarioPagas', [14, 12, 13])),
+      resp('condiciones', 1), resp('disponibilidad', 1)),
+    salVista,
     h('p', { class: 'small muted' }, icon('scale', 'ic sm'), ' ', t('ent.salarioLey'))));
+  pintarSal();
+  view.append(rondaSalarial({ id: 'ronda-ent', minimo: () => e.resp.salarioMin, idioma: () => e.idioma }));
 
   view.append(h('div', { class: 'row', id: 'ent-acciones' },
     h('a', { class: 'btn primary', href: '#guion' }, icon('scroll-text'), t('ent.generar')),
@@ -159,6 +185,39 @@ VIEWS.entrevista = view => {
       clearTimeout(entTimer); UI.state.entrevista = null; entBorrador = null; saveState(); toast(t('ent.borrada'), { ic: 'trash-2' }); render();
     } }, icon('trash-2'), t('ent.borrar'))));
 };
+/**
+ * Ronda salarial: el recruiter pregunta por tus expectativas, puntúa la respuesta con evaluarSalario y, si te quedas
+ * en el primer tiempo o das una cifra suelta, repregunta («¿y una cifra concreta?»). Se usa en «Preparar entrevista»
+ * y al ganar un duelo en la Arena. opts: { id, voz (frase del recruiter), minimo(), idioma() }.
+ */
+function rondaSalarial(opts) {
+  const id = opts.id;
+  const caja = h('section', { class: 'card stack ronda', id, 'aria-labelledby': id + '-h' });
+  let intento = 0;
+  const pintar = (preguntaTxt, previo) => {
+    const ta = h('textarea', { id: id + '-txt', rows: 3, maxlength: LIMITES.respuesta, placeholder: t('ronda.ph'), 'aria-labelledby': id + '-q' });
+    const res = h('div', { class: 'stack', id: id + '-res', 'aria-live': 'polite' });
+    const form = h('form', { class: 'stack', onsubmit: ev => {
+      ev.preventDefault();
+      if (!ta.value.trim()) { ta.focus(); return; }
+      intento++;
+      const r = evaluarSalario(ta.value, { minimo: opts.minimo ? opts.minimo() : 0, idioma: opts.idioma ? opts.idioma() : UI.lang });
+      rellenarNodo(res, 
+        h('p', { class: 'kpi-line' }, h('b', { id: id + '-nota', text: String(r.total) }), h('span', { class: 'faint', text: ' / 100' })),
+        h('ul', { class: 'checks' }, r.criterios.map(c => h('li', { class: c.ok ? 'ok' : 'no' }, icon(c.ok ? 'check' : 'x', 'ic sm'), h('span', { text: t('ronda.crit.' + c.id) }), h('span', { class: 'sr-only', text: c.ok ? t('ronda.cumple') : t('ronda.falta') })))),
+        r.repregunta && intento < 3 ? h('button', { class: 'btn', type: 'button', id: id + '-sigue', onclick: () => pintar(t('ronda.rep.' + r.repregunta), r) }, icon('message-square-quote'), t('ronda.seguir')) : null,
+        r.total === 100 ? h('p', { class: 'callout ok' }, icon('trophy'), h('span', { text: t('ronda.perfecta') })) : null);
+      if (r.total === 100) playSound('ok');
+    } },
+      h('p', { class: 'ronda-q', id: id + '-q' }, icon('message-square-quote', 'ic sm'), ' ', preguntaTxt),
+      ta, h('div', { class: 'row' }, h('button', { class: 'btn primary', type: 'submit', id: id + '-enviar' }, icon('send'), t('ronda.responder'))));
+    rellenarNodo(caja, h('h2', { id: id + '-h' }, icon('wallet'), ' ', t('ronda.titulo')), h('p', { class: 'small muted', text: opts.voz || t('ronda.lede') }), form, res);
+    if (previo) ta.focus();
+  };
+  pintar(L(COMUNES.find(q => q.id === 'c-salario')));
+  return caja;
+}
+
 function fmtEur(n) { return new Intl.NumberFormat(UI.lang === 'en' ? 'en-GB' : 'es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n); }
 
 /** Texto con los [huecos] marcados. */
@@ -226,7 +285,7 @@ function bloqueCard(b, e) {
     const enlace = b.fuente === 'hueco' && b.cat === 'conducta' ? h('a', { class: 'btn sm', href: '#forja/nueva' }, icon('hammer', 'ic sm'), t('guion.escribirHistoria'))
       : b.fuente === 'hueco' && b.cat === 'tecnica' ? h('a', { class: 'btn sm', href: '#baul/nueva/herramienta' }, icon('archive', 'ic sm'), t('guion.crearNota'))
         : b.huecos.length && b.fuente !== 'generada' ? h('a', { class: 'btn sm', href: '#entrevista' }, icon('pencil', 'ic sm'), t('guion.completar')) : null;
-    card.replaceChildren(
+    rellenarNodo(card, 
       h('div', { class: 'row spread' }, h('h3', { id: 'bq-' + b.id, text: b.pregunta }),
         h('div', { class: 'row' }, b.editado ? h('span', { class: 'chip st-lista', text: t('guion.editado') }) : null, h('span', { class: 'chip', text: etiquetaFuente(b.fuente) }), h('span', { class: 'tiny muted mono', text: fmtDuration(b.segundos) }))),
       h('p', { class: 'guion-texto' }, textoConHuecos(b.texto)),
@@ -238,7 +297,7 @@ function bloqueCard(b, e) {
   };
   const editar = () => {
     const ta = h('textarea', { rows: Math.min(14, Math.max(4, Math.ceil(b.texto.length / 90))), maxlength: LIMITES.edicion, value: b.texto, 'aria-label': t('guion.editarAria', { q: b.pregunta }) });
-    card.replaceChildren(h('h3', { id: 'bq-' + b.id, text: b.pregunta }), ta, h('p', { class: 'hint', text: t('guion.editarHint') }),
+    rellenarNodo(card, h('h3', { id: 'bq-' + b.id, text: b.pregunta }), ta, h('p', { class: 'hint', text: t('guion.editarHint') }),
       h('div', { class: 'row' },
         h('button', { class: 'btn sm primary', type: 'button', onclick: () => { e.ediciones = { ...e.ediciones, [b.id]: ta.value }; UI.state.entrevista = sanitizeEntrevista(e); saveState(); toast(t('guion.guardado')); render(); } }, icon('check', 'ic sm'), t('ui.guardar')),
         e.ediciones[b.id] ? h('button', { class: 'btn sm', type: 'button', onclick: () => { const ed = { ...e.ediciones }; delete ed[b.id]; e.ediciones = ed; UI.state.entrevista = sanitizeEntrevista(e); saveState(); toast(t('guion.restaurado'), { ic: 'rotate-ccw' }); render(); } }, icon('rotate-ccw', 'ic sm'), t('guion.restaurar')) : null,
@@ -332,15 +391,15 @@ VIEWS.directo = view => {
   }
   function pintar() {
     const b = bloques[DIR.i];
-    eyebrow.replaceChildren(icon(CAT_IC[b.cat], 'ic sm'), ' ', t('guion.cat.' + b.cat));
+    rellenarNodo(eyebrow, icon(CAT_IC[b.cat], 'ic sm'), ' ', t('guion.cat.' + b.cat));
     pregunta.textContent = b.pregunta;
     $$('#dir-cats button').forEach(x => x.setAttribute('aria-current', x.dataset.cat === b.cat ? 'true' : 'false'));
     if (aj.modo === 'claves') {
-      cuerpo.replaceChildren(
+      rellenarNodo(cuerpo, 
         b.claves.length ? h('ul', { class: 'dir-claves' }, b.claves.map(k => h('li', { text: k }))) : null,
         h('p', { class: 'dir-guia', text: primeraFraseUI(b.texto) }));
     } else {
-      cuerpo.replaceChildren(h('p', { class: 'dir-texto' }, textoConHuecos(b.texto)), h('div', { class: 'dir-final', 'aria-hidden': 'true' }));
+      rellenarNodo(cuerpo, h('p', { class: 'dir-texto' }, textoConHuecos(b.texto)), h('div', { class: 'dir-final', 'aria-hidden': 'true' }));
     }
     marco.scrollTop = 0;
     pos.textContent = `${DIR.i + 1}/${bloques.length}`;
@@ -377,7 +436,7 @@ VIEWS.directo = view => {
     const on = typeof forzar === 'boolean' ? forzar : !DIR.play;
     if (on && aj.modo !== 'texto') cambiarModo('texto');
     DIR.play = on;
-    btnPlay.replaceChildren(icon(on ? 'pause' : 'play'), t(on ? 'dir.pausa' : 'dir.leer'));
+    rellenarNodo(btnPlay, icon(on ? 'pause' : 'play'), t(on ? 'dir.pausa' : 'dir.leer'));
     btnPlay.setAttribute('aria-pressed', String(on));
     bloqueoPantalla(on);
     cancelAnimationFrame(DIR.raf);

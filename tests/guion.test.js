@@ -94,7 +94,7 @@ test('«Háblame de ti» se arma con el CV, la marca y el motivo; tu presentaci�
 test('sin datos, el guion marca los huecos entre corchetes en vez de inventar', () => {
   const g = guion({ cvTexto: '', textoOferta: '', baul: [] });
   const hueco = id => g.bloques.find(b => b.id === id).huecos.length;
-  assert.ok(hueco('motivo-empresa') && hueco('motivo-puesto') && hueco('experiencia') && hueco('logro') && hueco('salario'));
+  assert.ok(hueco('motivo-empresa') && hueco('motivo-puesto') && hueco('experiencia') && hueco('logro') && hueco('salario-rango'));
   assert.ok(!g.bloques.some(b => /undefined|null|NaN/.test(b.texto)), 'ningún dato vacío se cuela en el texto');
 });
 
@@ -113,27 +113,65 @@ test('técnica: la nota del Baúl responde, lo que solo está en el CV pide un e
   assert.ok(g.probables.filter(p => p.cat === 'tecnica').every(p => p.motivo === 'oferta' && p.bloque));
 });
 
-test('salario: con la banda de la oferta, con tu rango (empieza en el objetivo, nunca en el mínimo) y sin datos', () => {
+test('salario en dos tiempos: primero no cerrarse y, si insisten, un rango con argumento', () => {
   assert.deepEqual(E.salarioEnOferta(OFERTA), { min: 32000, max: 38000 });
   assert.deepEqual(E.salarioEnOferta('Salary: £? no; €45k-€55k gross'), { min: 45000, max: 55000 });
   assert.deepEqual(E.salarioEnOferta('Salario hasta 40.000 euros brutos'), { min: 40000, max: 40000 });
   assert.equal(E.salarioEnOferta('Somos 250 personas en 12 oficinas desde 2005'), null, 'cifras sin contexto de salario no cuentan');
-  assert.deepEqual(E.rangoSalarial(30000, 35000), { min: 35000, max: 39000 });
-  assert.deepEqual(E.rangoSalarial(30000, 0), { min: 30000, max: 33000 });
-  assert.equal(E.rangoSalarial(0, 0), null);
-  const conOferta = guion({ entrevista: { resp: { salarioMin: 30000, salarioObjetivo: 35000 } } }).bloques.find(b => b.id === 'salario');
-  assert.match(conOferta.texto, /La oferta indica 32\.000 € – 38\.000 €.*en torno a 35\.000 €/);
-  const sinOferta = guion({ textoOferta: '', entrevista: { resp: { salarioMin: 30000, salarioObjetivo: 35000, condiciones: 'teletrabajo y formación' } } }).bloques.find(b => b.id === 'salario');
-  assert.match(sinOferta.texto, /entre 35\.000 € y 39\.000 € brutos al año, según el paquete completo \(teletrabajo y formación\)\./);
-  assert.doesNotMatch(sinOferta.texto, /30\.000/, 'el mínimo no se dice');
-  const bajo = guion({ entrevista: { resp: { salarioMin: 45000, salarioObjetivo: 50000 } } }).bloques.find(b => b.id === 'salario');
-  assert.match(bajo.apoyo[0], /por debajo de tu mínimo/);
+  const sin = guion({ textoOferta: '', entrevista: { resp: { salarioMin: 30000, salarioObjetivo: 35000, salarioAncla: 39000, salarioPagas: 14, condiciones: 'teletrabajo y formación' } } });
+  const b = id => sin.bloques.find(x => x.id === id);
+  assert.equal(b('salario').texto, 'Prefiero no cerrarme a una banda salarial concreta y centrarme en esta posición. ¿Cuál es la banda prevista para el puesto?');
+  assert.equal(b('salario-rango').pregunta, '¿Y una cifra concreta?');
+  assert.match(b('salario-rango').texto.replace(/\u00a0/g, ' '), /^Teniendo en cuenta logros como reduje un 30 % los falsos positivos ajustando 12 reglas de correlación y el proyecto de Acme, busco posiciones entre 35\.000 € y 39\.000 € brutos anuales, en 14 pagas\. Valoro también teletrabajo y formación\.$/);
+  assert.doesNotMatch(sin.bloques.filter(x => x.cat === 'salario').map(x => x.texto).join(' '), /30\.000/, 'el mínimo no se dice nunca');
+  assert.match(b('salario-menos').texto.replace(/\u00a0/g, ' '), /Por debajo de 35\.000 € tendría que valorar/);
+  assert.match(b('salario-escrito').texto.replace(/\u00a0/g, ' '), /¿sería posible acercarnos a 39\.000 €\?/);
+  assert.ok(b('salario').apoyo.some(a => a.includes('convenio colectivo')), 'fuentes para investigar la banda, sin cifras');
+  // Con la oferta: la banda publicada y el argumento sale de lo que pide.
+  const con = guion({ entrevista: { resp: { salarioMin: 30000, salarioObjetivo: 35000, salarioAncla: 38000 } } });
+  assert.match(con.bloques.find(x => x.id === 'salario').texto.replace(/\u00a0/g, ' '), /^La oferta indica 32\.000 € – 38\.000 €/);
+  assert.match(con.bloques.find(x => x.id === 'salario-rango').texto, /^Teniendo en cuenta las responsabilidades del puesto \(SOC y EDR\), logros como/);
+  assert.match(guion({ entrevista: { resp: { salarioMin: 45000, salarioObjetivo: 50000, salarioAncla: 55000 } } }).bloques.find(x => x.id === 'salario').apoyo[0], /por debajo de tu mínimo/);
+  // Sin cifras: huecos, nunca un salario inventado.
+  const vacio = guion({ textoOferta: '' }).bloques.find(x => x.id === 'salario-rango');
+  assert.deepEqual(vacio.huecos, ['tu objetivo', 'tu ancla']);
+  assert.ok(['salario-rango', 'salario-menos'].every(id => guion().probables.some(p => p.bloque === id && p.motivo === 'insisten')));
+});
+
+test('preparador de rango: X nunca es el mínimo, ancho máximo del 20 %, ancla por encima y pagas', () => {
+  assert.deepEqual(E.prepararRango({ minimo: 30000, objetivo: 35000, ancla: 39000 }), { x: 35000, y: 39000, ancho: 11, avisos: [] });
+  assert.deepEqual(E.prepararRango({ minimo: 35000, objetivo: 35000, ancla: 38000 }).avisos, ['x-minimo']);
+  assert.deepEqual(E.prepararRango({ objetivo: 35000, ancla: 50000 }), { x: 35000, y: 42000, ancho: 20, avisos: ['ancho'] });
+  assert.deepEqual(E.prepararRango({ objetivo: 2500, ancla: 3500, unidad: 'mensual' }), { x: 2500, y: 3000, ancho: 20, avisos: ['ancho'] });
+  assert.deepEqual(E.prepararRango({ objetivo: 35000, ancla: 30000 }), { x: 35000, y: null, ancho: null, avisos: ['y-menor'] });
+  assert.deepEqual(E.prepararRango({}).avisos, ['sin-objetivo', 'sin-ancla']);
+  assert.equal(E.textoPagas({ unidad: 'anual', pagas: 14 }), 'brutos anuales, en 14 pagas');
+  assert.equal(E.textoPagas({ unidad: 'mensual', pagas: 13 }), 'brutos al mes, en 13 pagas (con aguinaldo)');
+  assert.equal(E.textoPagas({ unidad: 'anual', pagas: 12 }, 'en'), 'gross per year, paid in 12 instalments');
+  const en = E.frasesSalario({ objetivo: 40000, ancla: 44000 }, { proyecto: 'Nimbus' }, 'en');
+  assert.equal(en.primero, 'I would rather not commit to a specific salary band yet and focus on this role. What is the planned range for the position?');
+  assert.equal(en.segundo.replace(/\u00a0/g, ' '), 'Taking into account the project at Nimbus, I am looking for roles between €40,000 and €44,000 gross per year, paid in 14 instalments.');
+});
+
+test('ronda salarial: rango justificado con condiciones puntúa 100; una cifra suelta, disculparse o dar el mínimo, no', () => {
+  assert.deepEqual(E.cantidades('Entre 35.000 y 39.000 €, o 35k; en 2026 y un 20 %'), [35000, 39000, 35000]);
+  const buena = E.evaluarSalario('Teniendo en cuenta las responsabilidades y mis logros, busco entre 35.000 y 39.000 € brutos, y valoro el teletrabajo y la formación.', { minimo: 30000 });
+  assert.equal(buena.total, 100);
+  assert.equal(buena.repregunta, null);
+  const vaga = E.evaluarSalario('Lo siento, no lo sé, lo que me deis estará bien.', { minimo: 30000 });
+  assert.equal(vaga.repregunta, 'cifra', 'sin cifra, el recruiter insiste: «¿y una cifra concreta?»');
+  assert.ok(!vaga.criterios.find(c => c.id === 'sinDisculpa').ok);
+  const suelta = E.evaluarSalario('Pues unos 30.000 euros.', { minimo: 30000 });
+  assert.equal(suelta.repregunta, 'rango');
+  assert.ok(!suelta.criterios.find(c => c.id === 'rango').ok && !suelta.criterios.find(c => c.id === 'sinMinimo').ok, 'una cifra suelta y además el mínimo');
+  assert.equal(E.evaluarSalario('Taking into account my experience, between 40k and 44k, plus remote work.', { idioma: 'en' }).total, 100);
+  assert.equal(Object.values(E.RONDA_PESOS).reduce((a, b) => a + b, 0), 100);
 });
 
 test('salario anterior: en España se responde con la Ley 3/2023 art. 5 g); fuera de España no aparece', () => {
   const g = guion({ entrevista: { resp: { salarioObjetivo: 35000 } } });
   const b = g.bloques.find(x => x.id === 'salario-historial');
-  assert.match(b.texto, /^Prefiero centrarme en este puesto\./);
+  assert.equal(b.texto, 'Prefiero centrarme en este puesto. ¿Me puedes contar la banda prevista?', 'no da cifras: vuelve a la banda del puesto');
   assert.ok(b.apoyo[0].includes('no podrán hacer a las personas solicitantes preguntas sobre su historial retributivo'), 'cita literal del BOE');
   assert.ok(b.apoyo[0].includes('19 de noviembre de 2026') && b.apoyo[0].includes('Real Decreto-ley 39/2026'));
   assert.equal(SALARIO_LEY.fuente, 'https://www.boe.es/eli/es/rdl/2026/11/17/39');
@@ -256,4 +294,16 @@ test('nivel de idioma del CV y dudas automáticas: años y nivel por debajo de l
   assert.match(anos.texto, /^Es cierto que llevo 4 años y 6 meses en el sector\. En ese tiempo reduje un 30 %/);
   assert.match(g.bloques.find(b => b.id === 'duda-idioma-ingles').texto, /^Mi nivel es B2\./);
   assert.ok(g.probables.some(p => p.bloque === 'duda-anos' && p.motivo === 'oferta'));
+});
+
+test('ninguna cifra salarial en el contenido: Astrolabio no propone salarios', async () => {
+  const fs2 = await import('node:fs');
+  // Los archivos que hablan de salario (las historias modelo sí pueden citar costes o ahorros de un proyecto).
+  const dir = new URL('../app/src/', import.meta.url);
+  const files = ['content/guion.js', 'content/comunes.js', 'content/baul.js', 'i18n/es.js', 'i18n/en.js'];
+  for (const f of files) {
+    const txt = fs2.readFileSync(new URL(f, dir), 'utf8');
+    const m = txt.match(/\d{1,3}(?:[.,]\d{3})+\s?(?:€|euros?)|€\s?\d{2,3}[.,]?\d{3}|\d{2,3}\s?k\s?(?:€|euros?)/i);
+    assert.equal(m, null, `cifra salarial en ${f}: ${m && m[0]}`);
+  }
 });

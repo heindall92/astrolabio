@@ -8,7 +8,8 @@ import { recommendStories } from './arena.js';
 import { wordCount } from './analyzer.js';
 import { VAC_TECNOLOGIAS } from '../content/vacante.js';
 import { BAUL_CATEGORIAS } from '../content/baul.js';
-import { GUION_TXT, NOMBRE_IDIOMA, NO_HERRAMIENTAS, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS } from '../content/guion.js';
+import { GUION_TXT, NOMBRE_IDIOMA, NO_HERRAMIENTAS, PREGUNTAS_TEC, PREGUNTAS_POR_ENTREVISTADOR, CONSEJOS_ENTREVISTADOR, SALARIO_LEY, SALARIO_CONSEJOS, SALARIO_FUENTES, SALARIO_AVISOS } from '../content/guion.js';
+import { frasesSalario, euros } from './salario.js';
 
 export const GUION = {
   maxTecnicas: 8,
@@ -85,18 +86,6 @@ export function salarioEnOferta(texto) {
   return null;
 }
 
-function euros(n, idioma) {
-  return new Intl.NumberFormat(idioma === 'en' ? 'en-GB' : 'es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-}
-function redondeo(n) { return Math.round(n / 1000) * 1000; }
-
-/** Rango salarial que se dice en voz alta: empieza en el objetivo (nunca en el mínimo) y sube un 10 %. */
-export function rangoSalarial(minimo, objetivo) {
-  const min = Number(minimo) || 0, obj = Number(objetivo) || 0;
-  const base = Math.max(min, obj);
-  if (!base) return null;
-  return { min: redondeo(base), max: redondeo(base * (1 + GUION.margenRango)) };
-}
 
 function duracion(meses, idioma) {
   const a = Math.floor(meses / 12), m = meses % 12;
@@ -118,6 +107,22 @@ export function huecosCV(experiencias) {
     if (!fin || e.hasta > fin) fin = e.hasta;
   }
   return out;
+}
+
+/**
+ * Argumento del segundo tiempo de la pregunta salarial: las responsabilidades que pide la oferta y ya haces
+ * (o, si no coincide ninguna, las dos primeras que pide), tu mejor logro del CV y el proyecto (la empresa).
+ */
+export function argumentoSalario({ oferta = null, cv = null, baul = [], empresa = '', idioma = 'es' } = {}) {
+  const tecOferta = oferta ? oferta.tecnologias : [];
+  const propias = new Set([...(cv ? cv.tecnologias : []), ...(baul || []).flatMap(tecnologiasNota)]);
+  const coinciden = tecOferta.filter(x => propias.has(x));
+  const respons = (coinciden.length ? coinciden : tecOferta).slice(0, 2);
+  return {
+    responsabilidades: respons.length ? lista(respons, idioma === 'en' ? 'en' : 'es') : '',
+    logro: cv && cv.logros[0] ? minuscula(cv.logros[0]).replace(/[.]$/, '') : '',
+    proyecto: String(empresa || '').trim(),
+  };
 }
 
 const NIVELES_MCER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -345,29 +350,35 @@ export function generarGuion(ctx) {
   dif('c-futuro', 'dificiles', r.futuro, T.futuroCinco, T.futuroCincoHueco);
   if (ctx.perfil && ctx.perfil.rol === 'cambio') dif('c-cambio', 'dificiles', r.cambio, T.salida, T.salidaHueco);
 
-  // 8. Salario y condiciones
+  // 8. Salario y condiciones: la pregunta en dos tiempos (no cerrarse; si insisten, rango con argumento).
   const enEspana = (e.pais || 'es') === 'es';
   const oferta = ctx.textoOferta ? salarioEnOferta(ctx.textoOferta) : null;
-  const rango = rangoSalarial(r.salarioMin, r.salarioObjetivo);
+  const datosSal = { minimo: r.salarioMin, objetivo: r.salarioObjetivo, ancla: r.salarioAncla, unidad: r.salarioUnidad || 'anual', pagas: r.salarioPagas || 14 };
+  const fs = frasesSalario(datosSal, argumentoSalario({ oferta: ctx.oferta, cv, baul, empresa, idioma }), idioma);
+  const rango = fs.rango;
   const cond = String(r.condiciones || '').trim();
-  const condTxt = cond ? rellenar(T.condiciones, { lista: cond }) : '';
-  let tSal;
+  const apoyoSal = [...SALARIO_CONSEJOS[idioma], ...SALARIO_FUENTES[idioma]];
+  let tSal = fs.primero;
   if (oferta) {
     const ofTxt = oferta.min === oferta.max ? euros(oferta.min, idioma) : `${euros(oferta.min, idioma)} – ${euros(oferta.max, idioma)}`;
-    const objetivo = rango ? Math.min(Math.max(rango.min, oferta.min), oferta.max) : null;
-    tSal = objetivo && oferta.max > oferta.min ? rellenar(T.salarioOfertaOk, { oferta: ofTxt, objetivo: euros(objetivo, idioma) }) : rellenar(T.salarioOfertaSolo, { oferta: ofTxt });
-  } else if (rango) tSal = rellenar(T.salarioRango, { min: euros(rango.min, idioma), max: euros(rango.max, idioma), condiciones: condTxt });
-  else tSal = T.salarioHueco;
-  const apoyoSal = [...SALARIO_CONSEJOS[idioma]];
-  if (oferta && r.salarioMin && Number(r.salarioMin) > oferta.max) apoyoSal.unshift(idioma === 'en' ? 'The advert’s range is below your minimum: decide before the interview whether you continue.' : 'La banda de la oferta está por debajo de tu mínimo: decide antes de la entrevista si sigues.');
-  const bSal = add({ id: 'salario', cat: 'salario', pregunta: L(comun('c-salario')) || (idioma === 'en' ? 'What are your salary expectations?' : '¿Cuáles son tus expectativas salariales?'), texto: tSal, fuente: oferta ? 'oferta' : rango ? 'resp' : 'hueco', apoyo: apoyoSal });
+    tSal = rellenar(T.salarioOfertaSolo, { oferta: ofTxt });
+    if (r.salarioMin && Number(r.salarioMin) > oferta.max) apoyoSal.unshift(L(SALARIO_AVISOS.ofertaBaja));
+  }
+  const bSal = add({ id: 'salario', cat: 'salario', pregunta: L(comun('c-salario')) || (idioma === 'en' ? 'What are your salary expectations?' : '¿Cuáles son tus expectativas salariales?'), texto: tSal, fuente: oferta ? 'oferta' : 'plantilla', apoyo: apoyoSal });
   probable(bSal.pregunta, 'salario', bSal, 'siempre');
+  const qCifra = idioma === 'en' ? 'And a specific figure?' : '¿Y una cifra concreta?';
+  const bRango = add({ id: 'salario-rango', cat: 'salario', pregunta: qCifra, texto: fs.segundo + (cond ? ' ' + rellenar(T.valoro, { lista: frase(cond) }) : ''), fuente: rango.x ? 'resp' : 'hueco',
+    claves: [rango.x ? euros(rango.x, idioma) : '', rango.y ? euros(rango.y, idioma) : ''].filter(Boolean), apoyo: rango.avisos.filter(x => SALARIO_AVISOS[x]).map(x => L(SALARIO_AVISOS[x])) });
+  probable(qCifra, 'salario', bRango, 'insisten');
+  const qMenos = idioma === 'en' ? 'Would you accept less?' : '¿Aceptarías menos?';
+  probable(qMenos, 'salario', add({ id: 'salario-menos', cat: 'salario', pregunta: qMenos, texto: fs.menos, fuente: rango.x ? 'resp' : 'hueco' }), 'insisten');
   if (enEspana) {
     const q = idioma === 'en' ? 'How much do you earn now (or did you earn before)?' : '¿Cuánto cobras ahora o cobrabas antes?';
-    const rangoTxt = oferta ? tSal : rango ? rellenar(T.salarioRango, { min: euros(rango.min, idioma), max: euros(rango.max, idioma), condiciones: condTxt }) : '';
-    const b = add({ id: 'salario-historial', cat: 'salario', pregunta: q, texto: rangoTxt ? rellenar(T.salarioHistorial, { rango: rangoTxt }) : T.salarioHistorialSin, fuente: 'ley', apoyo: [SALARIO_LEY[idioma]] });
+    const b = add({ id: 'salario-historial', cat: 'salario', pregunta: q, texto: T.salarioHistorialSin, fuente: 'ley', apoyo: [SALARIO_LEY[idioma]] });
     probable(q, 'salario', b, 'ley');
   }
+  const qEsc = idioma === 'en' ? 'They send you a written offer with a figure' : 'Te mandan la oferta por escrito con una cifra';
+  add({ id: 'salario-escrito', cat: 'salario', pregunta: qEsc, texto: fs.escrito, fuente: rango.y ? 'resp' : 'hueco' });
   const qDisp = idioma === 'en' ? 'When could you start?' : '¿Cuándo podrías incorporarte?';
   const bDisp = add({ id: 'disponibilidad', cat: 'salario', pregunta: qDisp, texto: r.disponibilidad && r.disponibilidad.trim() ? frase(r.disponibilidad) : T.disponibilidadHueco, fuente: r.disponibilidad ? 'resp' : 'hueco' });
   probable(qDisp, 'salario', bDisp, 'rrhh');

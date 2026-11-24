@@ -61,7 +61,7 @@ VIEWS.baul = (view, arg) => {
     const q = fold(baulTexto);
     const xs = notas.filter(n => (!baulFiltro || n.tipo === baulFiltro) && (!q || fold(Object.values(n.campos).join(' ')).includes(q)))
       .sort((a, b) => (b.editada || '').localeCompare(a.editada || ''));
-    lista.replaceChildren(...(xs.length ? xs.map(notaCard) : [h('p', { class: 'small muted', id: 'baul-nada', text: t('baul.nada') })]));
+    rellenarNodo(lista, ...(xs.length ? xs.map(notaCard) : [h('p', { class: 'small muted', id: 'baul-nada', text: t('baul.nada') })]));
     contador.textContent = t('baul.contador', { n: xs.length, total: notas.length });
   };
   if (!notas.length) {

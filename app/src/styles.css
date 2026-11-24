@@ -584,3 +584,11 @@ mark.hueco { background: color-mix(in oklab, var(--warn) 16%, transparent); colo
   .side, .topbar, .bnav, .foot, .cat-nav, #guion-acciones, .bloque .btn, #guion-kpis, #guion-aviso-huecos, .vhead .btn { display: none !important; }
   .bloque { break-inside: avoid; box-shadow: none; }
 }
+
+.sal-vista { background: var(--s2); box-shadow: none; }
+.ronda-q { display: flex; gap: 8px; align-items: flex-start; font-weight: 600; }
+.kpi-line b { font: 650 1.6rem/1 var(--f-display); }
+.checks { list-style: none; padding: 0; display: grid; gap: 6px; }
+.checks li { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
+.checks li.ok .ic { color: var(--ok); }
+.checks li.no .ic { color: var(--crit); }

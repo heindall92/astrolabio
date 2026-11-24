@@ -98,6 +98,12 @@ function append(el, kids) {
   return el;
 }
 
+/** Sustituye los hijos de un elemento sin convertir en texto los null de las ramas condicionales (replaceChildren sí lo hace). */
+function rellenarNodo(el, ...kids) {
+  el.replaceChildren();
+  return append(el, kids);
+}
+
 const SVGNS = 'http://www.w3.org/2000/svg';
 const ICON_TEMPLATES = new Map();
 /** Icono Lucide (marcado de confianza incrustado en el build, nunca datos del usuario). */

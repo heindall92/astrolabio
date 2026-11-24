@@ -19,7 +19,7 @@ const JS = [
   'src/content/roles/index.js', 'src/content/insignias.js', 'src/content/traductor.js', 'src/content/baul.js', 'src/content/guion.js',
   'src/engine/constants.js', 'src/engine/analyzer.js', 'src/engine/score.js', 'src/engine/sanitize.js',
   'src/engine/vacante.js', 'src/engine/cv.js', 'src/engine/presentacion.js',
-  'src/engine/arena.js', 'src/engine/progress.js', 'src/engine/documento.js', 'src/engine/cvlector.js', 'src/engine/guion.js',
+  'src/engine/arena.js', 'src/engine/progress.js', 'src/engine/documento.js', 'src/engine/cvlector.js', 'src/engine/salario.js', 'src/engine/guion.js',
   'src/ui/core.js', 'src/ui/sound.js', 'src/ui/shell.js', 'src/ui/perfil.js', 'src/ui/inicio.js', 'src/ui/forja.js', 'src/ui/vacante.js', 'src/ui/baul.js', 'src/ui/entrevista.js',
   'src/ui/constelacion.js', 'src/ui/arena.js', 'src/ui/progreso.js', 'src/ui/insignias.js', 'src/ui/ayuda.js',
   'src/ui/buscar.js', 'src/ui/main.js',

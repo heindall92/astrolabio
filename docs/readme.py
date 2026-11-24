@@ -75,7 +75,7 @@ HIST = [
     ('0.8.0', 'Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro'),
     ('0.8.1', 'README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día'),
     ('0.8.3', 'Importar de Blue-Jr: el diálogo cuadra sus cifras y dice cuántas historias se ignoran por ilegibles'),
-    ('0.9.0', 'De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta con salario y Ley 3/2023, posibles preguntas y teleprompter'),
+    ('0.9.0', 'De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta, pregunta salarial en dos tiempos con ronda en la Arena y Ley 3/2023, posibles preguntas y teleprompter'),
     ('0.8.2', 'Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada'),
 ]
 FILAS = []

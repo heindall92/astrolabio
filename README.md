@@ -49,7 +49,7 @@ La 0.9 te acompaña el día de la entrevista. Subes tu CV, contestas unas pregun
 
   Lo que falta queda **[entre corchetes]**: no inventa nada.
 - **Las dudas que va a tener quien te entrevista.** Si la oferta pide más años o un nivel de idioma que tu CV no muestra, la respuesta ya está preparada.
-- **Salario.** Con la banda de la oferta o con tu objetivo, sin decir nunca tu mínimo. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
+- **«¿Cuáles son tus expectativas salariales?» en dos tiempos.** Primero no te cierras a una banda y preguntas la del puesto. Si insisten, das un rango con argumento, de tu objetivo (nunca tu mínimo) a tu ancla, como mucho un 20 % de ancho, en bruto y con las pagas. La **ronda salarial** te puntúa y repregunta «¿Y una cifra concreta?», también al ganar un duelo en la Arena. Astrolabio no propone salarios: solo usa tus cifras. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
 - **Posibles preguntas**, cada una con su porqué (la oferta, tu CV, tu Baúl o «casi siempre») y un enlace a tu respuesta.
 - **Guion en directo.** Un teleprompter para videollamadas:
   - salto al tipo de pregunta con las teclas 1 a 0;
@@ -222,7 +222,7 @@ flowchart LR
     CONT[content: competencias, recruiters, preguntas, léxico] --> ENG
     ENG[engine: analyzer, score, sanitize…<br/>puro y sin DOM] --> UI[ui: shell, perfil, forja, ayuda…]
   end
-  V[vendor: Geist, Sora, 151 iconos Lucide, logo] --> B
+  V[vendor: Geist, Sora, 153 iconos Lucide, logo] --> B
   src --> B[app/build.js]
   B --> D[dist/index.html<br/>CSP por hashes]
   B --> A[dist/artifact/astrolabio.html]
@@ -233,8 +233,8 @@ flowchart LR
 
 | Prueba | Cifra |
 |---|---|
-| Motor, contenido e i18n (`node --test`) | 203 pruebas |
-| Extremo a extremo (Playwright) | 30 flujos |
+| Motor, contenido e i18n (`node --test`) | 206 pruebas |
+| Extremo a extremo (Playwright) | 31 flujos |
 | Accesibilidad (axe-core, WCAG 2.2 AA) | 4 barridos (claro y oscuro, 1280 y 390 px), 0 infracciones |
 
 ```bash
@@ -264,7 +264,7 @@ flowchart LR
 
 ## Historial de versiones
 
-- **0.9.0** · De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta con salario y Ley 3/2023, posibles preguntas y teleprompter
+- **0.9.0** · De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta, pregunta salarial en dos tiempos con ronda en la Arena y Ley 3/2023, posibles preguntas y teleprompter
 - **0.8.3** · Importar de Blue-Jr: el diálogo cuadra sus cifras y dice cuántas historias se ignoran por ilegibles
 - **0.8.2** · Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada
 - **0.8.1** · README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día

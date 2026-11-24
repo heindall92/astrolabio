@@ -175,6 +175,10 @@ def sweep(theme, width):
         pg.set_input_files('#cv-file', {'name': 'roto.pdf', 'mimeType': 'application/pdf', 'buffer': b'%PDF-1.4 nada'})
         pg.wait_for_selector('#cv-error')
         axe(pg, f'{theme}/{width}/cv-error')
+        pg.fill('#ronda-ent-txt', 'Unos 30.000 euros.')
+        pg.click('#ronda-ent-enviar')
+        pg.click('#ronda-ent-sigue')
+        axe(pg, f'{theme}/{width}/ronda-salarial')
     return fn
 
 
