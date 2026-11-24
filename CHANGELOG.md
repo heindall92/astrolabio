@@ -2,6 +2,41 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [versionado semántico](https://semver.org/lang/es/).
 
+## [0.10.0] · 2026-11-24 · Tu marca fuera de la entrevista
+
+Junta en Astrolabio lo mejor de `ai-job-search-es`, del mismo autor: candidaturas, fórmula XYZ, fechas coherentes y plan de contenido. No se ha copiado código de terceros; los textos son de redacción propia.
+
+### Añadido
+- **Tu marca** (`#marca`), con cuatro pestañas:
+  - **LinkedIn** (`kitLinkedIn`):
+    - hasta tres titulares con su contador sobre los 220 caracteres del editor;
+    - «Acerca de» con tu frase, quién eres, tu ventaja, los logros del CV tal cual, tu punto de vista y tus herramientas, con lo que se ve antes de «ver más» resaltado;
+    - palabras clave de tus ofertas que faltan en el perfil;
+    - mensaje para pedir una recomendación.
+  - **CV de resultados** (`revisarCV`):
+    - fórmula XYZ por viñeta (verbo de acción, cifra y cómo);
+    - verbo propuesto para las viñetas que empiezan por un sustantivo, sin proponer nunca una cifra;
+    - fechas sin mes y ficha de fechas para que el CV, los formularios y LinkedIn coincidan.
+  - **Bóveda** (`seleccionarBoveda`): seis historias que cubren competencias distintas, con «úsala para…» repartido por turnos (ninguna pregunta se repite) y las competencias que faltan.
+  - **Field Notes:**
+    - borrador de post desde una nota del Baúl (`borradorPost`), con tu cifra o tu punto de vista como gancho;
+    - revisión del borrador (`auditarPost`): longitud, primera línea, pregunta inicial, cifra, hashtags, enlaces, relleno genérico, cebo y huecos;
+    - plan cada 7, 14 o 30 días y calendario `.ics` según RFC 5545, con líneas plegadas a 75 octetos;
+    - marca de publicado.
+- **Candidaturas** (`#candidaturas`):
+  - mismo modelo que `ai-job-search-es` (`ajs-candidaturas` v1);
+  - importar (también desde «Importar» de la cuenta) y exportar, con fusión que respeta la versión más reciente y nunca borra;
+  - estados, prioridad, próximo paso y seguimiento, con avisos de vencidas y de enviadas sin respuesta tras 7 días;
+  - enlaces solo http(s), abiertos con `noopener noreferrer`;
+  - «Preparar la entrevista» desde cada candidatura.
+- Candidaturas en Ctrl K, accesos en Inicio y en «Más», y Privacidad al día.
+
+### Pruebas
+- **Motor:** `tests/marca.test.js`, 10 pruebas nuevas (216 en total).
+  - Incluye la ida y vuelta con el archivo de ejemplo de `ai-job-search-es` (`tests/fixtures/candidaturas-ajs.json`) y la comprobación de que el «Acerca de» no trae cifras que no estén en el CV.
+- **e2e:** `tests/e2e_marca.py` añade tres flujos (34 en total).
+- **axe:** 0 infracciones en las vistas nuevas y en el diálogo de importación. El primer barrido encontró un salto de encabezado y un `summary` de 23 px en Field Notes; ya están corregidos.
+
 ## [0.9.0] · 2026-11-24 · De tu CV al guion en directo
 
 ### Añadido

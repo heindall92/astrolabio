@@ -43,6 +43,8 @@ const HELP_BUILD = {
     h('ol', null, ['perfil', 'forja', 'constelacion', 'arena', 'informe'].map(s => h('li', null, h('b', { text: t('camino.' + s) }), ': ', t('camino.' + s + '.d')))),
     h('h3', { text: t('ayuda.guia.entrevistaTitulo') }),
     h('p', { text: t('ayuda.guia.entrevista') }),
+    h('h3', { text: t('ayuda.guia.marcaTitulo') }),
+    h('p', { text: t('ayuda.guia.marca') }),
     h('h3', { text: t('ayuda.guia.realTitulo') }),
     h('p', { text: t('ayuda.guia.real') }),
     h('div', { class: 'callout warn' }, icon('triangle-alert'), h('p', { text: t('forja.ensayoAviso') })),

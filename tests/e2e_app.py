@@ -765,7 +765,8 @@ TESTS = [
 ]
 
 from e2e_guion import TESTS_GUION  # noqa: E402
-EXTRA_TESTS = globals().get('EXTRA_TESTS', []) + TESTS_GUION
+from e2e_marca import TESTS_MARCA  # noqa: E402
+EXTRA_TESTS = globals().get('EXTRA_TESTS', []) + TESTS_GUION + TESTS_MARCA
 
 if __name__ == '__main__':
     extra = globals().get('EXTRA_TESTS', [])

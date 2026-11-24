@@ -33,7 +33,7 @@ VIEWS.inicio = (view) => {
       h('ol', { class: 'stack small' }, steps.map(s => h('li', null, h('b', { text: t('camino.' + s) }), ' · ', h('span', { class: 'muted', text: t('camino.' + s + '.d') })))),
       h('p', { class: 'small', text: t('inicio.mensaje') })))));
   view.append(h('h2', { text: t('inicio.oferta') }), stagger(h('div', { class: 'grid', id: 'inicio-oferta' },
-    [['entrevista', 'clipboard-list'], ['baul', 'archive'], ['vacante', 'scan-search'], ['presentacion', 'mic'], ['traductor', 'arrow-left-right']].map(([id, ic]) => h('a', { class: 'card link', href: '#' + id },
+    [['entrevista', 'clipboard-list'], ['baul', 'archive'], ['marca', 'megaphone'], ['candidaturas', 'list-todo'], ['vacante', 'scan-search'], ['presentacion', 'mic'], ['traductor', 'arrow-left-right']].map(([id, ic]) => h('a', { class: 'card link', href: '#' + id },
       h('div', { class: 'row' }, icon(ic, 'ic lg'), h('h3', { text: t('inicio.oferta.' + id) })), h('p', { class: 'small muted', text: t('inicio.oferta.' + id + '.d') }))))));
   if (hs.length) {
     const recent = hs.slice().sort((a, b) => (b.editada || '').localeCompare(a.editada || '')).slice(0, 3);

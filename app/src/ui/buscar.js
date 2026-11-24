@@ -8,6 +8,7 @@ function searchIndex() {
   if (typeof ROLE_CONTENT !== 'undefined') for (const r of ROLES) qs.push(...ROLE_CONTENT[r].preguntas);
   for (const q of qs) items.push({ kind: 'pregunta', ic: 'message-square-quote', label: L(q), text: q.es + ' ' + q.en, href: '#arena/pregunta/' + q.id });
   for (const n of UI.state.baul) items.push({ kind: 'nota', ic: BAUL_IC[n.tipo], label: notaTitulo(n), text: Object.values(n.campos).join(' '), href: '#baul/' + n.id });
+  for (const c of UI.state.candidaturas) items.push({ kind: 'candidatura', ic: 'list-todo', label: [c.puesto, c.empresa].filter(Boolean).join(' · '), text: [c.puesto, c.empresa, c.ubicacion, c.notas, c.proximaAccion].join(' '), href: '#candidaturas/' + c.id });
   for (const g of allGlossary()) items.push({ kind: 'glosario', ic: 'book-open', label: L(g.termino), text: L(g.termino) + ' ' + L(g.def), help: 'glosario' });
   return items;
 }

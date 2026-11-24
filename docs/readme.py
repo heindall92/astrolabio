@@ -8,7 +8,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXTRA_ROWS = ['entrevista', 'guion', 'directo', 'baul', 'constelacion', 'arena', 'progreso', 'vacante', 'presentacion', 'traductor', 'insignias']  # secciones con capturas ya terminadas
+EXTRA_ROWS = ['entrevista', 'guion', 'directo', 'baul', 'marca', 'candidaturas', 'constelacion', 'arena', 'progreso', 'vacante', 'presentacion', 'traductor', 'insignias']  # secciones con capturas ya terminadas
 TPL = (ROOT / 'docs' / 'README.template.md').read_text(encoding='utf-8')
 
 
@@ -47,7 +47,7 @@ icons = len(json.loads((ROOT / 'app/vendor/lucide-icons.json').read_text())['ico
 vals = {
     'VERSION': pkg['version'],
     'TESTS_NODE': count_node_tests(),
-    'TESTS_E2E': count_py('e2e_app.py') + count_py('e2e_guion.py', 'TESTS_GUION'),
+    'TESTS_E2E': count_py('e2e_app.py') + count_py('e2e_guion.py', 'TESTS_GUION') + count_py('e2e_marca.py', 'TESTS_MARCA'),
     'TESTS_A11Y': len(re.findall(r"'(?:light|dark)'", (ROOT / 'tests/a11y_app.py').read_text().split('TESTS = ')[1].split('\n')[0])) * len(re.findall(r'\d{3,4}', (ROOT / 'tests/a11y_app.py').read_text().split('TESTS = ')[1].split('\n')[0])),
     'PREGUNTAS_ROL': sum(c['preguntas'].values()),
     'PREGUNTAS': sum(c['preguntas'].values()) + c['comunes'],
@@ -75,6 +75,7 @@ HIST = [
     ('0.8.0', 'Del filtro a la entrevista: lector de ofertas, viñetas de CV, «Háblame de ti», preguntas difíciles, preguntas para el entrevistador y traductor de experiencia; la app abre siempre en tema claro'),
     ('0.8.1', 'README: novedades de la 0.8 arriba, historial ordenado por versión y comprobación en la CI de que el README está al día'),
     ('0.8.3', 'Importar de Blue-Jr: el diálogo cuadra sus cifras y dice cuántas historias se ignoran por ilegibles'),
+    ('0.10.0', 'Tu marca fuera de la entrevista: kit de LinkedIn, CV de tareas a resultados (fórmula XYZ y fechas), bóveda de seis historias con «úsala para…», plan Field Notes con calendario .ics y candidaturas que van y vuelven con ai-job-search-es'),
     ('0.9.0', 'De tu CV al guion en directo: lector de CV en PDF, DOCX y ODT sin red, Baúl de notas, marca personal, preparar entrevista, guion por tipo de pregunta, pregunta salarial en dos tiempos con ronda en la Arena y Ley 3/2023, posibles preguntas y teleprompter'),
     ('0.8.2', 'Historias de Blue-Jr: los tickets del simulador de SOC llegan como historias STAR y se suman a las tuyas; importar de otra herramienta del ecosistema ya no reemplaza nada'),
 ]
@@ -87,8 +88,10 @@ ALT_CLARO = {
     'guion': 'Tu guion por tipo de pregunta, con «Háblame de ti» generado',
     'directo': 'Guion en directo: teleprompter con tipos de pregunta, velocidad y cronómetro',
     'baul': 'Baúl: marca personal y formularios de notas',
+    'marca': 'Tu marca: titulares y «Acerca de» de LinkedIn con su límite de caracteres',
+    'candidaturas': 'Candidaturas: seguimientos pendientes, estados y tarjetas importadas de ai-job-search-es',
 }
-for name, label in [('entrevista', 'Preparar entrevista'), ('guion', 'Tu guion'), ('directo', 'Guion en directo'), ('baul', 'Baúl'), ('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('vacante', 'Oferta'),
+for name, label in [('entrevista', 'Preparar entrevista'), ('guion', 'Tu guion'), ('directo', 'Guion en directo'), ('baul', 'Baúl'), ('marca', 'Tu marca'), ('candidaturas', 'Candidaturas'), ('constelacion', 'Constelación'), ('arena', 'Arena'), ('progreso', 'Progreso'), ('vacante', 'Oferta'),
                     ('presentacion', 'Háblame de ti'), ('traductor', 'Traductor'), ('insignias', 'Insignias')]:
     if (ROOT / 'docs/img' / f'{name}-light.png').exists() and name in EXTRA_ROWS:
         alt = ALT_CLARO.get(name, label)

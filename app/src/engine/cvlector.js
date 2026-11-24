@@ -45,7 +45,9 @@ export function leerRango(linea, hoy) {
   const actual = !!m[7];
   const hasta = actual ? hoy : mesIso(m[4], m[5], m[6], true);
   if (hasta < desde) return null;
-  return { desde, hasta, actual, meses: mesesEntre(desde, hasta), texto: linea.slice(m.index, m.index + m[0].length) };
+  // Sin mes (solo el año) en alguno de los extremos: el formulario de un ATS y LinkedIn lo pedirán y conviene que coincidan.
+  const sinMes = !(m[1] || m[2]) || (!actual && !(m[4] || m[5]));
+  return { desde, hasta, actual, sinMes, meses: mesesEntre(desde, hasta), texto: linea.slice(m.index, m.index + m[0].length) };
 }
 
 /** Meses distintos cubiertos por varios periodos (los solapes no cuentan dos veces). */
@@ -163,7 +165,7 @@ export function leerCV(texto, hoy) {
       let cabecera = l.replace(r.texto, '').replace(/\(\s*\)/g, ' ');
       if (!limpiaLinea(cabecera).replace(/[·|,–—-]/g, '').trim() && i > 0) cabecera = fuenteExp[i - 1];
       const pe = puestoEmpresa(limpiaLinea(cabecera));
-      exp = { ...pe, desde: r.desde, hasta: r.hasta, actual: r.actual, meses: r.meses, logros: [] };
+      exp = { ...pe, desde: r.desde, hasta: r.hasta, actual: r.actual, sinMes: r.sinMes, meses: r.meses, logros: [] };
       experiencias.push(exp);
     } else if (exp && VINETA.test(l)) {
       exp.logros.push(limpiaLinea(l));
