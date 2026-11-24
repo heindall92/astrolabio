@@ -2,6 +2,7 @@
 import { LIMITES, ROLES, NIVELES, EMPRESAS, IDIOMAS, TIPOS } from './constants.js';
 import { BAUL_TIPOS, BAUL_CATEGORIAS, BAUL_NIVELES } from '../content/baul.js';
 import { ENTREVISTADORES, FORMATOS } from '../content/guion.js';
+import { sanitizeCandidaturas } from './candidaturas.js';
 
 const PELIGROSAS = new Set(['__proto__', 'constructor', 'prototype']);
 
@@ -47,6 +48,8 @@ export function emptyState() {
     baul: [],
     marca: { ventaja: '', puntoVista: '', frase: '', hilo: '' },
     entrevista: null,
+    candidaturas: [],
+    contenido: { inicio: '', cadencia: 14, plan: [], borradores: {}, publicados: [] },
   };
 }
 
@@ -74,6 +77,15 @@ export function sanitizeNota(n) {
 export function sanitizeMarca(m) {
   const o = m && typeof m === 'object' ? m : {};
   return { ventaja: str(o.ventaja, LIMITES.marca), puntoVista: str(o.puntoVista, LIMITES.marca), frase: str(o.frase, LIMITES.marca), hilo: str(o.hilo, LIMITES.marca) };
+}
+
+/** Plan de contenido: fecha de inicio, cadencia (7–60 días), notas del Baúl en orden, borradores editados y publicadas. */
+export function sanitizeContenido(c, idsNotas) {
+  const o = c && typeof c === 'object' && !Array.isArray(c) ? c : {};
+  const ids = v => (Array.isArray(v) ? [...new Set(v.filter(x => typeof x === 'string' && idsNotas.has(x)))].slice(0, LIMITES.notas) : []);
+  const borradores = {};
+  if (o.borradores && typeof o.borradores === 'object') for (const k of Object.keys(o.borradores)) if (idsNotas.has(k) && typeof o.borradores[k] === 'string') borradores[k] = o.borradores[k].slice(0, 3000);
+  return { inicio: date(o.inicio), cadencia: int(o.cadencia, 7, 60, 14), plan: ids(o.plan), borradores, publicados: ids(o.publicados) };
 }
 
 export function sanitizeEntrevista(e) {
@@ -212,6 +224,8 @@ export function sanitizeState(raw, { competencias } = {}) {
   }
   out.marca = sanitizeMarca(raw.marca);
   out.entrevista = sanitizeEntrevista(raw.entrevista);
+  out.candidaturas = sanitizeCandidaturas(raw.candidaturas, date(raw.ultimoDia) || '2026-01-01');
+  out.contenido = sanitizeContenido(raw.contenido, new Set(out.baul.map(n => n.id)));
   // La oferta solo está aquí si la persona pidió recordarla.
   if (raw.vacante && typeof raw.vacante === 'object' && typeof raw.vacante.texto === 'string' && raw.vacante.texto.trim()) {
     out.vacante = { texto: str(raw.vacante.texto, LIMITES.oferta), cv: str(raw.vacante.cv, LIMITES.cv), fecha: date(raw.vacante.fecha) };
