@@ -264,6 +264,8 @@ function renderReport(view, rec, q) {
     tips.length ? h('ul', { class: 'tips' }, tips.map(c => h('li', null, icon('lightbulb'), h('span', { text: tipText(c) }))))
       : flojos.length ? h('ul', { class: 'tips' }, flojos.map(id => h('li', null, icon('lightbulb'), h('span', { text: t('arena.rep.' + id) }))))
         : h('p', { class: 'small muted', text: t('arena.nadaQueMejorar') })));
+  // Al convencer al recruiter llega la pregunta de condiciones: la ronda salarial en dos tiempos.
+  if (won) view.append(rondaSalarial({ id: 'ronda-arena', voz: t('ronda.vozArena', { rec: L(rec.nombre) }), minimo: () => (UI.state.entrevista ? UI.state.entrevista.resp.salarioMin : 0), idioma: () => (ARENA.ingles ? 'en' : UI.lang) }));
   const base = UI.state.historias.find(x => x.id === ARENA.historia);
   view.append(h('div', { class: 'row wrap' },
     h('button', { class: 'btn primary', type: 'button', id: 'arena-again', onclick: () => { ARENA.duel = null; render(); } }, icon('rotate-ccw'), t('arena.otro')),

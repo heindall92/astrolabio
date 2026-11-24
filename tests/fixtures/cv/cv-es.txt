@@ -1,0 +1,41 @@
+# Marta Vidal Soler
+
+Analista SOC junior · Valencia · marta.vidal@example.com · +34 600 000 000
+
+## Perfil
+
+Analista SOC junior con dos años en monitorización y respuesta a incidentes. Me especializo en EDR/XDR y en reducir falsos positivos.
+
+## Experiencia
+
+**Analista SOC N1** · Ciberdefensa Levante (ficticia) · 03/2024 – actualidad
+
+- Triaje de 40 alertas diarias en Wazuh y CrowdStrike Falcon (EDR).
+- Reduje un 30 % los falsos positivos ajustando 12 reglas de correlación.
+- Escribí 8 playbooks de respuesta a phishing alineados con MITRE ATT&CK.
+
+**Técnica de soporte IT** · Hotel Mediterráneo (ficticio) · 06/2022 – 02/2024
+
+- Atendí 25 incidencias semanales de usuarios y redes.
+- Migré 60 equipos a Microsoft 365 sin parada del servicio.
+
+## Formación
+
+Técnico Superior en Administración de Sistemas en Red (ASIR) · 2020 – 2022
+
+## Certificaciones
+
+- eJPT (eLearnSecurity Junior Penetration Tester) · 2024
+- CompTIA Security+ · 2025
+
+## Proyectos
+
+- Laboratorio de detección con Wazuh y Sysmon en casa: 15 reglas propias.
+
+## Habilidades
+
+Wazuh, Splunk, CrowdStrike, Microsoft Defender, Python, Linux, MITRE ATT&CK, Wireshark.
+
+## Idiomas
+
+Español nativo · Inglés B2

@@ -33,6 +33,35 @@
 
 > **Estado:** versión {{VERSION}} publicada: **[abrir Astrolabio](https://heindall92.github.io/astrolabio/)**. Funciona en el navegador y tus historias no salen de él.
 
+## Novedades de la 0.9 · De tu CV al guion en directo
+
+La 0.9 te acompaña el día de la entrevista. Subes tu CV, contestas unas preguntas y te llevas lo que vas a decir, ordenado por tipo de pregunta, con un modo para leerlo en una videollamada.
+
+- **Tu CV, leído en el navegador.** PDF (de Word, Google Docs, LibreOffice o «Imprimir en PDF»), DOCX, ODT o texto, con un lector propio sin librerías ni red. Saca tus experiencias con fechas, los años, el puesto actual, las tecnologías, las certificaciones y los logros con cifra. Si el PDF está cifrado o escaneado, te lo dice.
+- **Baúl de notas.** Formularios para guardar lo que sabes: herramientas (tu EDR o tu XDR: qué es en una frase, qué hiciste y una cifra), conceptos explicados para negocio y para un técnico, proyectos, certificaciones, la empresa que investigas e ideas sueltas.
+- **Marca personal.** Tu ventaja del 10 %, tu punto de vista, tu frase y tu hilo conductor: el mismo mensaje en el CV, en LinkedIn y en la entrevista.
+- **Preparar entrevista.** Cuatro pasos: la entrevista (quién te entrevista: RR. HH., perfil técnico, dirección o panel), tu CV, la oferta y unas preguntas de apoyo. El guion sale por tipo de pregunta:
+  - saludo y «Háblame de ti», puntuado con el mismo analizador;
+  - motivación, experiencia y técnicas, con tus notas del Baúl;
+  - situaciones STAR, con tus historias;
+  - difíciles, salario y tus preguntas;
+  - cierre.
+
+  Lo que falta queda **[entre corchetes]**: no inventa nada.
+- **Las dudas que va a tener quien te entrevista.** Si la oferta pide más años o un nivel de idioma que tu CV no muestra, la respuesta ya está preparada.
+- **«¿Cuáles son tus expectativas salariales?» en dos tiempos.** Primero no te cierras a una banda y preguntas la del puesto. Si insisten, das un rango con argumento, de tu objetivo (nunca tu mínimo) a tu ancla, como mucho un 20 % de ancho, en bruto y con las pagas. La **ronda salarial** te puntúa y repregunta «¿Y una cifra concreta?», también al ganar un duelo en la Arena. Astrolabio no propone salarios: solo usa tus cifras. En España, la respuesta por si te preguntan cuánto cobrabas: desde el 19-11-2026 no pueden hacerlo (Ley 3/2023 de Empleo, art. 5 g, en la redacción del [Real Decreto-ley 39/2026](https://www.boe.es/eli/es/rdl/2026/11/17/39)).
+- **Posibles preguntas**, cada una con su porqué (la oferta, tu CV, tu Baúl o «casi siempre») y un enlace a tu respuesta.
+- **Guion en directo.** Un teleprompter para videollamadas:
+  - salto al tipo de pregunta con las teclas 1 a 0;
+  - palabras clave para mirar de un vistazo, o el texto completo avanzando a las palabras por minuto que elijas;
+  - opción de dejarlo cerca de la cámara, pantalla completa y cronómetro por respuesta.
+
+  Con movimiento reducido avanza línea a línea.
+
+<p align="center">
+  <img src="docs/img/guion-light.png" alt="Tu guion: «Háblame de ti» generado con el CV y la marca personal, y la navegación por tipo de pregunta" width="880"/>
+</p>
+
 ## Novedades de la 0.8 · Del filtro a la entrevista
 
 La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y preparar las preguntas que más cuestan.
@@ -51,6 +80,7 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 
 ## Índice
 
+- [Novedades de la 0.9](#novedades-de-la-09--de-tu-cv-al-guion-en-directo)
 - [Novedades de la 0.8](#novedades-de-la-08--del-filtro-a-la-entrevista)
 - [Cómo se usa](#cómo-se-usa)
 - [Mapa mental](#mapa-mental)
@@ -75,6 +105,8 @@ La 0.8 cubre el tramo anterior a la entrevista: leer la oferta, ajustar el CV y 
 
 Y para una oferta concreta:
 
+- **Preparar entrevista.** Sube tu CV, pega la oferta, marca quién te entrevista y contesta las preguntas de apoyo. **Tu guion** te da lo que vas a decir por tipo de pregunta y las posibles preguntas; **Guion en directo** lo enseña como un teleprompter durante la videollamada.
+- **Baúl.** Tu marca personal y tus notas de herramientas, conceptos, proyectos, certificaciones y empresas. El guion las usa para responder con tus datos.
 - **Oferta.** Pegas el texto de una oferta y Astrolabio saca las competencias, tecnologías, años de experiencia, idiomas y modalidad que pide. Lo cruza con tus historias (cubierta, a medias o sin historia), te da las cinco preguntas más probables, compara tu CV con las palabras clave de la oferta y genera viñetas de CV a partir de tus historias. Sin IA: reglas y un léxico propio en español e inglés. La oferta no se guarda salvo que lo pidas.
 - **Háblame de ti.** La presentación de 60 a 90 segundos, puntuada en vivo: ahora, antes (con una cifra) y por qué este puesto. Junto a ella, las preguntas difíciles con su guía (sobrecualificación, cambio de sector, por qué dejaste tu trabajo, dónde te ves en cinco años) y diez preguntas para hacer tú al final.
 - **Traductor.** Si vienes de hostelería, comercio, docencia, logística, sanidad o administración, cómo contar lo que ya sabes hacer en una entrevista técnica, con un botón para convertirlo en historia.
@@ -204,12 +236,19 @@ flowchart LR
 - Todo el texto del usuario entra al DOM como texto, nunca como HTML.
 - El JSON importado pasa por `safeParse` y se reconstruye campo a campo con límites.
 - Las historias de otra herramienta del ecosistema (sobre `yrd-ecosistema`, tipo `historias`, con otro `app`) se suman con `mergeStories`: nunca sustituyen tus datos ni pisan una historia que ya tengas.
-- El texto de una oferta y tu CV se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
+- El CV se lee en el navegador con un lector propio (sin librerías ni red), con límite de 10 MB, de 40 MB descomprimidos y de objetos por PDF: un archivo malicioso no puede bloquear la página. Se guarda su texto, nunca el archivo, y «Borrar esta entrevista» lo quita.
+- El texto de una oferta y tu CV del lector de ofertas se quedan en memoria y se borran al cerrar la pestaña, salvo que marques «Recordar esta oferta».
 - Detalle en [SECURITY.md](SECURITY.md).
 
 ## Lo siguiente
 
-- **0.9 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
+- **0.10 · Tu marca fuera de la entrevista:**
+  - kit de LinkedIn (titular, «Acerca de», palabras clave y petición de recomendaciones);
+  - CV de tareas a resultados (fórmula XYZ y fechas coherentes);
+  - bóveda de historias con «úsala para…»;
+  - plan de contenido «Field Notes» cada dos semanas;
+  - seguimiento de candidaturas, con lo mejor de ai-job-search-es.
+- **0.11 · Ensayar como en la entrevista real:** grabadora que no sale del navegador, plan para una entrevista con fecha, repaso de las cifras clave y recruiters de sector público e industria.
 - **1.0 · Lanzamiento con personas reales**, instalable y sin conexión. Después, modo orientador, variantes para Latinoamérica e IA opcional con tu propia clave.
 
 ## Historial de versiones

@@ -65,6 +65,12 @@ export const LIMITES = {
   cv: 20000,
   presentacion: 3000,
   puesto: 120,
+  notas: 300,
+  marca: 300,
+  respuesta: 600,
+  edicion: 3000,
+  ediciones: 120,
+  salario: 1_000_000,
 };
 
 /** Valores admitidos en el perfil. */

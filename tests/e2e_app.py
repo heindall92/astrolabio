@@ -319,6 +319,14 @@ def t_arena(browser):
     pg.wait_for_selector('#arena-veredicto')
     check('Superado' in pg.inner_text('#arena-veredicto'), 'duelo ganado')
     check(pg.locator('#arena-rondas tbody tr').count() == 2, 'una ronda inicial y una repregunta')
+    # Al ganar, el recruiter pasa a las condiciones: ronda salarial en dos tiempos.
+    check('Hablemos de condiciones' in pg.inner_text('#ronda-arena'), 'la ronda salarial cierra el duelo ganado')
+    pg.fill('#ronda-arena-txt', 'Prefiero centrarme en el puesto.')
+    pg.click('#ronda-arena-enviar')
+    check(pg.locator('#ronda-arena-sigue').count() == 1, 'sin cifra, el recruiter insiste')
+    pg.click('#ronda-arena-sigue')
+    check('¿Y una cifra concreta?' in pg.inner_text('#ronda-arena-q'), 'la repregunta salarial')
+    check(pg.evaluate('document.activeElement.id') == 'ronda-arena-txt', 'el foco vuelve a la respuesta')
     saved = pg.evaluate("() => JSON.parse(localStorage.getItem('astrolabio-estado')).duelos")
     check(len(saved) == 1 and saved[0]['superado'] is True and saved[0]['recruiter'] == 'rita', 'duelo guardado')
     # Duelo perdido contra el Panel de Banca, desde cero, con Alt N
@@ -755,6 +763,9 @@ TESTS = [
     ('rutas v1.x y v2.x con contenido propio', t_rutas_nuevas),
     ('0.8: lector de ofertas, CV, «Háblame de ti» y traductor', t_oferta_presentacion),
 ]
+
+from e2e_guion import TESTS_GUION  # noqa: E402
+EXTRA_TESTS = globals().get('EXTRA_TESTS', []) + TESTS_GUION
 
 if __name__ == '__main__':
     extra = globals().get('EXTRA_TESTS', [])
